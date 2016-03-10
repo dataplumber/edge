@@ -1,0 +1,147 @@
+<Collection>
+<ShortName>{{ docs[0]['ShortName'] }}</ShortName>
+<VersionId>{{ docs[0]['VersionId'] }}</VersionId>
+<LastUpdate>{{ docs[0]['LastUpdate'] }}</LastUpdate>
+<LongName>{{ docs[0]['LongName'] }}</LongName>
+<DataSetId>{{ docs[0]['DataSetId'] }}</DataSetId>
+<Description>{{ docs[0]['Description'] }}</Description>
+<ProcessingCenter>{{ docs[0]['ProcessingCenter'] }}</ProcessingCenter>
+<ProcessingLevelId>{{ docs[0]['ProcessingLevelId'] }}</ProcessingLevelId>
+<ArchiveCenter>{{ docs[0]['ArchiveCenter'] }}</ArchiveCenter>
+<DataFormat>{{ docs[0]['DataFormat'] }}</DataFormat>
+<SpatialKeywords>
+{% for keyword in docs[0]['SpatialKeywords-Keyword']  %}
+<Keyword>{{ keyword }}</Keyword>
+{% endfor %}
+</SpatialKeywords>
+<Temporal>
+<RangeDateTime>
+<BeginningDateTime>{{ docs[0]['BeginningDateTime'] }}</BeginningDateTime>
+<EndingDateTime>{{ docs[0]['EndingDateTime'] }}</EndingDateTime>
+</RangeDateTime>
+</Temporal>
+{% if docs[0]['CategoryKeyword'] %}
+<ScienceKeywords>
+{% for i in range(docs[0]['CategoryKeyword']|count)  %}
+<ScienceKeyword>
+<CategoryKeyword>{{ docs[0]['CategoryKeyword'][i] }}</CategoryKeyword>
+<TopicKeyword>{{ docs[0]['TopicKeyword'][i] }}</TopicKeyword>
+<TermKeyword>{{ docs[0]['TermKeyword'][i] }}</TermKeyword>
+<VariableLevel1Keyword>
+<Value>{{ docs[0]['VariableLevel1Keyword'][i] }}</Value>
+</VariableLevel1Keyword>
+{% if docs[0]['DetailedVariableKeyword'] %}
+<DetailedVariableKeyword>{{ docs[0]['DetailedVariableKeyword'][i] }}</DetailedVariableKeyword>
+{% endif %}
+</ScienceKeyword>
+{% endfor %}
+</ScienceKeywords>
+{% endif %}
+<Platforms>
+{% for i in range(docs[0]['Platform-ShortName']|count)  %}
+<Platform>
+<ShortName>{{ docs[0]['Platform-ShortName'][i] }}</ShortName>
+<LongName>{{ docs[0]['Platform-LongName'][i] }}</LongName>
+{% if docs[0]['Instrument-ShortName_' + i|string] %}
+<Instruments>
+{% for j in range(docs[0]['Instrument-ShortName_' + i|string]|count)  %}
+<Instrument>
+<ShortName>{{ docs[0]['Instrument-ShortName_' + i|string][j] }}</ShortName>
+<LongName>{{ docs[0]['Instrument-LongName_' + i|string][j] }}</LongName>
+{% if docs[0]['Sensor-ShortName_' + i|string + '_' + j|string] %}
+<Sensors>
+{% for k in range(docs[0]['Sensor-ShortName_' + i|string + '_' + j|string]|count)  %}
+<Sensor>
+<ShortName>{{ docs[0]['Sensor-ShortName_' + i|string + '_' + j|string][k] }}</ShortName>
+<LongName>{{ docs[0]['Sensor-LongName_' + i|string + '_' + j|string][k] }}</LongName>
+</Sensor>
+{% endfor %}
+</Sensors>
+{% endif %}
+</Instrument>
+{% endfor %}
+</Instruments>
+{% endif %}
+</Platform>
+{% endfor %}
+</Platforms>
+<AdditionalAttributes>
+{% if docs[0]['TemporalResolution'] %}
+<AdditionalAttribute>
+<Name>Temporal Resolution</Name>
+<Value>{{docs[0]['TemporalResolution']}}</Value>
+</AdditionalAttribute>
+{% endif %}
+{% if docs[0]['LatitudeResolution'] %}
+<AdditionalAttribute>
+<Name>Spatial Resolution</Name>
+<Value>{{docs[0]['LatitudeResolution']}} degrees (Latitude) x {{docs[0]['LongitudeResolution']}} degrees (Longitude)</Value>
+</AdditionalAttribute>
+{% endif %}
+{% if docs[0]['AcrossTrackResolution'] %}
+<AdditionalAttribute>
+<Name>Spatial Resolution</Name>
+<Value>{{docs[0]['AlongTrackResolution'] / 1000 }} km (Along) x {{docs[0]['AcrossTrackResolution'] / 1000 }} km (Across)</Value>
+</AdditionalAttribute>
+{% endif %}
+</AdditionalAttributes>
+<Campaigns>
+{% for i in range(docs[0]['Campaign-ShortName']|count)  %}
+<Campaign>
+<ShortName>{{ docs[0]['Campaign-ShortName'][i] }}</ShortName>
+<LongName>{{ docs[0]['Campaign-LongName'][i] }}</LongName>
+</Campaign>
+{% endfor %}
+</Campaigns>
+{% if docs[0]['OnlineAccessURL-URL'] %}
+<OnlineAccessURLs>
+{% for i in range(docs[0]['OnlineAccessURL-URL']|count)  %}
+<OnlineAccessURL>
+<URL>{{ docs[0]['OnlineAccessURL-URL'][i] }}</URL>
+<URLDescription>{{ docs[0]['OnlineAccessURL-URLDescription'][i] }}</URLDescription>
+</OnlineAccessURL>
+{% endfor %}
+</OnlineAccessURLs>
+{% endif %}
+{% if docs[0]['OnlineResource-URL'] %}
+<OnlineResources>
+{% for i in range(docs[0]['OnlineResource-URL']|count)  %}
+<OnlineResource>
+<URL>{{ docs[0]['OnlineResource-URL'][i] }}</URL>
+{% if docs[0]['OnlineResource-Description'] %}
+<Description>{{ docs[0]['OnlineResource-Description'][i] }}</Description>
+{% endif %}
+<Type>{{ docs[0]['OnlineResource-Type'][i] }}</Type>
+</OnlineResource>
+{% endfor %}
+</OnlineResources>
+{% endif %}
+{% if docs[0]['Spatial-Geometry'] %}
+<Spatial>
+<HorizontalSpatialDomain>
+<Geometry>
+{% for box in docs[0]['Spatial-Box']  %}
+<BoundingRectangle>
+<WestBoundingCoordinate>{{ box.split()[1] }}</WestBoundingCoordinate>
+<NorthBoundingCoordinate>{{ box.split()[2] }}</NorthBoundingCoordinate>
+<EastBoundingCoordinate>{{ box.split()[3] }}</EastBoundingCoordinate>
+<SouthBoundingCoordinate>{{ box.split()[0] }}</SouthBoundingCoordinate>
+</BoundingRectangle>
+{% endfor %}
+{% for polygon in docs[0]['Spatial-Polygon']  %}
+<GPolygon>
+<Boundary>
+{% for i in range(0, polygon.split()|count, 2) %}
+<Point>
+<PointLongitude>{{ polygon.split()[i+1] }}</PointLongitude>
+<PointLatitude>{{ polygon.split()[i] }}</PointLatitude>
+</Point>
+{% endfor %}
+</Boundary>
+</GPolygon>
+{% endfor %}
+</Geometry>
+</HorizontalSpatialDomain>
+</Spatial>
+{% endif %}
+</Collection>

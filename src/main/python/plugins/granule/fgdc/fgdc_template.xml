@@ -1,0 +1,510 @@
+{% if doc %}
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE metadata SYSTEM "http://www.fgdc.gov/metadata/fgdc-std-001-1998.dtd">
+<metadata>
+<idinfo>
+<citation>
+<citeinfo>
+<origin>{{ doc['DatasetCitation-Creator'][0] }}</origin>
+<pubdate>{{ DatasetCitation_ReleaseDate }}</pubdate>
+<pubtime>{{ DatasetCitation_ReleaseTime }}</pubtime>
+<title>{{ doc['DatasetCitation-Title'][0] }}</title>
+<edition>{{ doc['DatasetCitation-Version'][0] }}</edition>
+<serinfo>
+<sername>{{ doc['DatasetCitation-SeriesName'][0] }}</sername>
+<issue>Not specified</issue>
+</serinfo>
+<pubinfo>
+<pubplace>{{ doc['DatasetCitation-ReleasePlace'][0] }}</pubplace>
+<publish>{{ doc['DatasetCitation-Publisher'][0] }}</publish>
+</pubinfo>
+<onlink>{% if doc['DatasetCitation-OnlineResource'][0].strip() != '' %}{{ doc['DatasetCitation-OnlineResource'][0] }}{% else %}Not specified{% endif %}</onlink>
+</citeinfo>
+</citation>
+<descript>
+<abstract>{{ doc['Dataset-Description'][0] }}</abstract>
+<purpose>The Global Ocean Data Assimilation Experiment (GODAE) high-resolution sea surface temperature (GHRSST) project data.</purpose>
+<supplinf>Entry ID: {{ doc['Dataset-ShortName'][0] }} 
+Projection_Information: 
+Projection Type: {{ doc['Dataset-ProjectionType'][0] }} 
+Ellipsoid_Type: {{ doc['Dataset-EllipsoidType'][0] }} 
+Other Projection Details: {{ doc['Dataset-ProjectionDetail'][0] }} 
+Data Resolution: 
+Latitude resolution: {{ Dataset_LatitudeResolution }} 
+Longitude resolution: {{ Dataset_LongitudeResolution }} 
+The temporal resolution: {{ doc['Dataset-TemporalResolution'][0] }} 
+This metadata record was generated from an original data set description (DSD) record in DIF format: http://www.ghrsst-pp.org 
+Reference: {{ doc['Dataset-Reference'][0] }} 
+Sources: 
+
+{% for i in UniqueDatasetSource %}
+{{ doc['DatasetSource-Source-ShortName'][i] }} 
+{{ doc['DatasetSource-Source-LongName'][i] }} 
+{% endfor %}
+
+Sensors: 
+
+{% for i in UniqueDatasetSensor %}
+{{ doc['DatasetSource-Sensor-ShortName'][i] }} 
+{{ doc['DatasetSource-Sensor-LongName'][i] }} 
+{% endfor %}
+</supplinf>
+</descript>
+<timeperd>
+<timeinfo>
+<sngdate>
+<caldate>{{ DatasetCitation_ReleaseDateTime }}</caldate>
+<time>{{ DatasetCitation_ReleaseDateTime }}</time>
+</sngdate>
+</timeinfo>
+<current>{{ DatasetCitation_ReleaseDateTime }}</current>
+</timeperd>
+<status>
+<progress>Complete</progress>
+<update>As needed</update>
+</status>
+<spdom>
+<bounding>
+<westbc>{{ doc['DatasetCoverage-WestLon'][0] }}</westbc>
+<eastbc>{{ doc['DatasetCoverage-EastLon'][0] }}</eastbc>
+<northbc>{{ doc['DatasetCoverage-NorthLat'][0] }}</northbc>
+<southbc>{{ doc['DatasetCoverage-SouthLat'][0] }}</southbc>
+</bounding>
+</spdom>
+<keywords>
+<theme>
+<themekt>GCMD</themekt>
+<themekey>{{ doc['DatasetParameter-Category'][-1] }}</themekey>
+<themekey>{{ doc['DatasetParameter-Topic'][-1] }}</themekey>
+<themekey>{{ doc['DatasetParameter-Term'][-1] }}</themekey>
+<themekey>{{ doc['DatasetParameter-Variable'][-1] }}</themekey>
+</theme>
+<theme>
+<themekt>None</themekt>
+{% for i in UniqueDatasetSensor %}
+<themekey>{{ doc['DatasetSource-Sensor-ShortName'][i] }}</themekey>
+<themekey>{{ doc['DatasetSource-Sensor-LongName'][i] }}</themekey>
+{% endfor %}
+</theme>
+{% if doc['DatasetRegion-Region'][0].strip() != '' %}
+<place>
+<placekt>GCMD</placekt>
+<placekey>{{ doc['DatasetRegion-Region'][0] }}</placekey>
+</place>
+{% endif %}
+{% if doc['DatasetRegion-RegionDetail'][0].strip() != '' %}
+<place>
+<placekt>none</placekt>
+<placekey>{{ doc['DatasetRegion-RegionDetail'][0].capitalize() }}</placekey>
+</place>
+{% endif %}
+</keywords>
+<accconst>{{ doc['DatasetPolicy-AccessConstraint'][0] }}</accconst>
+<useconst>GHRSST protocol describes data use as open.</useconst>
+{% if TechnicalContactIndex >= 0 %}
+<ptcontac>
+<cntinfo>
+<cntperp>
+<cntper>{{ doc['DatasetContact-Contact-FirstName'][TechnicalContactIndex] }}{% if doc['DatasetContact-Contact-MiddleName'][TechnicalContactIndex] != 'none' %} {{ doc['DatasetContact-Contact-MiddleName'][TechnicalContactIndex] }}{% endif %} {{ doc['DatasetContact-Contact-LastName'][TechnicalContactIndex] }}</cntper>
+<cntorg>{{ doc['Dataset-Provider-LongName'][0] }} ({{ doc['Dataset-Provider-ShortName'][0] }})</cntorg>
+</cntperp>
+<cntpos>{{ doc['DatasetContact-Contact-Role'][TechnicalContactIndex] }}</cntpos>
+<cntaddr>
+<addrtype>Mailing and Physical Address</addrtype>
+<address>{{ doc['DatasetContact-Contact-Address'][TechnicalContactIndex] }}</address>
+<city>{{ doc['DatasetContact-Contact-Address'][TechnicalContactIndex] }}</city>
+<state>{{ doc['DatasetContact-Contact-Address'][TechnicalContactIndex] }}</state>
+<postal>{{ doc['DatasetContact-Contact-Address'][TechnicalContactIndex] }}</postal>
+<country>{{ doc['DatasetContact-Contact-Address'][TechnicalContactIndex] }}</country>
+</cntaddr>
+<cntvoice>{{ doc['DatasetContact-Contact-Phone'][TechnicalContactIndex] }}</cntvoice>
+<cntfax>{% if doc['DatasetContact-Contact-Fax'][TechnicalContactIndex].strip() != '' %}{{ doc['DatasetContact-Contact-Fax'][TechnicalContactIndex] }}{% else %}Not specified{% endif %}</cntfax>
+<cntemail>{{ doc['DatasetContact-Contact-Email'][TechnicalContactIndex] }}</cntemail>
+<hours>Standard Business hours</hours>
+<cntinst>Phone/FAX/Email</cntinst>
+</cntinfo>
+</ptcontac>
+{% endif %}
+<datacred>{{ doc['DatasetCitation-Creator'][0] }}</datacred>
+{% if doc['Dataset-Reference'][0].strip() != '' %}
+<crossref>
+<citeinfo>
+<origin>{{ doc['DatasetCitation-Creator'][0] }}</origin>
+<pubdate>{{ DatasetCitation_ReleaseDateTime }}</pubdate>
+<title>{{ doc['Dataset-Reference'][0] }}</title>
+</citeinfo>
+</crossref>
+{% endif %}
+{% if 'Get Data' in DatasetResource and DatasetResource['Get Data'].strip() != '' %}
+<crossref>
+<citeinfo>
+<origin>{{ doc['DatasetCitation-Creator'][0] }}</origin>
+<pubdate>{{ DatasetCitation_ReleaseDateTime }}</pubdate>
+<title>Get Data</title>
+<onlink>{{ DatasetResource['Get Data'] }}</onlink>
+</citeinfo>
+</crossref>
+{% endif %}
+</idinfo>
+<spref>
+<horizsys>
+<geograph>
+<latres>{{ Dataset_LatitudeResolution }}</latres>
+<longres>{{ Dataset_LongitudeResolution }}</longres>
+<geogunit>Decimal degrees</geogunit>
+</geograph>
+</horizsys>
+<vertdef/>
+</spref>
+<eainfo>
+{% for granule in granules %}
+<detailed>
+<enttyp>
+<enttypl>{{ granule['Granule-Name'][0] }}</enttypl>
+<enttypd>GHRSST Formatted netCDF data file</enttypd>
+<enttypds>The Recommended GHRSST-PP Data Processing Specification
+GDS (Version 1 revision 1.5), GHRSST-PP Report Number 17
+Compiled by Craig Donlon and the GHRSST-PP Science Team
+craig.donlon@metoffice.com
+
+Published by the International GHRSST-PP Project Office
+Met Office
+Fitzroy Road
+Exeter, EX3 1PB
+United Kingdom
+
+Tel: +44 (0)1392 886622
+Fax: +44 (0)1393 885681</enttypds>
+</enttyp>
+<attr>
+<attrlabl>Latitude</attrlabl>
+<attrdef>Latitude in decimal degrees following FGDC specifications. Here, the Range Domain Minimum given below is equivalent to a South Bounding Coordinate for this Entity. The Range Domain Maximum is the North Bounding Coordinate.</attrdef>
+<attrdefs>FGDC-STD-001-1998</attrdefs>
+<attrdomv>
+<rdom>
+{% if granule['GranuleBoundingBox'] %}
+<rdommin>{{ granule['GranuleBoundingBox']['southernmostLatitude'] }}</rdommin>
+<rdommax>{{ granule['GranuleBoundingBox']['northernmostLatitude'] }}</rdommax>
+{% else %}
+<rdommin>-90.000</rdommin>
+<rdommax>90.000</rdommax>
+{% endif %}
+</rdom>
+</attrdomv>
+<begdatea>{{ granule['Granule-StartTimeLong'][0] }}</begdatea>
+<enddatea>{{ granule['Granule-StopTimeLong'][0] }}</enddatea>
+</attr>
+<attr>
+<attrlabl>Longitude</attrlabl>
+<attrdef>Longitude in decimal degrees following FGDC specifications. Here, the Range Domain Minimum given below is equivalent to a West Bounding Coordinate for this entity.  The Range Domain Maximum is the East Bounding Coordinate.</attrdef>
+<attrdefs>FGDC-STD-001-1998</attrdefs>
+<attrdomv>
+<rdom>
+{% if granule['GranuleBoundingBox'] %}
+<rdommin>{{ granule['GranuleBoundingBox']['westernmostLongitude'] }}</rdommin>
+<rdommax>{{ granule['GranuleBoundingBox']['easternmostLongitude'] }}</rdommax>
+{% else %}
+<rdommin>-180.000</rdommin>
+<rdommax>180.000</rdommax>
+{% endif %}
+</rdom>
+</attrdomv>
+<begdatea>{{ granule['Granule-StartTimeLong'][0] }}</begdatea>
+<enddatea>{{ granule['Granule-StopTimeLong'][0] }}</enddatea>
+</attr>
+<attr>
+<attrlabl>Time</attrlabl>
+<attrdef>Universal Time (Greenwich Mean Time) values shall follow the 24 hour timekeeping system for Universal time of day in hours, minutes, and seconds, and decimal fractions of a second (expressed to the precision desired) without separators convention, with the upper case letter Z following the low order (or extreme right-hand) time element of the 24 hour hour time clock expression. The general form is HHMMSSSSZ.</attrdef>
+<attrdefs>American Standards Institute, 1975, Representations of universal time, local time differentials, and United States time zone reference for information interchange (ANSI X3.51-1975): New York, American National Standards Institute. For usage in these data see:  The Recommended GHRSST-PP Data Processing Specification GDS (Version 1 revision 1.5), GHRSST-PP Report Number 17  Canned text; no .DIF match</attrdefs>
+<attrdomv>
+<rdom>
+<rdommin>{{ granule['Granule-StartTimeLong'][0] }}</rdommin>
+<rdommax>{{ granule['Granule-StopTimeLong'][0] }}</rdommax>
+</rdom>
+</attrdomv>
+<begdatea>{{ granule['Granule-StartTimeLong'][0] }}</begdatea>
+<enddatea>{{ granule['Granule-StopTimeLong'][0] }}</enddatea>
+</attr>
+</detailed>
+{% endfor %}
+<overview>
+<eaover>Within the GHRSST DIF-style metadata framework, every data set type is described by a static Data Set Description (DSD), and the individual netCDF files making up that dataset are described by dynamic File Records (FR).  These FRs contain the spatial and temporal domain contained in each data file.  The DIF-style metadata (the DSD and its children FRs) are converted to a single FGDC record for each NODC GHRSST accession, which can consist of several discrete data files.  This conversion is accomplished using an XML stylesheet which builds a framework FGDC record based on the DSD, and populates it with one Entity for each data file based on the FRs.  These Entities are given three Attributes: Latitude, Longitude, and Time.  The Range Domain Minimum and Maximum elements within each of those Attributes are use to describe the spatial and temporal domain contained in the data file.  So, for example, the Range Domain Minimum for the Attribute Latitude corresponds to a South Bounding Coordinate for that Entity.</eaover>
+<eadetcit>The Recommended GHRSST-PP Data Processing Specification
+GDS (Version 1 revision 1.5), GHRSST-PP Report Number 17
+Compiled by Craig Donlon and the GHRSST-PP Science Team
+craig.donlon@metoffice.com
+
+Published by the International GHRSST-PP Project Office
+Met Office
+Fitzroy Road
+Exeter, EX3 1PB
+United Kingdom
+
+Tel: +44 (0)1392 886622
+Fax: +44 (0)1393 885681
+
+Metadata records converted to FGDC format and archived at the National Oceanographic Data Center</eadetcit>
+</overview>
+</eainfo>
+<distinfo>
+<distrib>
+<cntinfo>
+<cntperp>
+<cntper>Dr. Kenneth Casey</cntper>
+<cntorg>NOAA National Oceanographic Data Center</cntorg>
+</cntperp>
+<cntpos>Physical scientist</cntpos>
+<cntaddr>
+<addrtype>mailing address</addrtype>
+<address>NOAA National Oceanographic Data Center
+SSMC3, 4th Floor, Room 4853, Route:  E/OC1
+1315 East-West Highway</address>
+<city>Silver Spring</city>
+<state>Maryland</state>
+<postal>20910</postal>
+<country>U.S.A.</country>
+</cntaddr>
+<cntvoice>(301)713-3300</cntvoice>
+<cntfax>FAX: (301) 713-3300</cntfax>
+<cntemail>Kenneth.Casey@noaa.gov</cntemail>
+<hours>9:00 AM-4:00 PM, EST</hours>
+<cntinst>Phone/FAX/E-mail/letter</cntinst>
+</cntinfo>
+</distrib>
+<resdesc>NODC Accession #0000000</resdesc>
+<distliab>NOAA makes no warranty regarding these data, expressed or implied, nor does the fact of distribution constitute such a warranty. NOAA and NODC cannot assume liability for any damages caused by any errors or omissions in these data, nor as a result of the failure of these data to function on a particular system.</distliab>
+<stdorder>
+<digform>
+<digtinfo>
+<formname>netCDF</formname>
+<formverd>{{ DatasetCitation_ReleaseDateTime }}</formverd>
+<formspec>GHRSST formatted file (netCDF version 3); see:  The Recommended GHRSST-PP Data Processing Specification, GDS (Version 1 revision 1.5), GHRSST-PP Report Number 17.</formspec>
+<formcont>sea surface temperature data</formcont>
+<filedec>See:  The Recommended GHRSST-PP Data Processing Specification, GDS (Version 1 revision 1.5), GHRSST-PP Report Number 17.</filedec>
+<transize>15000000</transize>
+</digtinfo>
+<digtopt>
+<onlinopt>
+<computer>
+<networka>
+<networkr>http://www.nodc.noaa.gov/search/prod/</networkr>
+</networka>
+</computer>
+<accinstr>Data may be directly downloaded through the NODC Ocean Archive System at: URL: http://www.nodc.noaa.gov/search/prod/. NODC can be contacted directly for custom orders. When requesting data from the NODC, the desired data set may be referred to by the 7-digit number given in the RESOURCE DESCRIPTION field of this metadata record. For more information see the NODC GHRSST project web site: URL: http://ghrsst.nodc.noaa.gov</accinstr>
+<oncomp>Standard Internet browser and FTP capability</oncomp>
+</onlinopt>
+<onlinopt>
+<computer>
+<networka>
+<networkr>ftp://data.nodc.noaa.gov/pub/data.nodc/ghrsst</networkr>
+</networka>
+</computer>
+<accinstr>Direct FTP access:  Navigate to ftp://data.nodc.noaa.gov/pub/data.nodc/ghrsst using any FTP client to begin downloading data. For more information see the NODC GHRSST project web site: URL: http://ghrsst.nodc.noaa.gov</accinstr>
+<oncomp>Any FTP client</oncomp>
+</onlinopt>
+<onlinopt>
+<computer>
+<networka>
+<networkr>http://data.nodc.noaa.gov/ghrsst</networkr>
+</networka>
+</computer>
+<accinstr>Simple Web access:  Using any web browser, navigate to URL: http://data.nodc.noaa.gov/ghrsst and begin browsing through the file hierarchy. Clicking on any of the files will prompt you to download that file or will launch any application associated with netCDF files. For more information see the NODC GHRSST project web site: URL: http://ghrsst.nodc.noaa.gov</accinstr>
+<oncomp>Standard Internet browser and/or software capable of utilizing netCDF files</oncomp>
+</onlinopt>
+<onlinopt>
+<computer>
+<networka>
+<networkr>http://data.nodc.noaa.gov/cgi-bin/nph-dods/ghrsst</networkr>
+</networka>
+</computer>
+<accinstr>These data are also served using OPeNDAP (formerly DODS) server. The base URL is: URL: http://data.nodc.noaa.gov/cgi-bin/nph-dods/ghrsst For more information see the NODC GHRSST project web site: URL: http://ghrsst.nodc.noaa.gov For a listing of OPeNDAP clients which may be used to access OPeNDAP-enabled data sets, please see the OPeNDAP web site at URL: URL: http://opendap.org/</accinstr>
+<oncomp>Standard Internet browsers can browse OPeNDAP servers and specialized OPeNDAP software can enable more sophisticated data access and visualizations.</oncomp>
+</onlinopt>
+</digtopt>
+</digform>
+<fees>none</fees>
+<ordering>Data may be directly downloaded through the NODC website at: http://www.nodc.noaa.gov/search/prod/. NODC can be contacted directly for custom orders. (When requesting data from the NODC, the desired data set may be referred to by the 7-digit number given in the RESOURCE DESCRIPTION field of this metadata record).</ordering>
+<turnarnd>Within 24 hours if directly downloaded, depending on size</turnarnd>
+</stdorder>
+<custom>Contact the NODC User Services Group via phone/FAX/E-mail:  nodc.services@noaa.gov</custom>
+<techpreq>Working knowlege of netCDF files and ability to work with satellite data strongly recommended.</techpreq>
+<availabl>
+<timeinfo>
+<rngdates>
+<begdate>{{ DatasetCoverage_StartTime }}</begdate>
+<begtime>Unknown</begtime>
+<enddate>Present</enddate>
+<endtime>Unknown</endtime>
+</rngdates>
+</timeinfo>
+</availabl>
+</distinfo>
+<distinfo>
+<distrib>
+<cntinfo>
+<cntperp>
+<cntper>{{ doc['DatasetContact-Contact-FirstName'][0] }}{% if doc['DatasetContact-Contact-MiddleName'][0] != 'none' %} {{ doc['DatasetContact-Contact-MiddleName'][0] }}{% endif %} {{ doc['DatasetContact-Contact-LastName'][0] }}</cntper>
+<cntorg>{{ doc['Dataset-Provider-LongName'][0] }} ({{ doc['Dataset-Provider-ShortName'][0] }})</cntorg>
+</cntperp>
+<cntpos>{{ doc['DatasetContact-Contact-Role'][0] }}</cntpos>
+<cntaddr>
+<addrtype>mailing address</addrtype>
+<address>{{ doc['DatasetContact-Contact-Address'][0] }}</address>
+<city>{{ doc['DatasetContact-Contact-Address'][0] }}</city>
+<state>{{ doc['DatasetContact-Contact-Address'][0] }}</state>
+<postal>{{ doc['DatasetContact-Contact-Address'][0] }}</postal>
+<country>{{ doc['DatasetContact-Contact-Address'][0] }}</country>
+</cntaddr>
+<cntvoice>{{ doc['DatasetContact-Contact-Phone'][0] }}</cntvoice>
+<cntfax>{% if doc['DatasetContact-Contact-Fax'][0].strip() != '' %}{{ doc['DatasetContact-Contact-Fax'][0] }}{% else %}Not specified{% endif %}</cntfax>
+<cntemail>{{ doc['DatasetContact-Contact-Email'][0] }}</cntemail>
+<hours>Standard Business hours</hours>
+<cntinst>Phone/FAX/Email</cntinst>
+</cntinfo>
+</distrib>
+<resdesc>DSD-{{ doc['Dataset-ShortName'][0] }}.xml</resdesc>
+<distliab>Unknown; see {{ doc['Dataset-Provider-ProviderResource-Path'][-1] }}</distliab>
+<stdorder>
+<digform>
+<digtinfo>
+<formname>netCDF</formname>
+<formverd>{{ DatasetCitation_ReleaseDateTime }}</formverd>
+<formspec>GHRSST formatted file (netCDF version 3); see:  The Recommended GHRSST-PP Data Processing Specification, GDS (Version 1 revision 1.5), GHRSST-PP Report Number 17.</formspec>
+<formcont>sea surface temperature data</formcont>
+<filedec>See:  The Recommended GHRSST-PP Data Processing Specification, GDS (Version 1 revision 1.5), GHRSST-PP Report Number 17.</filedec>
+<transize>15000000</transize>
+</digtinfo>
+<digtopt>
+<onlinopt>
+<computer>
+<networka>
+<networkr>{{ doc['Dataset-Provider-ProviderResource-Path'][-1] }}</networkr>
+</networka>
+</computer>
+<accinstr>Access {{ doc['Dataset-Provider-ShortName'][0] }} site: {{ doc['Dataset-Provider-ProviderResource-Path'][-1] }}; some products may require authorization (restricted access)</accinstr>
+<oncomp>PC, Mac, Linux, Unix; standard Internet browser</oncomp>
+</onlinopt>
+</digtopt>
+</digform>
+<fees>See URL at: {{ doc['Dataset-Provider-ProviderResource-Path'][-1] }}</fees>
+<ordering>See URL at: {{ doc['Dataset-Provider-ProviderResource-Path'][-1] }}. Some products may have restricted access.</ordering>
+<turnarnd>Within 24 hours if directly downloaded, depending on size</turnarnd>
+</stdorder>
+<custom>See {{ doc['Dataset-Provider-ShortName'][0] }} website at URL: {{ doc['Dataset-Provider-ProviderResource-Path'][-1] }}</custom>
+<techpreq>Ability to work with netCDF files, working knowledge of satellite data strongly recommended</techpreq>
+<availabl>
+<timeinfo>
+<rngdates>
+<begdate>{{ DatasetCoverage_StartTime }}</begdate>
+<begtime>Unknown</begtime>
+<enddate>Present</enddate>
+<endtime>Unknown</endtime>
+</rngdates>
+</timeinfo>
+</availabl>
+</distinfo>
+<distinfo>
+<distrib>
+<cntinfo>
+<cntperp>
+<cntper>Edward Armstrong</cntper>
+<cntorg>Jet Propulsion Laboratory (JPL), Physical Oceanography Distributed Active Archive Center (PO.DAAC)</cntorg>
+</cntperp>
+<cntpos>Technical Contact</cntpos>
+<cntaddr>
+<addrtype>mailing address</addrtype>
+<address>4800 Oak Grove Dr.</address>
+<city>Pasadena</city>
+<state>California</state>
+<postal>91109</postal>
+<country>USA</country>
+</cntaddr>
+<cntvoice>818 393 6710</cntvoice>
+<cntfax>818 393 2718</cntfax>
+<cntemail>ghrsst@podaac.jpl.nasa.gov</cntemail>
+<hours>Standard Business hours, Pacific Time</hours>
+<cntinst>Phone/FAX/Email</cntinst>
+</cntinfo>
+</distrib>
+<resdesc>DSD-{{ doc['Dataset-ShortName'][0] }}.xml</resdesc>
+<distliab>JPL makes no warranty regarding these data, expressed or implied, nor does the fact of distribution constitute such a warranty. JPL cannot assume liability for any damages caused by any errors or omissions in these data, nor as a result of the failure of these data to function on a particular system.</distliab>
+<stdorder>
+<digform>
+<digtinfo>
+<formname>netCDF</formname>
+<formverd>{{ DatasetCitation_ReleaseDateTime }}</formverd>
+<formspec>GHRSST formatted file (netCDF version 3); see:  The Recommended GHRSST-PP Data Processing Specification, GDS (Version 1 revision 1.5), GHRSST-PP Report Number 17.</formspec>
+<formcont>sea surface temperature data</formcont>
+<filedec>See:  The Recommended GHRSST-PP Data Processing Specification, GDS (Version 1 revision 1.5), GHRSST-PP Report Number 17.</filedec>
+<transize>15000000</transize>
+</digtinfo>
+<digtopt>
+<onlinopt>
+<computer>
+<networka>
+<networkr>ftp://podaac.jpl.nasa.gov/pub/sea_surface_temperature/GHRSST</networkr>
+</networka>
+</computer>
+<accinstr>The direct FTP link is: ftp://podaac.jpl.nasa.gov/pub/sea_surface_temperature/GHRSST Data, documentation, and read software may also be downloaded through the JPL Global Data Assembly Center (GDAC) at: URL: http://ghrsst.jpl.nasa.gov/data_access.html For more information see the GDAC GHRSST project web site: URL: http://ghrsst.nasa.noaa.gov GHRSST products are generally only stored and available for a period of 30 days after satellite observation. After this time they can be acquired from the NOAA NODC.</accinstr>
+<oncomp>PC, Mac, Linux, Unix; standard Internet browser </oncomp>
+</onlinopt>
+</digtopt>
+</digform>
+<fees>None </fees>
+<ordering>See URL at: http:/ghrsst.jpl.nasa.gov . Some products may have restricted access. GHRSST products are available for a period of about 30 days after observation. After this time they can be acquired from the NOAA NODC.</ordering>
+<turnarnd>Within 24 hours if directly downloaded, depending on size</turnarnd>
+</stdorder>
+<custom>Contact the PO.DAAC User Services Office:  ghrsst@podaac.jpl.nasa.gov </custom>
+<techpreq>Ability to work with netCDF files, working knowledge of satellite data strongly recommended</techpreq>
+<availabl>
+<timeinfo>
+<rngdates>
+<begdate>{{ DatasetCoverage_StartTime }}</begdate>
+<begtime>Unknown</begtime>
+<enddate>Present</enddate>
+<endtime>Unknown</endtime>
+</rngdates>
+</timeinfo>
+</availabl>
+</distinfo>
+<metainfo>
+<metd>20041023</metd>
+<metrd>20041023</metrd>
+<metfrd>20050331</metfrd>
+<metc>
+<cntinfo>
+<cntperp>
+<cntper>Dr. Kenneth Casey</cntper>
+<cntorg>NOAA National Oceanographic Data Center</cntorg>
+</cntperp>
+<cntpos>Physical scientist</cntpos>
+<cntaddr>
+<addrtype>mailing address</addrtype>
+<address>NOAA National Oceanographic Data Center
+SSMC3, 4th Floor, Room 4853, Route:  E/OC1
+1315 East-West Highway</address>
+<city>Silver Spring</city>
+<state>Maryland</state>
+<postal>20910</postal>
+<country>U.S.A.</country>
+</cntaddr>
+<cntvoice>(301)713-3300</cntvoice>
+<cntfax>FAX: (301) 713-3300</cntfax>
+<cntemail>Kenneth.Casey@noaa.gov</cntemail>
+<hours>9:00 AM-4:00 PM, EST</hours>
+<cntinst>Phone/FAX/E-mail/letter</cntinst>
+</cntinfo>
+</metc>
+<metstdn>FGDC Content Standards for Digital Geospatial Metadata</metstdn>
+<metstdv>FGDC-STD-001-1998</metstdv>
+<mettc>local time</mettc>
+<metac>None</metac>
+<metuc>None</metuc>
+<metsi>
+<metscs>None</metscs>
+<metsc>Unclassified</metsc>
+<metshd>Not applicable</metshd>
+</metsi>
+</metainfo>
+</metadata>
+{% endif %}

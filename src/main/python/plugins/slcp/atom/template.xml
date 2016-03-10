@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed esipdiscovery:version="1.2" xmlns="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/terms/" xmlns:echo="http://www.echo.nasa.gov/esip" xmlns:esipdiscovery="http://commons.esipfed.org/ns/discovery/1.2/" xmlns:georss="http://www.georss.org/georss/10" xmlns:gml="http://www.opengis.net/gml" xmlns:os="http://a9.com/-/spec/opensearch/1.1/" xmlns:time="http://a9.com/-/opensearch/extensions/time/1.0/">
+<updated>{{ updated }}</updated>
+<id>https://api.echo.nasa.gov:443/opensearch/datasets.atom</id>
+<author>
+<name>ECHO</name>
+<email>support@echo.nasa.gov</email>
+</author>
+<title type="text">ECHO dataset metadata</title>
+<os:totalResults>{{ numFound }}</os:totalResults>
+<os:itemsPerPage>{{ itemsPerPage }}</os:itemsPerPage>
+<os:startIndex>{{ startIndex }}</os:startIndex>
+<os:Query role="request" xmlns:echo="http://www.echo.nasa.gov/esip" xmlns:geo="http://a9.com/-/opensearch/extensions/geo/1.0/" xmlns:time="http://a9.com/-/opensearch/extensions/time/1.0/" />
+<subtitle type="text">Search parameters: None</subtitle>
+<link href="https://api.echo.nasa.gov:443/opensearch/granules/descriptor_document.xml" hreflang="en-US" rel="search" type="application/opensearchdescription+xml" />
+<link href="{{ myself }}" hreflang="en-US" rel="self" type="application/atom+xml" />
+{% if last %}<link href="{{ last }}" hreflang="en-US" rel="last" type="application/atom+xml" />{% endif %}
+{% if prev %}<link href="{{ prev }}" hreflang="en-US" rel="previous" type="application/atom+xml" />{% endif %}
+{% if next %}<link href="{{ next }}" hreflang="en-US" rel="next" type="application/atom+xml" />{% endif %}
+{% if first %}<link href="{{ first }}" hreflang="en-US" rel="first" type="application/atom+xml" />{% endif %}
+<link href="https://wiki.earthdata.nasa.gov/display/echo/Open+Search+API+release+information" hreflang="en-US" rel="describedBy" title="Release Notes" type="text/html" />
+{% for doc in docs %}
+<entry>
+<id>{{ link }}?concept_id={{ doc['concept-id'] }}</id>
+<dc:identifier>{{ doc['SlcpShortName'] }}</dc:identifier>
+<author>
+<name>ECHO</name>
+<email>support@echo.nasa.gov</email>
+</author>
+<title type="text">{{ doc['LongName'] }}</title>
+<summary type="text">{{ doc['Description'] }}</summary>
+<updated>{{ doc['LastUpdate'] }}</updated>
+<echo:datasetId>{{ doc['DataSetId'] }}</echo:datasetId>
+<echo:shortName>{{ doc['ShortName'] }}</echo:shortName>
+<echo:longName>{{ doc['LongName'] }}</echo:longName>
+<echo:versionId>{{ doc['VersionId'] }}</echo:versionId>
+<echo:dataCenter>{{ doc['ArchiveCenter'] }}</echo:dataCenter>
+{% if doc['ProcessingLevelId'] %}
+<echo:processingLevelId>{{ doc['ProcessingLevelId'] }}</echo:processingLevelId>
+{% endif %}
+{% if doc['DataFormat'] %}
+<echo:dataFormat>{{ doc['DataFormat'] }}</echo:dataFormat>
+{% endif %}
+{% if doc['CategoryKeyword'] %}
+<echo:scienceKeywords>
+{% for i in range(doc['CategoryKeyword']|count)  %}
+<echo:scienceKeyword>
+<echo:categoryKeyword>{{ doc['CategoryKeyword'][i] }}</echo:categoryKeyword>
+<echo:topicKeyword>{{ doc['TopicKeyword'][i] }}</echo:topicKeyword>
+<echo:termKeyword>{{ doc['TermKeyword'][i] }}</echo:termKeyword>
+<echo:variableLevel1Keyword>
+<echo:value>{{ doc['VariableLevel1Keyword'][i] }}</echo:value>
+</echo:variableLevel1Keyword>
+{% if doc['DetailedVariableKeyword'] %}
+<echo:detailedVariableKeyword>{{ doc['DetailedVariableKeyword'][i] }}</echo:detailedVariableKeyword>
+{% endif %}
+</echo:scienceKeyword>
+{% endfor %}
+</echo:scienceKeywords>
+{% endif %}
+<echo:platforms>
+{% for i in range(doc['Platform-ShortName']|count)  %}
+<echo:platform>
+<echo:shortName>{{ doc['Platform-ShortName'][i] }}</echo:shortName>
+<echo:longName>{{ doc['Platform-LongName'][i] }}</echo:longName>
+{% if doc['Instrument-ShortName_' + i|string] %}
+<echo:instruments>
+{% for j in range(doc['Instrument-ShortName_' + i|string]|count)  %}
+<echo:instrument>
+<echo:shortName>{{ doc['Instrument-ShortName_' + i|string][j] }}</echo:shortName>
+<echo:longName>{{ doc['Instrument-LongName_' + i|string][j] }}</echo:longName>
+{% if doc['Sensor-ShortName_' + i|string + '_' + j|string] %}
+<echo:sensors>
+{% for k in range(doc['Sensor-ShortName_' + i|string + '_' + j|string]|count)  %}
+<echo:sensor>
+<echo:shortName>{{ doc['Sensor-ShortName_' + i|string + '_' + j|string][k] }}</echo:shortName>
+<echo:longName>{{ doc['Sensor-LongName_' + i|string + '_' + j|string][k] }}</echo:longName>
+</echo:sensor>
+{% endfor %}
+</echo:sensors>
+{% endif %}
+</echo:instrument>
+{% endfor %}
+</echo:instruments>
+{% endif %}
+</echo:platform>
+{% endfor %}
+</echo:platforms>
+{% for i in range(doc['OnlineAccessURL-URL']|count)  %}
+{% if doc['OnlineAccessURL-URLDescription'][i].endswith('PO.DAAC') %}
+{% elif doc['OnlineAccessURL-URLDescription'][i].endswith('NODC') %}
+<link href="{{ doc['OnlineAccessURL-URL'][i] }}" hreflang="en-US" rel="enclosure" {% if doc['OnlineAccessURL-URLDescription'] and doc['OnlineAccessURL-URLDescription'][i] != ''  %} title="Data Access {{ doc['OnlineAccessURL-URLDescription'][i][:-5] }}" {% endif %} />
+{% else %}
+<link href="{{ doc['OnlineAccessURL-URL'][i] }}" hreflang="en-US" rel="enclosure" {% if doc['OnlineAccessURL-URLDescription'] and doc['OnlineAccessURL-URLDescription'][i] != ''  %} title="Data Access {{ doc['OnlineAccessURL-URLDescription'][i] }}" {% endif %} />
+{% endif %}
+{% endfor %}
+{% for i in range(doc['OnlineResource-URL']|count)  %}
+<link href="{{ doc['OnlineResource-URL'][i] }}" hreflang="en-US" rel="describedBy" {% if doc['OnlineResource-Description'] and doc['OnlineResource-Description'][i] != ''  %} title="{{ doc['OnlineResource-Description'][i] }}" {% endif %} />
+{% endfor %}
+{% if doc['CoordinateSystem'] %}
+<echo:coordinateSystem>{{ doc['CoordinateSystem'] }}</echo:coordinateSystem>
+{% endif %}
+{% if 0 == 1 %}
+<echo:orbitParameters />
+<relevance:score>0.5</relevance:score>
+{% endif %}
+{% for point in doc['Spatial-Point']  %}
+<georss:point>{{ point }}</georss:point>
+{% endfor %}
+{% for line in doc['Spatial-Line']  %}
+<georss:line>{{ line }}</georss:line>
+{% endfor %}
+{% for box in doc['Spatial-Box']  %}
+<georss:box>{{ box }}</georss:box>
+{% endfor %}
+{% for polygon in doc['Spatial-Polygon']  %}
+<georss:polygon>{{ polygon }}</georss:polygon>
+{% endfor %}
+{% if 0 == 1 %}
+<link href="http://gcmd.nasa.gov/getdif.htm?FIFE_STRM_15M" hreflang="en-US" rel="enclosure" title="doi:10.3334/ORNLDAAC/1" type="text/html" />
+{% endif %}
+{% if doc['has-granules'] == 'true'  %}
+<link href="https://api.echo.nasa.gov:443/opensearch/granules.atom?clientId=&amp;shortName={{ doc['ShortName'] }}&amp;versionId={{ doc['VersionId'] }}&amp;dataCenter={{ doc['ArchiveCenter'] }}" hreflang="en-US" rel="search" title="Search for granules" type="application/atom+xml" />
+{% endif %}
+{% if 0 == 1 %}
+<link href="https://api.echo.nasa.gov:443/opensearch/granules/descriptor_document.xml?clientId=&amp;shortName=doi:10.3334/ORNLDAAC/1&amp;versionId=1&amp;dataCenter=ORNL_DAAC" hreflang="en-US" rel="search" title="Custom ECHO Granule Open Search Descriptor Document" type="application/opensearchdescription+xml" />
+{% endif %}
+<link href="{{ serviceUrl }}/ws/metadata/dataset?slcpShortName={{ doc['SlcpShortName'] }}" hreflang="en-US" rel="alternate" title="Product metadata" type="application/xml" />
+<dc:date>{{ doc['BeginningDateTime'] }}/{{ doc['EndingDateTime'] }}</dc:date>
+</entry>
+{% endfor %}
+</feed>

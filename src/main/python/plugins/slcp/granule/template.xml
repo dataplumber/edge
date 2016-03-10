@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed esipdiscovery:version="1.2" xmlns="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/terms/" xmlns:echo="http://www.echo.nasa.gov/esip" xmlns:esipdiscovery="http://commons.esipfed.org/ns/discovery/1.2/" xmlns:georss="http://www.georss.org/georss" xmlns:gml="http://www.opengis.net/gml" xmlns:os="http://a9.com/-/spec/opensearch/1.1/" xmlns:time="http://a9.com/-/opensearch/extensions/time/1.0/">
+<updated>{{ updated }}</updated>
+<id></id>
+<author>
+<name>SLCP</name>
+<email></email>
+</author>
+<title type="text">SLCP granule metadata</title>
+<link href="{{ myself }}" hreflang="en-US" rel="self" type="application/atom+xml" />
+{% if last %}<link href="{{ last }}" hreflang="en-US" rel="last" type="application/atom+xml" />{% endif %}
+{% if prev %}<link href="{{ prev }}" hreflang="en-US" rel="previous" type="application/atom+xml" />{% endif %}
+{% if next %}<link href="{{ next }}" hreflang="en-US" rel="next" type="application/atom+xml" />{% endif %}
+{% if first %}<link href="{{ first }}" hreflang="en-US" rel="first" type="application/atom+xml" />{% endif %}
+<link href="https://wiki.earthdata.nasa.gov/display/echo/Open+Search+API+release+information" hreflang="en-US" rel="describedBy" title="Release Notes" type="text/html"/>
+<os:totalResults>{{ numFound }}</os:totalResults>
+<os:itemsPerPage>{{ itemsPerPage }}</os:itemsPerPage>
+<os:startIndex>{{ startIndex }}</os:startIndex>
+{% for doc in docs %}
+<entry>
+{% if 0 == 1 %}
+<id>https://api.echo.nasa.gov:443/opensearch/granules.atom?uid=G752080-PODAAC</id>
+{% endif %}
+<title type="text">{{ doc['GranuleUR'] }}</title>
+<updated>{{ doc['LastUpdate'] }}</updated>
+{% for i in range(doc['OnlineAccessURL-URL']|count)  %}
+<link href="{{ doc['OnlineAccessURL-URL'][i] }}" hreflang="en-US" rel="enclosure" {% if doc['OnlineAccessURL-URLDescription'] and doc['OnlineAccessURL-URLDescription'][i] != ''  %} title="Data Access {{ doc['OnlineAccessURL-URLDescription'][i] }}" {% endif %} />
+{% endfor %}
+{% if 0 == 1 %}
+<dc:identifier>G752080-PODAAC</dc:identifier>
+{% endif %}
+<dc:date>{{ doc['BeginningDateTime'] }}/{{ doc['EndingDateTime'] }}</dc:date>
+{% if 0 == 1 %}
+<echo:datasetId>GHRSST Level 2P USA NASA MODIS Aqua SST:1</echo:datasetId>
+{% endif %}
+<echo:granuleSizeMB>{{ doc['FileSize'] / 1048576  }}</echo:granuleSizeMB>
+{% if 0 == 1 %}
+<echo:originalFormat>ECHO10</echo:originalFormat>
+<echo:dataCenter>PODAAC</echo:dataCenter>
+<echo:orbitCalSpatialDomain/>
+<echo:coordinateSystem>CARTESIAN</echo:coordinateSystem>
+{% endif %}
+{% if doc['Spatial-Geometry'][0].startswith('ENVELOPE')  %}
+{% set box = doc['Spatial-Geometry'][0][9:-1].split(',') %}
+<georss:box>{{ box[3] }} {{ box[0] }} {{ box[2] }} {{ box[1] }}</georss:box>
+{% endif %}
+</entry>
+{% endfor %}
+</feed>

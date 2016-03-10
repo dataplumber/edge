@@ -1,0 +1,140 @@
+{"items":[
+{% for doc in docs %}
+{
+{% if doc['type'] == 'resources' %}
+    "alt_text": {{ doc['alt_text'] | jsonify }},
+    "created_at": {{ doc['created_at'] | jsonify }},
+    "credit": {{ doc['credit'] | jsonify }},
+    "detail_content_type": {{ doc['detail_content_type'] | jsonify }},
+    "detail_file_name": {{ doc['detail_file_name'] | jsonify }},
+    "detail_file_size": {{ doc['detail_file_size'] | jsonify }},
+    "detail_image": {{ doc['detail_image'] | jsonify }},
+    "embed_code": {{ doc['embed_code'] | jsonify }},
+    "external_url": {{ doc['external_url'] | jsonify }},
+    "featured": {{ doc['featured'] | jsonify }},
+    "id": {{ doc['id'] }},
+    "is_in_resource_list": {{ doc['is_in_resource_list'] | jsonify }},
+    "is_latest": {{ doc['is_latest'] | jsonify }},
+    "latest_image_file_name": {{ doc['latest_image_file_name'] | jsonify }},
+    "list_image_content_type": {{ doc['list_image_content_type'] | jsonify }},
+    "list_image_file_name": {{ doc['list_image_file_name'] | jsonify }},
+    "list_image_file_size": {{ doc['list_image_file_size'] | jsonify }},
+    "list_image_src": "/system/resources/list_images/{{ doc['id'] }}_{{ doc['list_image_file_name'] }}",
+    "long_description": {{ doc['long_description'] | jsonify }},
+    "pub_date": {{ doc['pub_date'] | jsonify }},
+    "short_description": {{ doc['short_description'] | jsonify }},
+    "status": {{ doc['status'] }},
+    "table": {{ doc['type'] | jsonify }},
+    "title": {{ doc['title'] | jsonify }},
+    "updated_at": {{ doc['updated_at'] | jsonify }},
+    "updated_by": {{ doc['updated_by'] | jsonify }},
+    "url": {{ doc['permalink_path'] | jsonify }}
+{% elif doc['type'] == 'publications' %}
+    "abstract": {{ doc['abstract'] | jsonify }},
+    "author_address": {{ doc['author_address'] | jsonify }},
+    "authors": {{ doc['authors'] | jsonify }},
+    "category": {{ doc['category'] | jsonify }},
+    "citation": {{ doc['citation'] | jsonify }},
+    "created_at": {{ doc['created_at'] | jsonify }},
+    "external_uid": {{ doc['external_uid'] | jsonify }} ,
+    "file_content_type": {{ doc['file_content_type'] | jsonify }},
+    "file_file_name": {{ doc['file_file_name'] | jsonify }},
+    "file_file_size": {{ doc['file_file_size'] | jsonify }},
+    "graph_category": {{ doc['graph_category'] | jsonify }},
+    "id": {{ doc['id'] }},
+    "is_peer_reviewed": {{ doc['is_peer_reviewed'] | lower }},
+    "keywords": {{ doc['keywords'] | jsonify }},
+    "link": {{ doc['link'] | jsonify }},
+    "periodical": {
+        "created_at": {{ doc['periodical_created_at'] | jsonify }},
+        "id": {{ doc['periodical_id'] }},
+        "title": {{ doc['periodical_title'] | jsonify }},
+        "updated_at": {{ doc['periodical_updated_at'] | jsonify }},
+        "updated_by": {{ doc['periodical_updated_by'] | jsonify }}
+    },
+    "periodical_id": {{ doc['periodical_id'] }},
+    "publication_year": {{ doc['publication_year'] | jsonify }},
+    "status": {{ doc['status'] }},
+    "table": {{ doc['type'] | jsonify }},
+    "title": {{ doc['title'] | jsonify }},
+    "updated_at": {{ doc['updated_at'] | jsonify }},
+    "updated_by": {{ doc['updated_by'] | jsonify }},
+    "url": {{ doc['permalink_path'] | jsonify }}
+{% elif doc['type'] == 'news_items' %}
+    "categories_id": {{ doc['categories_id'] | jsonify }},
+    "categories_title": {{ doc['categories_title'] | jsonify }},
+    "date": "{{ doc['publish_date'] | convertISOTime('%B %-d, %Y') }}",
+    "description": {{ doc['long_description'] | jsonify }},
+    "id": {{ doc['id']}},
+    "main_image_alt": {{ doc['main_image_alt'] | jsonify }},
+    "main_image_caption": {{ doc['main_image_caption'] | jsonify }},
+    "main_image_file_name": {{ doc['main_image_file_name'] | jsonify }},
+    "status": {{ doc['status'] }},
+    "table": {{ doc['type'] | jsonify }},
+    "target": "_self",
+    "thumb": "/system/news_items/list_view_images/{{ doc['id']}}_{{ doc['list_view_image_file_name']}}",
+    "title": {{ doc['title'] | jsonify }},
+    "url": {{ doc['permalink_path'] | jsonify }}
+{% elif doc['type'] == 'glossary_items' %}
+    "caption": {{ doc['caption'] | jsonify }},
+    "created_at": {{ doc['created_at'] | jsonify }},
+    "credit": {{ doc['credit'] | jsonify }},
+    "definition": {{ doc['definition'] | jsonify }},
+    "id": {{ doc['id']}},
+    "list_view_image_alt": {{ doc['list_view_image_alt'] | jsonify }},
+    "list_view_image_file_name": {{ doc['list_view_image_file_name'] | jsonify }},
+    "status": {{ doc['status'] }},
+    "table": {{ doc['type'] | jsonify }},
+    "title": {{ doc['title'] | jsonify }},
+    "updated_at": {{ doc['updated_at'] | jsonify }},
+    "url": {{ doc['permalink_path'] | jsonify }},
+    "video_embed_code": {{ doc['video_embed_code'] | jsonify }}
+{% elif doc['type'] == 'content_pages' %}
+    "body": {{ doc['body'] | jsonify }},
+    "created_at": {{ doc['created_at'] | jsonify }},
+    "id": {{ doc['id']}},
+    "main_image_alt": {{ doc['main_image_alt'] | jsonify }},
+    "main_image_caption": {{ doc['main_image_caption'] | jsonify }},
+    "main_image_file_name": {{ doc['main_image_file_name'] | jsonify }},
+    "meta_desc": {{ doc['meta_desc'] | jsonify }},
+    "status": {{ doc['status'] }},
+    "subnav_title": {{ doc['subnav_title'] | jsonify }},
+    "table": {{ doc['type'] | jsonify }},
+    "title": {{ doc['title'] | jsonify }},
+    "updated_at": {{ doc['updated_at'] | jsonify }},
+    "updated_by": {{ doc['updated_by'] | jsonify }},
+    "url": {{ doc['permalink_path'] | jsonify }}
+{% elif doc['type'] == 'faq_items' %}
+    "answer": {{ doc['answer'] | jsonify }},
+    "created_at": {{ doc['created_at'] | jsonify }},
+    "data_release_version": {{ doc['data_release_version'] | jsonify }},
+    "id": {{ doc['id']}},
+    "is_faq": {{ doc['is_faq'] | jsonify }},
+    "keywords": {{ doc['keywords'] | jsonify }},
+    "physical_product": {{ doc['physical_product'] | jsonify }},
+    "post_date": {{ doc['post_date'] | jsonify }},
+    "question": {{ doc['question'] | jsonify }},
+    "question_type": {{ doc['question_type'] | jsonify }},
+    "sent_by": {{ doc['sent_by'] | jsonify }},
+    "status": {{ doc['status'] }},
+    "subject": {{ doc['subject'] | jsonify }},
+    "table": {{ doc['type'] | jsonify }},
+    "updated_at": {{ doc['updated_at'] | jsonify }},
+    "updated_by": {{ doc['updated_by'] | jsonify }},
+    "url": {{ doc['permalink_path'] | jsonify }}
+{% endif %}
+}
+{% if not loop.last %}
+,
+{% endif %}
+{% endfor %}
+]
+,"more":
+{% if (startIndex + itemsPerPage) < numFound %}
+true
+{% else %}
+false
+{% endif %}
+,"total":{{ numFound }}
+,"page":{{ (startIndex / itemsPerPage + 1) | int }}
+,"per_page":{{ itemsPerPage }}}

@@ -1,0 +1,106 @@
+<!--*******************************************************************************************************************-->
+<!-- GIBS: product dataimport data-config.xml                                                                          -->
+<!-- url="jdbc:postgresql://localhost:8888/gibs"                                                                       -->
+<!-- user=gibs"                                                                                                        -->
+<!--*******************************************************************************************************************-->
+<dataConfig>
+
+    <dataSource 
+        driver="org.postgresql.Driver" 
+        url="jdbc:postgresql://localhost/twright" 
+        user="twright" />
+
+    <document>
+
+        <entity name="product"
+            query="select * from product_view"
+            transformer="RegexTransformer">
+
+            <field column="product_granule_id_list"                             name="product_granule_id_list"                             splitBy = "," />
+            <field column="product_granule_version_list"                        name="product_granule_version_list"                        splitBy = "," />
+            <field column="product_granule_dataset_id_list"                     name="product_granule_dataset_id_list"                     splitBy = "," />
+            <field column="product_granule_metadata_endpoint_list"              name="product_granule_metadata_endpoint_list"              splitBy = "," />
+            <field column="product_granule_remote_granule_ur_list"              name="product_granule_remote_granule_ur_list"              splitBy = "," />
+
+            <field column="product_operation_version_list"                      name="product_operation_version_list"                      splitBy = "," />
+            <field column="product_operation_agent_list"                        name="product_operation_agent_list"                        splitBy = "," />
+            <field column="product_operation_list"                              name="product_operation_list"                              splitBy = "," />
+            <field column="product_operation_command_list"                      name="product_operation_command_list"                      splitBy = "," />
+            <field column="product_operation_arguments_list"                    name="product_operation_arguments_list"                    splitBy = "," />
+            <field column="product_operation_start_time_list"                   name="product_operation_start_time_list"                   splitBy = "," />
+            <field column="product_operation_stop_time_list"                    name="product_operation_stop_time_list"                    splitBy = "," />
+            <field column="product_operation_start_time_string_list"            name="product_operation_start_time_string_list"            splitBy = "," />
+            <field column="product_operation_stop_time_string_list"             name="product_operation_stop_time_string_list"             splitBy = "," />
+
+            <field column="product_archive_name_list"                           name="product_archive_name_list"                           splitBy = "," />
+            <field column="product_archive_version_list"                        name="product_archive_version_list"                        splitBy = "," />
+            <field column="product_archive_type_list"                           name="product_archive_type_list"                           splitBy = "," />
+            <field column="product_archive_file_size_list"                      name="product_archive_file_size_list"                      splitBy = "," />
+            <field column="product_archive_checksum_list"                       name="product_archive_checksum_list"                       splitBy = "," />
+            <field column="product_archive_compress_flag_list"                  name="product_archive_compress_flag_list"                  splitBy = "," />
+            <field column="product_archive_status_list"                         name="product_archive_status_list"                         splitBy = "," />
+            <field column="product_archive_reference_description_list"          name="product_archive_reference_description_list"          splitBy = "," />
+            <field column="product_archive_reference_name_list"                 name="product_archive_reference_name_list"                 splitBy = "," />
+            <field column="product_archive_reference_type_list"                 name="product_archive_reference_type_list"                 splitBy = "," />
+            <field column="product_archive_reference_status_list"               name="product_archive_reference_status_list"               splitBy = "," />
+
+            <field column="product_reference_version_list"                      name="product_reference_version_list"                      splitBy = "," />
+            <field column="product_reference_type_list"                         name="product_reference_type_list"                         splitBy = "," />
+            <field column="product_reference_name_list"                         name="product_reference_name_list"                         splitBy = "," />
+            <field column="product_reference_path_list"                         name="product_reference_path_list"                         splitBy = "," />
+            <field column="product_reference_description_list"                  name="product_reference_description_list"                  splitBy = "," />
+            <field column="product_reference_status_list"                       name="product_reference_status_list"                       splitBy = "," />
+
+            <field column="product_data_day_version_list"                       name="product_data_day_version_list"                       splitBy = "," />
+            <field column="product_data_day_list"                               name="product_data_day_list"                               splitBy = "," />
+            <field column="product_data_day_string_list"                        name="product_data_day_string_list"                        splitBy = "," />
+
+            <field column="product_contact_version_list"                        name="product_contact_version_list"                        splitBy = "," />
+            <field column="product_contact_role_list"                           name="product_contact_role_list"                           splitBy = "," />
+            <field column="product_contact_first_name_list"                     name="product_contact_first_name_list"                     splitBy = "," />
+            <field column="product_contact_last_name_list"                      name="product_contact_last_name_list"                      splitBy = "," />
+            <field column="product_contact_middle_name_list"                    name="product_contact_middle_name_list"                    splitBy = "," />
+            <field column="product_contact_address_list"                        name="product_contact_address_list"                        splitBy = "," />
+            <field column="product_contact_notify_type_list"                    name="product_contact_notify_type_list"                    splitBy = "," />
+            <field column="product_contact_email_list"                          name="product_contact_email_list"                          splitBy = "," />
+            <field column="product_contact_phone_list"                          name="product_contact_phone_list"                          splitBy = "," />
+            <field column="product_contact_fax_list"                            name="product_contact_fax_list"                            splitBy = "," />
+            <field column="product_contact_provider_long_name_list"             name="product_contact_provider_long_name_list"             splitBy = "," />
+            <field column="product_contact_provider_short_name_list"            name="product_contact_provider_short_name_list"            splitBy = "," />
+            <field column="product_contact_provider_type_list"                  name="product_contact_provider_type_list"                  splitBy = "," />
+            <field column="product_contact_provider_resource_descriptions_list" name="product_contact_provider_resource_descriptions_list" splitBy = "," />
+            <field column="product_contact_provider_resource_names_list"        name="product_contact_provider_resource_names_list"        splitBy = "," />
+            <field column="product_contact_provider_resource_paths_list"        name="product_contact_provider_resource_paths_list"        splitBy = "," />
+            <field column="product_contact_provider_resource_types_list"        name="product_contact_provider_resource_types_list"        splitBy = "," />
+  
+            <field column="product_element_version_list"                        name="product_element_version_list"                        splitBy = "," />
+            <field column="product_element_obligation_flag_list"                name="product_element_obligation_flag_list"                splitBy = "," />
+            <field column="product_element_scope_list"                          name="product_element_scope_list"                          splitBy = "," />
+            <field column="product_element_dd_version_list"                     name="product_element_dd_version_list"                     splitBy = "," />
+            <field column="product_element_dd_type_list"                        name="product_element_dd_type_list"                        splitBy = "," />
+            <field column="product_element_dd_description_list"                 name="product_element_dd_description_list"                 splitBy = "," />
+            <field column="product_element_dd_scope_list"                       name="product_element_dd_scope_list"                       splitBy = "," />
+            <field column="product_element_dd_long_name_list"                   name="product_element_dd_long_name_list"                   splitBy = "," />
+            <field column="product_element_dd_short_name_list"                  name="product_element_dd_short_name_list"                  splitBy = "," />
+            <field column="product_element_dd_max_length_list"                  name="product_element_element_dd_max_length_list"          splitBy = "," />
+
+            <field column="product_datetime_version_list"                       name="product_datetime_version_list"                       splitBy = "," />
+            <field column="product_datetime_value_list"                         name="product_datetime_value_list"                         splitBy = "," />
+            <field column="product_datetime_value_string_list"                  name="product_datetime_value_string_list"                  splitBy = "," />
+
+            <field column="product_character_version_list"                      name="product_character_verison_list"                      splitBy = "," />
+            <field column="product_character_value_list"                        name="product_character_value_list"                        splitBy = "," />
+
+            <field column="product_integer_version_list"                        name="product_integer_version_list"                        splitBy = "," />
+            <field column="product_integer_value_list"                          name="product_integer_value_list"                          splitBy = "," />
+            <field column="product_integer_units_list"                          name="product_integer_units_list"                          splitBy = "," />
+
+            <field column="product_real_version_list"                           name="product_real_version_list"                           splitBy = "," />
+            <field column="product_real_value_list"                             name="product_real_value_list"                             splitBy = "," />
+            <field column="product_real_units_list"                             name="product_real_units_list"                             splitBy = "," />  
+
+        </entity>
+
+    </document>
+
+</dataConfig>

@@ -1,0 +1,58 @@
+{% if doc %}
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:datacasting="http://datacasting.jpl.nasa.gov/datacasting" xmlns:georss="http://www.georss.org/georss" xmlns:gml="http://www.opengis.net/gml" version="2.0">
+<channel>
+<title>{{ doc['Dataset-LongName'][0] }}</title>
+<link>{{ DatasetPortalPage }}</link>
+<description>{{ doc['Dataset-Description'][0] }}</description>
+<datacasting:channelUID>{{ doc['Dataset-PersistentId'][0] }}</datacasting:channelUID>
+{% if 'DatasetSource-Source-ShortName' in doc %}
+<datacasting:dataSource>{{ doc['DatasetSource-Source-ShortName'][0] }}/{{ doc['DatasetSource-Sensor-ShortName'][0] }}</datacasting:dataSource>
+{% endif %}
+{% if 'LOCAL-FTP' in doc['DatasetLocationPolicy-Type'] or 'REMOTE-FTP' in doc['DatasetLocationPolicy-Type'] %}
+<datacasting:customEltDef displayName="FTP URL" type="string" name="FTPURL"/>
+{% endif %}
+{% if 'LOCAL-OPENDAP' in doc['DatasetLocationPolicy-Type'] or 'REMOTE-OPENDAP' in doc['DatasetLocationPolicy-Type'] %}
+<datacasting:customEltDef displayName="OPeNDAP URL" type="string" name="OPeNDAPURL"/>
+{% endif %}
+<language>en-us</language>
+<copyright>Copyright {{ DatasetCitation_ReleaseYear }}</copyright>
+<managingEditor>PO.DAAC &lt;podaac@podaac.jpl.nasa.gov&gt;</managingEditor>
+<webMaster>admin@seastar.jpl.nasa.gov</webMaster>
+<pubDate>{{ PubDate }}</pubDate>
+<generator>PO.DAAC Oceanographic Common Search Interface</generator>
+<docs>http://datacasting.jpl.nasa.gov/datacasting.html</docs>
+{% for granule in granules %}
+<item>
+<title>{{ granule['Granule-Name'][0] }}</title>
+<link>{{ DatasetPortalPage }}</link>
+<datacasting:acquisitionStartDate>{{ granule['Granule-StartTimeLong'][0] }}</datacasting:acquisitionStartDate>
+<datacasting:acquisitionEndDate>{{ granule['Granule-StopTimeLong'][0] }}</datacasting:acquisitionEndDate>
+{% if 'LOCAL-FTP' in granule['GranuleReference']  %}
+<datacasting:customElement name="FTPURL" value="{{ granule['GranuleReference']['LOCAL-FTP'] }}"/>
+{% elif 'REMOTE-FTP' in granule['GranuleReference']  %}
+<datacasting:customElement name="FTPURL" value="{{ granule['GranuleReference']['REMOTE-FTP'] }}"/>
+{% endif %}
+{% if 'LOCAL-OPENDAP' in granule['GranuleReference']  %}
+<datacasting:customElement name="OPeNDAPURL" value="{{ granule['GranuleReference']['LOCAL-OPENDAP'] }}"/>
+{% elif 'REMOTE-OPENDAP' in granule['GranuleReference']  %}
+<datacasting:customElement name="OPeNDAPURL" value="{{ granule['GranuleReference']['REMOTE-OPENDAP'] }}"/>
+{% endif %}
+{% if 'GranuleSpatial-EastLon' in granule %}
+<georss:where>
+<gml:Envelope>
+<gml:lowerCorner>{{ granule['GranuleSpatial-SouthLat'][0] }} {{ granule['GranuleSpatial-WestLon'][0] }}</gml:lowerCorner>
+<gml:upperCorner>{{ granule['GranuleSpatial-NorthLat'][0] }} {{ granule['GranuleSpatial-EastLon'][0] }}</gml:upperCorner>
+</gml:Envelope>
+</georss:where>
+{% endif %}
+<enclosure url="{{ granule['GranuleLink'] }}" length="{{ granule['GranuleFileSize']['DATA'] }}" type="application/x-{{ doc['DatasetPolicy-DataFormat'][0].lower() }}"/>
+<description>{{ granule['Granule-Name'][0] }}</description>
+<guid isPermaLink="true">{{ granule['GranuleLink'] }}</guid>
+<pubDate>{{ granule['Granule-ArchiveTimeLong'][0] }}</pubDate>
+<source url="{{ DatasetPortalPage }}">{{ doc['Dataset-LongName'][0] }}</source>
+</item>
+{% endfor %}
+</channel>
+</rss>
+{% endif %}

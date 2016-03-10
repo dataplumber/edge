@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed esipdiscovery:version="1.2"
+      xmlns="http://www.w3.org/2005/Atom"
+      xmlns:dc="http://purl.org/dc/terms/"
+      xmlns:echo="http://www.echo.nasa.gov/esip"
+      xmlns:gibs="http://gibs.jpl.nasa.gov/esip" 
+      xmlns:esipdiscovery="http://commons.esipfed.org/ns/discovery/1.2/"
+      xmlns:georss="http://www.georss.org/georss/10"
+      xmlns:gml="http://www.opengis.net/gml"
+      xmlns:os="http://a9.com/-/spec/opensearch/1.1/"
+      xmlns:time="http://a9.com/-/opensearch/extensions/time/1.0/">
+   <updated>{{ updated }}</updated>
+   <id>https://api.echo.nasa.gov:443/opensearch/datasets.atom</id>
+   <author>
+      <name>GIBS</name>
+      <email>support@echo.nasa.gov</email>
+   </author>
+   <title type="text">GIBS Product Metadata</title>
+   <os:totalResults>{{ numFound }}</os:totalResults>
+   <os:itemsPerPage>{{ itemsPerPage }}</os:itemsPerPage>
+   <os:startIndex>{{ startIndex }}</os:startIndex>
+   <os:Query role="request"
+             xmlns:echo="http://www.echo.nasa.gov/esip"
+             xmlns:geo="http://a9.com/-/opensearch/extensions/geo/1.0/"
+             xmlns:time="http://a9.com/-/opensearch/extensions/time/1.0/" />
+   <subtitle type="text">Search parameters: None</subtitle>
+   <link href="{{ myself }}" hreflang="en-US" rel="self" type="application/atom+xml" />
+   {% if last %}<link href="{{ last }}" hreflang="en-US" rel="last" type="application/atom+xml" />{% endif %}
+   {% if prev %}<link href="{{ prev }}" hreflang="en-US" rel="previous" type="application/atom+xml" />{% endif %}
+   {% if next %}<link href="{{ next }}" hreflang="en-US" rel="next" type="application/atom+xml" />{% endif %}
+   {% if first %}<link href="{{ first }}" hreflang="en-US" rel="first" type="application/atom+xml" />{% endif %}
+   <link href="https://wiki.earthdata.nasa.gov/display/echo/Open+Search+API+release+information"
+         hreflang="en-US" rel="describedBy" title="Release Notes" type="text/html" />
+   {% for doc in docs %}
+      <entry>
+         <id>{{ link }}?id={{ doc['product_id'] }}</id>
+         <dc:identifier>{{ doc['product_name'] }}</dc:identifier>
+         <author>
+            <name>GIBS</name>
+            <email>support@echo.nasa.gov</email>
+         </author>
+         <title type="text">{{ doc['product_name'] }}</title>
+         <summary type="text">{{ 'summary: ' + doc['product_name'] }}</summary>
+         <updated>{{ doc['product_meta_history_last_revision_date_string'] }}</updated>
+         <echo:shortName>{{ doc['product_name'] }}</echo:shortName>
+         <echo:longName>{{ doc['product_root_path'] + '/' + doc['product_name'] }}</echo:longName>
+         <echo:versionId>{{ doc['product_version'] }}</echo:versionId>
+         {% for i in range(doc['product_granule_dataset_id_list']|count)  %}
+            <gibs:cmr>
+               {% if doc['cmr_dataset_id'] %}<echo:datasetId>{{ doc['cmr_dataset_id'][i] }}</echo:datasetId>
+               {% else %}<echo:datasetId />{% endif %}
+               {% if doc['cmr_title'] %}<echo:description>{{ doc['cmr_title'][i] + ' : ' + doc['cmr_time_start'][i] + ' to ' +  doc['cmr_time_end'][i]}}</echo:description>
+               {% else %}<echo:description />{% endif %}
+               {% if doc['cmr_updated'] %}<echo:lastUpdate>{{ doc['cmr_updated'][i] }}</echo:lastUpdate>
+               {% else %}<echo:lastUpdate />{% endif %}
+               {% if doc['cmr_data_center'] %}<echo:dataCenter>{{ doc['cmr_data_center'][i] }}</echo:dataCenter>
+               {% else %}<echo:dataCenter />{% endif %}
+               {% if doc['cmr_original_format'] %}<echo:originalFormat>{{ doc['cmr_original_format'][i] }}</echo:originalFormat>
+               {% else %}<echo:originalFormat />{% endif %}
+               {% if doc['cmr_coordinate_system'] %}<echo:coordinateSystem>{{ doc['cmr_coordinate_system'][i] }}</echo:coordinateSystem>
+               {% else %}<echo:coordinateSystem />{% endif %}
+               {% if doc['cmr_online_access_flag'] %}<echo:onlineAccessFlag>{{ doc['cmr_online_access_flag'][i] }}</echo:onlineAccessFlag>
+               {% else %}<echo:onlineAccessFlag />{% endif %}
+               {% if doc['cmr_browse_flag'] %}<echo:browseFlag>{{ doc['cmr_browse_flag'][i] }}</echo:browseFlag>
+               {% else %}<echo:browseFlag />{% endif %}
+               {% if doc['cmr_boxes'] %}
+                  {% for box in doc['cmr_boxes'][i] %}
+                     <georss:box>{{ box }}</georss:box>
+                  {% endfor %}
+               {% else %}<georss:box />{% endif %}
+               {% if doc['cmr_links'] %}
+                  {% for cmr_link in doc['cmr_links'][i] %}
+                     <link href="{{ cmr_link['href'] }}" hreflang="en-US" rel="enclosure" title="{{ cmr_link['title'] }}" />
+                  {% endfor %}
+               {% endif %} 
+             </gibs:cmr>
+         {% endfor %}
+      <link href="{{ serviceUrl }}/ws/search/product?id={{ doc['id'] }}&amp;pretty=true"
+            hreflang="en-US" rel="enclosure" title="Product Search" type="application/xml" pretty="true" />  
+      <link href="{{ serviceUrl }}/ws/metadata/product?id={{ doc['id'] }}&amp;pretty=true"
+            hreflang="en-US" rel="alternate" title="Product metadata" type="application/xml" />
+      <dc:date>{{ doc['product_start_time_string'] }}/{{ doc['product_end_time_string'] }}</dc:date>
+   </entry>
+   {% endfor %}
+</feed>

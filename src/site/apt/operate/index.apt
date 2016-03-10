@@ -1,0 +1,344 @@
+~~ Copyright 2010, by the California Institute of Technology.
+~~ ALL RIGHTS RESERVED. United States Government Sponsorship acknowledged.
+~~
+~~ $Id: $
+
+  ---
+  Operation
+  ---
+  Atsuya Takagi
+  ---
+  
+Overview
+
+   Operation for the OCSI program set.
+
+
+* OCSI
+
+   To run the OCSI program set, execute following command. It is assumed that $TORNADO_HOME is pointing to where Tornado is installed, $JINJA_HOME is where jinja2 is installed, and $OCSI_HOME is pointing to where the OCSI program set is installed.
+
++--
+% cd $OCSI_HOME
+% setenv PYTHONPATH $PYTHONPATH:libraries:$TORNADO_HOME:$JINJA_HOME
+% python server.py
++--
+
+   The command above starts up Tornado with the opensearch module. Use Ctrl+C or kill command to terminate the server.
+
+
+* OpenSearch Module for Dataset
+
+   Once the server is started, try to access "http://localhost:8890/ws/search/dataset?format=[rss|atom]&search=ocean" for example to see if it returns anything. Note that to get RSS feed, access it with "format=rss" and "format=atom" for Atom feed.
+
+   * Parameters
+
+      Parameters supported for opensearch are:
+
+      * keyword
+      
+         keyword specifies search text to search for datasets.
+
+      * startTime
+
+         start time in the format of YYYY-MM-DDTHH:mm:ssZ. 'Z' is the time-offset, where 'Z' signifies UTC or an actual offset can be used.
+
+      * endTime
+
+         stop time in the format of YYYY-MM-DDTHH:mm:ssZ. 'Z' is the time-offset, where 'Z' signifies UTC or an actual offset can be used.
+
+      * startIndex
+
+         start index of entries found for search.
+
+      * itemsPerPage
+
+         number of results per page for opensearch result.
+
+      * datasetId
+
+         dataset persistent ID.
+
+      * shortName
+
+         dataset shortname.
+
+      * instrument
+
+         dataset instrument.
+
+      * satellite
+
+         dataset satellite.
+
+      * fileFormat
+
+         dataset data format e.g. HDF, NetCDF.
+
+      * status
+
+         dataset status; only OPEN, PREVIEW, SIMULATED, REMOTE is supported.
+
+      * processLevel
+
+         dataset processing level e.g. 1, 2P.
+
+      * pretty
+
+         "true" to enable pretty output for xml.
+
+      * format
+
+         response format. Possible values are: atom, rss. If format is not specified, default response format is atom.
+
+      * sortBy
+
+         determines ordering of response. Possible values are: timeAsc, timeDesc, popularityAsc, popularityDesc. If sortBy is not specified, default sort order is by Apache Solr's score (most relevant dataset first).
+
+      * bbox
+
+        bounding box for spatial search. format should look like "bbox=0.0,-45.0,180.0,40.0" which is in order of west, south, east, north. Longitude values needs to be in range of [-180.0,180.0].
+
+      * full
+
+        "true" to return response with complete PO.DAAC metadata per entry.
+
+   * Examples
+   
+      * To search dataset that matches a term ocean (RSS)
+      
+         * curl -X GET "http://localhost:8890/ws/search/dataset?format=rss&keyword=ocean"
+
+      * To search dataset that matches a term ocean (Atom)
+      
+         * curl -X GET "http://localhost:8890/ws/search/dataset?format=atom&keyword=ocean"
+
+
+* OpenSearch Module for Granule
+
+   Once the server is started, try to access "http://localhost:8890/ws/search/granule?format=[rss|atom]&datasetId=PODAAC-GH16G-2PE01" for example to see if it returns anything. Note that to get RSS feed, access it with "format=rss" and "format=atom" for Atom feed.
+
+   * Parameters
+
+      Parameters supported for opensearch are:
+
+      * keyword
+      
+         search specifies search text to search for granules.
+
+      * startTime
+
+         lower bound for the granule start time in the format of YYYY-MM-DDTHH:mm:ssZ. 'Z' is the time-offset, where 'Z' signifies UTC or an actual offset can be used.
+
+      * endTime
+
+         upper bound for the granule start time in the format of YYYY-MM-DDTHH:mm:ssZ. 'Z' is the time-offset, where 'Z' signifies UTC or an actual offset can be used.
+
+      * startIndex
+
+         start index of entries found for search.
+
+      * itemsPerPage
+
+         number of results per page for opensearch result.
+
+      * datasetId
+
+         dataset persistent ID.
+
+      * shortName
+
+         dataset shortname.
+
+      * granuleName
+
+         granule name.
+
+      * pretty
+
+        "true" to enable pretty output for xml.
+
+      * bbox
+
+        bounding box for spatial search. format should look like "bbox=0.0,-45.0,190.0,40.0" which is in order of west, south, east, north. Longitude values needs to be in range of [-180.0,180.0].
+
+      * format
+
+         response format. Possible values are: atom, rss. If format is not specified, default response format is atom.
+
+      * sortBy
+
+         determines ordering of response. Possible values are: timeAsc, timeDesc. If sortBy is not specified, default sort order is timeDesc.
+
+      * full
+
+        "true" to return response with complete PO.DAAC metadata per entry.
+
+      Note that either datasetId or shortName must be specified.
+
+   * Examples
+   
+      * To search granules in dataset with persistent ID "PODAAC-GHMG2-2PO01" from start time of Dec 1 00:00:00 UTC 2010 to start time of Dec 2 23:59:59 UTC 2010 (RSS)
+      
+         * curl -X GET "http://localhost:8890/ws/search/granule?format=rss&datasetId=PODAAC-GHMG2-2PO01&startTime=2010-12-01T00:00:00Z&endTime=2010-12-02T23:59:59Z"
+
+      * To search granules in dataset with persistent ID "PODAAC-GHMG2-2PO01" from start time of Dec 1 00:00:00 UTC 2010 to start time of Dec 2 23:59:59 UTC 2010 (Atom)
+      
+         * curl -X GET "http://localhost:8890/ws/search/granule?format=atom&datasetId=PODAAC-GHMG2-2PO01&startTime=2010-12-01T00:00:00Z&endTime=2010-12-02T23:59:59Z"
+
+      * To search granules in dataset with persistent ID "PODAAC-GHAMS-2PE01" which intersects bounding box of 0.0, -45.0, 180.0, 40.0 (RSS) 
+      
+         * curl -X GET "http://localhost:8890/ws/search/granule?format=rss&datasetId=PODAAC-GHAMS-2PE01&bbox=0.0,-45.0,180.0,40.0"
+
+      * To search granules in dataset with persistent ID "PODAAC-GHAMS-2PE01" which intersects bounding box of 0.0, -45.0, 180.0, 40.0 (Atom) 
+      
+         * curl -X GET "http://localhost:8890/ws/search/granule?format=atom&datasetId=PODAAC-GHAMS-2PE01&boundingBox=0.0,-45.0,180.0,40.0"
+
+
+* ISO 19115 and GCMD DIF for Dataset
+
+   To retrieve an ISO 19115/GCMD DIF record for a given dataset, access "http://localhost:8890/ws/metadata/dataset?format=[iso|gcmd]&datasetId=[dataset persistent ID]" Note that to get ISO format, access it with "format=iso" and "format=gcmd" for GCMD DIF format.
+
+   * Parameters
+
+      Parameters supported for ISO 19115/GCMD DIF are:
+
+      * datasetId
+
+         dataset persistent ID.
+
+      * shortName
+
+         dataset shortname.
+
+      * allowNone
+
+         Parameter supported for GCMD DIF only. "true" to allow DIF elements with n/a, none or null values. Default is "false".
+
+   * Examples
+
+      * To retrieve the GCMD DIF record for dataset with persistent ID "PODAAC-GHMG2-2PO01"
+
+         * curl -X GET "http://localhost:8890/ws/metadata/dataset?format=gcmd&datasetId=PODAAC-GHMG2-2PO01"
+
+      * To retrieve the GCMD DIF record for dataset with shortname "OSDPD-L2P-MSG02"
+      
+         * curl -X GET "http://localhost:8890/ws/metadata/dataset?format=gcmd&shortName=OSDPD-L2P-MSG02"
+
+      * To retrieve the ISO 19115 record for dataset with persistent ID "PODAAC-GHMG2-2PO01"
+
+         * curl -X GET "http://localhost:8890/ws/metadata/dataset?format=iso&datasetId=PODAAC-GHMG2-2PO01"
+
+      * To retrieve the ISO 19115 record for dataset with shortname "OSDPD-L2P-MSG02"
+      
+         * curl -X GET "http://localhost:8890/ws/metadata/dataset?format=iso&shortName=OSDPD-L2P-MSG02"
+
+
+* ISO 19115 for Granule
+
+   To retrieve an ISO 19115 record for a given granule, access "http://localhost:8890/ws/metadata/granule?format=iso&name=[granule name]"
+
+   * Parameters
+
+      Parameters supported for ISO 19115 are:
+
+      * datasetId
+
+         dataset persistent ID.
+
+      * shortName
+
+         dataset shortname.
+
+      * granuleName
+
+         granule name.
+
+   * Examples
+   
+      * To retrieve the ISO 19115 record for granule "20100309-MODIS_A-JPL-L2P-A2010068015500.L2_LAC_GHRSST_N-v01.nc" belonging to dataset with persistent ID "PODAAC-GHMDA-2PJ01"
+      
+         * curl -X GET "http://localhost:8890/ws/metadata/granule?format=iso&datasetId=PODAAC-GHMDA-2PJ01&granuleName=20100309-MODIS_A-JPL-L2P-A2010068015500.L2_LAC_GHRSST_N-v01.nc"
+
+
+* FGDC for Granule
+
+   To retrieve an FGDC record, access "http://localhost:8890/ws/metadata/granule?format=fgdc" and in addition provide the following parameters:
+
+   * Parameters
+
+      Parameters supported for FGDC are:
+
+      * itemsPerPage
+
+         number of granules to return for FGDC record.
+
+      * datasetId
+
+         dataset persistent ID.
+
+      * shortName
+
+         dataset shortname.
+
+      * granuleName
+
+         granule name.
+
+      * startTime
+
+         lower bound for the granule start time in the format of YYYY-MM-DDTHH:mm:ssZ. 'Z' is the time-offset, where 'Z' signifies UTC or an actual offset can be used.
+
+      * endTime
+
+         upper bound for the granule start time time in the format of YYYY-MM-DDTHH:mm:ssZ. 'Z' is the time-offset, where 'Z' signifies UTC or an actual offset can be used.
+
+      * sortBy
+
+         determines ordering of response. Possible values are: timeAsc, timeDesc. If sortBy is not specified, default sort order is timeDesc.
+
+   * Examples
+
+      * To retrieve the FGDC record for granules with start time between Feb 1 00:00:00 UTC 2011 to Feb 1 23:59:59 UTC 2011 for dataset with shortname "JPL-L2P-MODIS_A"
+
+         * curl -X GET "http://localhost:8890/ws/metadata/granule?format=fgdc&shortName=JPL-L2P-MODIS_A&startTime=2011-02-01T00:00:00Z&endTime=2011-02-01T23:59:59Z&itemsPerPage=500"
+
+           Note that numberOfResults parameter is set to 500, which means at most 500 granules will be returned for the single FGDC record.
+
+* Datacasting for Granule
+
+   To retrieve a Datacasting feed, access "http://localhost:8890/ws/metadata/granule?format=datacasting" and in addition provide the following parameters:
+
+   * Parameters
+
+      Parameters supported for Datacasting are:
+
+      * datasetId
+
+         dataset persistent ID.
+
+      * shortName
+
+         dataset shortname.
+
+      * pretty
+
+        "true" to enable pretty output for xml. Default is "true".
+
+   * Examples
+
+      * To retrieve the Datacasting feed of granules belonging to dataset with shortname "JPL-L2P-MODIS_A"
+
+         * curl -X GET "http://localhost:8890/ws/metadata/granule?format=datacasting&shortName=JPL-L2P-MODIS_A"
+
+* Passthrough Module
+
+   Once the server is started, try to access "http://localhost:8890/passthrough/p.pt?url=http://google.com/" for example to see if it returns anything.
+
+   * Parameters
+
+      Parameters supported for opensearch are:
+
+      * url
+
+         url to fetch the response from.

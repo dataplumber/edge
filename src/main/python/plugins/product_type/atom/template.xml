@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed esipdiscovery:version="1.2"
+      xmlns="http://www.w3.org/2005/Atom"
+      xmlns:dc="http://purl.org/dc/terms/"
+      xmlns:echo="http://www.echo.nasa.gov/esip"
+      xmlns:gibs="http://gibs.jpl.nasa.gov/esip" 
+      xmlns:esipdiscovery="http://commons.esipfed.org/ns/discovery/1.2/"
+      xmlns:georss="http://www.georss.org/georss/10"
+      xmlns:gml="http://www.opengis.net/gml"
+      xmlns:os="http://a9.com/-/spec/opensearch/1.1/"
+      xmlns:time="http://a9.com/-/opensearch/extensions/time/1.0/">
+   <updated>{{ updated }}</updated>
+   <id>https://api.echo.nasa.gov:443/opensearch/datasets.atom</id>
+   <author>
+      <name>GIBS</name>
+      <email>support@echo.nasa.gov</email>
+   </author>
+   <title type="text">GIBS Product Type Metadata</title>
+   <os:totalResults>{{ numFound }}</os:totalResults>
+   <os:itemsPerPage>{{ itemsPerPage }}</os:itemsPerPage>
+   <os:startIndex>{{ startIndex }}</os:startIndex>
+   <os:Query role="request"
+             xmlns:echo="http://www.echo.nasa.gov/esip"
+             xmlns:geo="http://a9.com/-/opensearch/extensions/geo/1.0/"
+             xmlns:time="http://a9.com/-/opensearch/extensions/time/1.0/" />
+   <subtitle type="text">Search parameters: None</subtitle>
+   <link href="{{ myself }}" hreflang="en-US" rel="self" type="application/atom+xml" />
+   {% if last %}<link href="{{ last }}" hreflang="en-US" rel="last" type="application/atom+xml" />{% endif %}
+   {% if prev %}<link href="{{ prev }}" hreflang="en-US" rel="previous" type="application/atom+xml" />{% endif %}
+   {% if next %}<link href="{{ next }}" hreflang="en-US" rel="next" type="application/atom+xml" />{% endif %}
+   {% if first %}<link href="{{ first }}" hreflang="en-US" rel="first" type="application/atom+xml" />{% endif %}
+   <link href="https://wiki.earthdata.nasa.gov/display/echo/Open+Search+API+release+information"
+         hreflang="en-US" rel="describedBy" title="Release Notes" type="text/html" />
+   {% for doc in docs %}
+      <entry>
+         <id>{{ link }}?id={{ doc['product_type_id'] }}</id>
+         <dc:identifier>{{ doc['product_type_identifier'] }}</dc:identifier>
+         <author>
+            <name>GIBS</name>
+            <email>support@echo.nasa.gov</email>
+         </author>
+         <title type="text">{{ doc['product_type_title'] }}</title>
+         {% if doc['product_type_description'] and doc['product_type_description'] != 'null' %}
+            <summary type="text">{{ 'summary: ' + doc['product_type_description'] }}</summary>
+         {% elif doc['product_type_description'] == 'null' %}
+            <summary type="text">{{ 'summary: product_type_description is set to \'null\' in the database for product_type_id:[' + doc['product_type_id'] + ']' }} </summary>
+         {% else %}
+            <summary type="text">{{ 'summary: product_type_description is not in the database for product_type_id:[' + doc['product_type_id'] + ']' }} </summary>
+         {% endif %}
+         <updated>{{ doc['product_type_last_updated_string'] }}</updated>
+         {% for i in range(doc['product_type_dataset_id_list']|count)  %}
+             <gibs:cmr>
+               {% if doc['cmr_dataset_id'] %}<echo:datasetId>{{ doc['cmr_dataset_id'][i] }}</echo:datasetId>
+               {% else %}<echo:datasetId />{% endif %}
+               {% if doc['cmr_summary'] %}<echo:description>{{ doc['cmr_summary'][i] }}</echo:description>
+               {% else %}<echo:description />{% endif %}
+               {% if doc['cmr_short_name'] %}<echo:shortName>{{ doc['cmr_short_name'][i] }}</echo:shortName>
+               {% else %}<echo:shortName />{% endif %}
+               {% if doc['cmr_title'] %}<echo:longName>{{ doc['cmr_title'][i] }}</echo:longName>
+               {% else %}<echo:longName />{% endif %}
+               {% if doc['cmr_version_id'] %}<echo:versionId>{{ doc['cmr_version_id'][i] }}</echo:versionId>
+               {% else %}<echo:versionId />{% endif %}
+               {% if doc['cmr_updated'] %}<echo:lastUpdate>{{ doc['cmr_updated'][i] }}</echo:lastUpdate>
+               {% else %}<echo:lastUpdate />{% endif %}
+               {% if doc['cmr_data_center'] %}<echo:dataCenter>{{ doc['cmr_data_center'][i] }}</echo:dataCenter>
+               {% else %}<echo:dataCenter />{% endif %}
+               {% if doc['cmr_original_format'] %}<echo:originalFormat>{{ doc['cmr_original_format'][i] }}</echo:originalFormat>
+               {% else %}<echo:originalFormat />{% endif %}
+               {% if doc['cmr_orbit_parameters'] %}
+                  {% if doc['cmr_orbit_parameters'][i] != {} %}<echo:orbitParameters>{{ doc['cmr_orbit_parameters'][i] }}</echo:orbitParameters>
+                  {% else %}<echo:orbitParameters />{% endif %}
+               {% else %}<echo:orbitParameters />{% endif %}
+               {% if doc['cmr_score'] %}<echo:score>{{ doc['cmr_score'][i] }}</echo:score>{% else %}<echo:score />{% endif %}
+               {% if doc['cmr_processing_level_id'] %}<echo:processingLevelId>{{ doc['cmr_processing_level_id'][i] }}</echo:processingLevelId>
+               {% else %}<echo:processingLevelId />{% endif %}
+               {% if doc['cmr_coordinate_system'] %}<echo:coordinateSystem>{{ doc['cmr_coordinate_system'][i] }}</echo:coordinateSystem>
+               {% else %}<echo:coordinateSystem />{% endif %}
+               {% if doc['cmr_online_access_flag'] %}<echo:onlineAccessFlag>{{ doc['cmr_online_access_flag'][i] }}</echo:onlineAccessFlag>
+               {% else %}<echo:onlineAccessFlag />{% endif %}
+               {% if doc['cmr_browse_flag'] %}<echo:browseFlag>{{ doc['cmr_browse_flag'][i] }}</echo:browseFlag>
+               {% else %}<echo:browseFlag />{% endif %}
+               {% if doc['cmr_boxes'] %}
+                  {% for box in doc['cmr_boxes'][i] %}
+                     <georss:box>{{ box }}</georss:box>
+                  {% endfor %}
+               {% else %}<georss:box />{% endif %} 
+               {% if doc['cmr_links'] %}
+                  {% for cmr_link in doc['cmr_links'][i] %}
+                     <link href="{{ cmr_link['href'] }}" hreflang="en-US" rel="enclosure" title="{{ cmr_link['title'] }}" />
+                  {% endfor %}
+               {% endif %} 
+             </gibs:cmr>
+         {% endfor %}
+         {% if doc['product_type_metadata_platform'] %}
+            <echo:platform>{{ doc['product_type_metadata_platform'] }}</echo:platform>
+         {% else %}
+            <echo:platform>{{ 'platform: product_type_metadata_platform is not in the database' }}</echo:platform>
+         {% endif %}
+         {% if doc['product_type_metadata_instrument'] %}
+            <echo:instrument>{{ doc['product_type_metadata_instrument'] }}</echo:instrument>
+         {% else %}
+            <echo:instrument>{{ 'instrument: product_type_metadata_instrument is not in the database' }}</echo:instrument>
+         {% endif %}
+         {% if doc['product_type_policy_data_format'] %}
+            <echo:dataFormat>{{ doc['product_type_policy_data_format'] }}</echo:dataFormat>
+         {% else %}
+            <echo:dataFormat>{{ 'dataFormat: product_type_policy_data_format is not in the database' }}</echo:dataFormat>
+         {% endif %}
+         <link href="{{ serviceUrl }}/ws/metadata/product_type?id={{ doc['id'] }}&amp;pretty=true"
+               hreflang="en-US" rel="alternate" title="Product Type metadata" type="application/xml" />
+         <link href="{{ serviceUrl }}/ws/search/product?product_pt_id={{ doc['id'] }}&amp;pretty=true"
+               hreflang="en-US" rel="enclosure" title="Product Search" type="application/xml" pretty="true" />
+         <dc:date>{{ doc['product_type_last_updated_string'] }}</dc:date>
+      </entry>
+   {% endfor %}
+</feed>

@@ -1,0 +1,144 @@
+~~ Copyright 2010, by the California Institute of Technology.
+~~ ALL RIGHTS RESERVED. United States Government Sponsorship acknowledged.
+~~
+~~ $Id: $
+
+  ---
+  Installation
+  ---
+  Atsuya Takagi
+  ---
+
+{Installation}
+
+   This document describes how to install and configure the OCSI program set. The following sections can be found in this document:
+
+   * {{{Preparations}Preparations}}
+
+   * {{{Configurations}Configurations}}
+
+
+{Preparations}
+
+   The OCSI program set is using Tornado and it is given that Tornado is installed for a target environment. It is assumed that $TORNADO_HOME is where Tornado is installed.
+
+   Before running the OCSI program set, bunch of python files need to be copied. It is assumed that $OCSI_HOME is where the files are copied to.
+
++--
+% cp -r src/main/python/* $OCSI_HOME
++--
+         
+
+{Configurations}
+
+* OCSI
+
+   $OCSI_HOME/config.conf contains server level configuration.
+
++--
+[server]
+port=8890
+host=localhost
++--
+
+   "port" is the port number to bind to, and "host" is hostname to bind to.
+
+   $OCSI_HOME/logging.conf contains logging related configuration.
+
++--
+[handler_timedRotatingFileHandler]
+class=handlers.TimedRotatingFileHandler
+level=DEBUG
+formatter=simpleFormatter
+args=(r'./tornado.log', 'midnight', 1, 30)
++--
+
+   './tornado.log' can be updated to different log file name if needed. Change 'level=DEBUG' to appropriate logging level that you are looking for. Setting it to be 'ERROR' will reduce significant amount of log messages.
+
+
+* OpenSearch Module for Dataset
+
+   $OCSI_HOME/plugins/dataset/[rss|atom|iso|gcmd]/plugin.conf contains a configuration for opensearch module for dataset.
+
++--
+[solr]
+datasetUrl=http://localhost:8983/solr.war/dataset
+entriesPerPage=7
+
+[portal]
+datasetUrl=http://seastorm:8000/drupal2/dataset
+
+[service]
+url=http://localhost:8890
++--
+
+   "datasetUrl" under "solr" section points to where solr is running for dataset. "entriesPerPage" under "solr" section specifies how many entries are included in each opensearch result. "datasetUrl" under "portal" section points to the url for each dataset. This is a part of url from drupal. "url" under "service" section points to url of itself. This is used to link an entry in opensearch result.
+
+
+* OpenSearch Module for Granule
+
+   $OCSI_HOME/plugins/granule/[rss|atom|iso|fgdc]/plugin.conf contains a configuration for opensearch module for granule.
+
++--
+[solr]
+datasetUrl=http://localhost:8983/solr.war/dataset
+granuleUrl=http://localhost:8983/solr.war/granule
+entriesPerPage=7
+
+[service]
+url=http://localhost:8890
+linkToGranule=LOCAL-FTP,REMOTE-FTP
+database=username/password
++--
+
+   "datasetUrl" under "solr" section points to where solr is running for dataset. "granuleUrl" under "solr" section points to where solr is running for granule. "entriesPerPage" under "solr" section specifies how many entries are included in each opensearch result. "url" under "service" section points to url of itself. This is used to link an entry in opensearch result. "linkToGraule" is list of comma-separated link types of where granule is located.  Links will be checked in same order as specified in "linkToGraule" and search result will show link that is ONLINE.  "database" is the credential to connect to Oracle database. It is used to perform spatial search.
+   
+   $OCSI_HOME/plugins/granule/[atom|rss]/plugin.conf requires "l2" under "service" section, which points to where PO.DAAC L2 Search Service is running. "bbox" under "service" can be set to "database" or "l2" depending on whether L2 granule spatial search is to be performed by Oracle or L2 Search Service respectively.
+   
+   $OCSI_HOME/plugins/granule/datacasting/plugin.conf requires "archivedWithin" under "solr" section. "archivedWithin" is specified in number of hours. As an example, if "archivedWithin" is set to 24, then the Datacasting feed will publish granules that have been archived within the last 24 hours.
+
+
+* Passthrough Module
+
+   $OCSI_HOME/plugins/passthrough/pt/plugin.conf contains a configuration for passthrough module.
+
++--
+[service]
+allow=localhost,seatorm:8000
++--
+
+   "allow" specifies a list of domain name and port number that this module is allowed to access to.
+
+
+{Libraries}
+
+   OCSI depends on libraries.
+
+
+* Tornado
+
+   Go to http://www.tornadoweb.org/ and install it by following installation documentation.
+   
+   The easiest way to install Tornado is to download the file, unarchive it, then copy it to $OCSI_HOME/libraries. Do not forget to add the path to PYTHONPATH if you installed it this way.
+
+
+* Jinja2
+
+   Go to http://jinja.pocoo.org/docs and install it by following installation documentation.
+
+   The easiest way to install Jinja2 is to download the file, unarchive it, then copy it to $OCSI_HOME/libraries. Do not forget to add the path to PYTHONPATH if you installed it this way.
+
+
+* cx_Oracle
+
+   Go to http://cx-oracle.sourceforge.net/ and install it by following installation documentation.
+
+   cx_Oracle consists of C code that actually accesses to Oracle database and Python code that provides an API for developers to use to access Oracle database. Thus, to install cx_Oracle, you need to compile. However, the site provides RPM and SRPM for CentOS, which is binary level compatible Linux distribution, so we might be able to compile the SRPM and install the resulted RPM for our RHEL. Even better, cx_Oracle could be installed with yum if it is already in the list of packages that RedHat provides.
+
+* python-dateutil
+
+   Go to http://pypi.python.org/pypi/python-dateutil and install it by following installation documentation.
+
+* PycURL
+
+   Go to http://pycurl.sourceforge.net/ and install version 7.19.0 by following installation documentation.

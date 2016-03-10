@@ -1,0 +1,41 @@
+{
+"facets":[
+{% for key, facet in facetDefs.iteritems() %}
+{
+"field":"{{ key }}",
+"values":[
+{% if facet == 'GridSpatialResolution' or facet == 'SwathSpatialResolution'  %}
+{% for i in range(facets['facet_fields'][facet]|count, 0, -2) %}
+{
+"count":{{ facets['facet_fields'][facet][i-1] }},
+"value":"{{ facets['facet_fields'][facet][i-2] }}",
+"displayedValue":"{{ facets['facet_fields'][facet][i-2] }}{% if facet == 'GridSpatialResolution' %} degree(s){% endif %}{% if facet == 'SwathSpatialResolution' %} km{% endif %}"
+}
+{% if not loop.last %}
+,
+{% endif %}
+{% endfor %}
+{% else %}
+{% for i in range(0, facets['facet_fields'][facet]|count, 2) %}
+{
+"count":{{ facets['facet_fields'][facet][i+1] }},
+"value":"{{ facets['facet_fields'][facet][i] }}",
+{% if facet == 'ProcessingLevelBin' %}
+"displayedValue":"Level-{{ facets['facet_fields'][facet][i] }}{% if facets['facet_fields'][facet][i] == '2' %} (Swath){% elif facets['facet_fields'][facet][i] == '3' %} (Grid){% elif facets['facet_fields'][facet][i] == '4' %} (Blended){% endif %}"
+{% else %}
+"displayedValue":"{{ facets['facet_fields'][facet][i] }}"
+{% endif %}
+}
+{% if not loop.last %}
+,
+{% endif %}
+{% endfor %}
+{% endif %}
+]
+}
+{% if not loop.last %}
+,
+{% endif %}
+{% endfor %}
+]
+}

@@ -1,0 +1,77 @@
+~~ Copyright 2010, by the California Institute of Technology.
+~~ ALL RIGHTS RESERVED. United States Government Sponsorship acknowledged.
+~~
+~~ $Id:$
+
+  ---
+  Release Description 4.3.0 
+  ---
+  Thomas Huang
+  ---
+  
+Release Description 4.3.0
+
+  This release of the OCSI Program Set is intended as an operational release. The following sections can be found in this document:
+
+  * {{{Capabilities}Capabilities}}
+
+  * {{{Liens}Liens}}
+
+  * {{{System_Requirements}System Requirements}}
+
+
+{Capabilities}
+
+  This section details the new, modified and corrected capabilities that comprise this release of the OCSI Program Set. In lieu of listing the capabilities by requirement they have been summarized. For a complete list of the requirements and their support status, see {{{Appendix_A_-_Requirements_Support}Appendix A}}.
+
+* New Capabilities
+
+   * None
+
+* Modified Capabilities
+
+   * {{{https://podaac-cm/trac/ticket/1508}Trac-1508}} - Remove "N/A" and "none" entries from OCSI GCMD interface.
+
+* Corrected Capabilities
+
+   * {{{https://podaac-cm/trac/ticket/1590}Trac-1590}} - Fix output error on ampersand symbol.
+
+
+{Liens}
+
+  This section details the liens against the capabilities that have yet to be implemented or are partially implemented. In lieu of listing the liens by requirement they have been summarized. For a complete list of the requirements and their support status, see {{{Appendix_A_-_Requirements_Support}Appendix A}}.
+
+  There are no liens for this release.
+
+
+{System Requirements}
+
+  The software contained in this program set was written in Python and will run on any platform with Python enabled environment. The software was specifically developed under Python 2.6.x or 2.7.x and has only been tested with this version.
+
+  * PO.DAAC Standard Computing Environment
+
+  This will eventually be documented on the Wiki and linked to in future releases. For now, the following software and tools should be available in the current environment:
+
+    * Apache Maven 2.2.x
+
+    * Subversion Client 1.4.X
+    
+    * Python 2.6.x or 2.7.x
+
+    * Tornado 1.2.1
+    
+    * Jinja2 2.5.5 (Template engine for python)
+
+    * cx_Oracle 5.1 (Python DB API implementation for python)
+    
+    * python-dateutil 1.5 (Extensions to the standard python 2.3+ datetime module)
+
+    * PycURL 7.19.0 (Python interface to libcurl)
+
+    []
+
+
+{Appendix A - Requirements Support}
+
+  TBD
+

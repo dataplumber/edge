@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DIF xmlns="http://gcmd.gsfc.nasa.gov/Aboutus/xml/dif/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://gcmd.gsfc.nasa.gov/Aboutus/xml/dif/ http://gcmd.nasa.gov/Aboutus/xml/dif/dif_v9.8.2.xsd">
+{% if doc %}
+<Entry_ID>{{ Entry_ID }}</Entry_ID>
+<Entry_Title>{{ Entry_Title }}</Entry_Title>
+{% for citation in Dataset_Citation %}
+<Data_Set_Citation>
+<Dataset_Creator>{{ citation['Dataset_Creator'] }}</Dataset_Creator>
+<Dataset_Title>{{ citation['Dataset_Title'] }}</Dataset_Title>
+{% if citation['Dataset_Series_Name'].strip() %}
+<Dataset_Series_Name>{{ citation['Dataset_Series_Name'] }}</Dataset_Series_Name>
+{% endif %}
+{% if citation['Dataset_Release_Date'].strip() %}
+<Dataset_Release_Date>{{ citation['Dataset_Release_Date'] }}</Dataset_Release_Date>
+{% endif %}
+{% if citation['Dataset_Release_Place'].strip() %}
+<Dataset_Release_Place>{{ citation['Dataset_Release_Place'] }}</Dataset_Release_Place>
+{% endif %}
+{% if citation['Dataset_Publisher'].strip() %}
+<Dataset_Publisher>{{ citation['Dataset_Publisher'] }}</Dataset_Publisher>
+{% endif %}
+<Version>{{ citation['Version'] }}</Version>
+{% if citation['Other_Citation_Details'].strip() %}
+<Other_Citation_Details>{{ citation['Other_Citation_Details'] }}</Other_Citation_Details>
+{% endif %}
+{% if citation['Online_Resource'].strip() %}
+<Online_Resource>{{ citation['Online_Resource'] }}</Online_Resource>
+{% endif %}
+</Data_Set_Citation>
+{% endfor %}
+{% for personnel in Personnel %}
+<Personnel>
+<Role>{{ personnel['Role'] }}</Role>
+<First_Name>{{ personnel['First_Name'] }}</First_Name>
+{% if personnel['Middle_Name'] != 'none' and personnel['Middle_Name'].strip() %}
+<Middle_Name>{{ personnel['Middle_Name'] }}</Middle_Name>
+{% endif %}
+<Last_Name>{{ personnel['Last_Name'] }}</Last_Name>
+<Email>{{ personnel['Email'] }}</Email>
+{% if personnel['Phone'].strip() %}
+<Phone>{{ personnel['Phone'] }}</Phone>
+{% endif %}
+{% if personnel['Fax'].strip() %}
+<Fax>{{ personnel['Fax'] }}</Fax>
+{% endif %}
+</Personnel>
+{% endfor %}
+<Personnel>
+<Role>DIF AUTHOR</Role>
+<First_Name>{{ author['firstname'] }}</First_Name>
+<Last_Name>{{ author['lastname'] }}</Last_Name>
+<Email>{{ author['email'] }}</Email>
+</Personnel>
+{% for parameter in Parameters %}
+<Parameters>
+<Category>{{ parameter['Category'] }}</Category>
+<Topic>{{ parameter['Topic'] }}</Topic>
+<Term>{{ parameter['Term'] }}</Term>
+<Variable_Level_1>{{ parameter['Variable_Level_1'] }}</Variable_Level_1>
+{% if parameter['Detailed_Variable'].strip() %}
+<Detailed_Variable>{{ parameter['Detailed_Variable'] }}</Detailed_Variable>
+{% endif %}
+</Parameters>
+{% endfor %}
+<ISO_Topic_Category>Oceans</ISO_Topic_Category>
+<ISO_Topic_Category>Geoscientific Information</ISO_Topic_Category>
+{% for i in UniqueDatasetSensor %}
+<Sensor_Name>
+<Short_Name>{{ doc['DatasetSource-Sensor-ShortName'][i] }}</Short_Name>
+{% if doc['DatasetSource-Sensor-LongName'][i].strip() %}
+<Long_Name>{{ doc['DatasetSource-Sensor-LongName'][i] }}</Long_Name>
+{% endif %}
+</Sensor_Name>
+{% endfor %}
+{% for i in UniqueDatasetSource %}
+<Source_Name>
+<Short_Name>{{ doc['DatasetSource-Source-ShortName'][i] }}</Short_Name>
+{% if doc['DatasetSource-Source-LongName'][i].strip() %}
+<Long_Name>{{ doc['DatasetSource-Source-LongName'][i] }}</Long_Name>
+{% endif %}
+</Source_Name>
+{% endfor %}
+<Temporal_Coverage>
+<Start_Date>{{ Start_Date }}</Start_Date>
+{% if Stop_Date %}
+<Stop_Date>{{ Stop_Date }}</Stop_Date>
+{% endif %}
+</Temporal_Coverage>
+<Spatial_Coverage>
+{% if doc['DatasetCoverage-SouthLat'][0].strip() %}
+<Southernmost_Latitude>{{ doc['DatasetCoverage-SouthLat'][0] }}</Southernmost_Latitude>
+{% endif %}
+{% if doc['DatasetCoverage-NorthLat'][0].strip() %}
+<Northernmost_Latitude>{{ doc['DatasetCoverage-NorthLat'][0] }}</Northernmost_Latitude>
+{% endif %}
+{% if doc['DatasetCoverage-WestLon'][0].strip() %}
+<Westernmost_Longitude>{{ doc['DatasetCoverage-WestLon'][0] }}</Westernmost_Longitude>
+{% endif %}
+{% if doc['DatasetCoverage-EastLon'][0].strip() %}
+<Easternmost_Longitude>{{ doc['DatasetCoverage-EastLon'][0] }}</Easternmost_Longitude>
+{% endif %}
+{% if doc['DatasetCoverage-MinAltitude'][0].strip() %}
+<Minimum_Altitude>{{ doc['DatasetCoverage-MinAltitude'][0] }}</Minimum_Altitude>
+{% endif %}
+{% if doc['DatasetCoverage-MaxAltitude'][0].strip() %}
+<Maximum_Altitude>{{ doc['DatasetCoverage-MaxAltitude'][0] }}</Maximum_Altitude>
+{% endif %}
+{% if doc['DatasetCoverage-MinDepth'][0].strip() %}
+<Minimum_Depth>{{ doc['DatasetCoverage-MinDepth'][0] }}</Minimum_Depth>
+{% endif %}
+{% if doc['DatasetCoverage-MaxDepth'][0].strip() %}
+<Maximum_Depth>{{ doc['DatasetCoverage-MaxDepth'][0] }}</Maximum_Depth>
+{% endif %}
+</Spatial_Coverage>
+<Location>
+<Location_Category>Geographic Region</Location_Category>
+{% if 'DatasetRegion-Region' in doc %}
+<Location_Type>{{ doc['DatasetRegion-Region'][0] }}</Location_Type>
+{% endif %}
+</Location>
+<Data_Resolution>
+{% if doc['Dataset-LatitudeResolution'][0].strip() %}
+<Latitude_Resolution>{{ doc['Dataset-LatitudeResolution'][0] }}</Latitude_Resolution>
+{% endif %}
+{% if doc['Dataset-LongitudeResolution'][0].strip() %}
+<Longitude_Resolution>{{ doc['Dataset-LongitudeResolution'][0] }}</Longitude_Resolution>
+{% endif %}
+{% if doc['Dataset-HorizontalResolutionRange'][0].strip() %}
+<Horizontal_Resolution_Range>{{ doc['Dataset-HorizontalResolutionRange'][0] }}</Horizontal_Resolution_Range>
+{% endif %}
+{% if doc['Dataset-TemporalResolution'][0].strip() %}
+<Temporal_Resolution>{{ doc['Dataset-TemporalResolution'][0] }}</Temporal_Resolution>
+{% endif %}
+{% if doc['Dataset-TemporalResolutionRange'][0].strip() %}
+<Temporal_Resolution_Range>{{ doc['Dataset-TemporalResolutionRange'][0] }}</Temporal_Resolution_Range>
+{% endif %}
+</Data_Resolution>
+{% for project in Project %}
+<Project>
+<Short_Name>{{ project['Short_Name'] }}</Short_Name>
+<Long_Name>{{ project['Long_Name'] }}</Long_Name>
+</Project>
+{% endfor %}
+<Access_Constraints>{{ doc['DatasetPolicy-AccessConstraint'][0] }}</Access_Constraints>
+<Use_Constraints>{{ doc['DatasetPolicy-UseConstraint'][0] }}</Use_Constraints>
+<Data_Set_Language>English</Data_Set_Language>
+{% if doc['Dataset-OriginalProvider'][0].strip() %}
+<Originating_Center>{{ doc['Dataset-OriginalProvider'][0] }}</Originating_Center>
+{% endif %}
+{% macro buildDataCenter(dataCenter) %}
+<Data_Center>
+<Data_Center_Name>
+<Short_Name>{{ dataCenter['shortname'] }}</Short_Name>
+<Long_Name>{{ dataCenter['longname'] }}</Long_Name>
+</Data_Center_Name>
+<Data_Center_URL>{{ dataCenter['url'] }}</Data_Center_URL>
+<Personnel>
+<Role>Data Center Contact</Role>
+<First_Name>{{ dataCenter['firstname'] }}</First_Name>
+<Last_Name>{{ dataCenter['lastname'] }}</Last_Name>
+<Email>{{ dataCenter['email'] }}</Email>
+</Personnel>
+</Data_Center>
+{% endmacro %}
+{% if doc['DatasetPolicy-AccessType'][0] != 'REMOTE' %}
+{{ buildDataCenter(podaac) }}
+{% if doc['DatasetProject-Project-ShortName'][0] == 'GHRSST' and doc['DatasetPolicy-DataClass'][0] == 'ROLLING-STORE' %}
+{{ buildDataCenter(nodc) }}
+{% endif %}
+{% else %}
+<Data_Center>
+<Data_Center_Name>
+<Short_Name>{{ doc['Dataset-Provider-ShortName'][0] }}</Short_Name>
+<Long_Name>{{ doc['Dataset-Provider-LongName'][0] }}</Long_Name>
+</Data_Center_Name>
+{% if 'Dataset-Provider-ProviderResource-Path' in doc %}
+<Data_Center_URL>{{ doc['Dataset-Provider-ProviderResource-Path'][0] }}</Data_Center_URL>
+{% endif %}
+{% if doc['Dataset-ProviderDatasetName'][0].strip() %}
+<Data_Set_ID>{{ doc['Dataset-ProviderDatasetName'][0] }}</Data_Set_ID>
+{% endif %}
+{% if Provider_Personnel %}
+<Personnel>
+<Role>Data Center Contact</Role>
+<First_Name>{{ Provider_Personnel['First_Name'] }}</First_Name>
+{% if Provider_Personnel['Middle_Name'] != 'none' and Provider_Personnel['Middle_Name'].strip() %}
+<Middle_Name>{{ Provider_Personnel['Middle_Name'] }}</Middle_Name>
+{% endif %}
+<Last_Name>{{ Provider_Personnel['Last_Name'] }}</Last_Name>
+<Email>{{ Provider_Personnel['Email'] }}</Email>
+{% if Provider_Personnel['Phone'].strip() %}
+<Phone>{{ Provider_Personnel['Phone'] }}</Phone>
+{% endif %}
+{% if Provider_Personnel['Fax'].strip() %}
+<Fax>{{ Provider_Personnel['Fax'] }}</Fax>
+{% endif %}
+</Personnel>
+{% endif %}
+</Data_Center>
+{% endif %}
+{% if doc['Dataset-Reference'][0].strip() %}
+<Reference>{{ doc['Dataset-Reference'][0] }}</Reference>
+{% endif %}
+<Summary>
+<Abstract>{{ doc['Dataset-Description'][0] }}</Abstract>
+</Summary>
+<IDN_Node>
+<Short_Name>USA/NASA</Short_Name>
+</IDN_Node>
+<Metadata_Name>CEOS IDN DIF</Metadata_Name>
+<Metadata_Version>9.8</Metadata_Version>
+<DIF_Creation_Date>{{ DIF_Creation_Date }}</DIF_Creation_Date>
+<Last_DIF_Revision_Date>{{ Last_DIF_Revision_Date }}</Last_DIF_Revision_Date>
+<DIF_Revision_History>{{ DIF_Revision_History }}</DIF_Revision_History>
+{% endif %}
+</DIF>

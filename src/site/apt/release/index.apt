@@ -1,0 +1,101 @@
+~~ Copyright 2010, by the California Institute of Technology.
+~~ ALL RIGHTS RESERVED. United States Government Sponsorship acknowledged.
+~~
+~~ $Id: $
+
+  ---
+  Release Description
+  ---
+  Atsuya Takagi
+  ---
+  
+Release Description
+
+  The Release Description Documents (RDDs) detail the new and modified capabilities that comprise a particular OCSI Program Set release.
+
+* Release History
+
+  * Version: {{{./index-4.4.1.html}4.4.1}}
+
+    * Date: 2013-10-24
+
+    * Description: This release of OCSI Program Set is intended as an operational release.
+
+  * Version: {{{./index-4.4.0.html}4.4.0}}
+
+    * Date: 2013-02-13
+
+    * Description: This release of OCSI Program Set is intended as an operational release.
+
+  * Version: {{{./index-4.3.0.html}4.3.0}}
+
+    * Date: 2012-12-03
+
+    * Description: This release of OCSI Program Set is intended as an operational release.
+
+  * Version: {{{./index-4.2.0.html}4.2.0}}
+
+    * Date: 2012-08-31
+
+    * Description: This release of OCSI Program Set is a component of the integrated release ({{{./index-4.2.0.html}4.2.0}}) of the PO.DAAC System.
+
+  * Version: {{{./index-4.1.0.html}4.1.0}}
+
+    * Date: 2012-06-08
+
+    * Description: This release of OCSI Program Set is a component of the integrated release ({{{./index-4.1.0.html}4.1.0}}) of the PO.DAAC System.
+
+  * Version: {{{./index-4.0.0.html}4.0.0}}
+
+    * Date: 2012-03-14
+
+    * Description: This release of OCSI Program Set is a component of the integrated release ({{{./index-4.0.0.html}4.0.0}}) of the PO.DAAC System.
+
+  * Version: {{{./index-3.3.0.html}3.3.0}}
+
+    * Date: 2012-01-20
+
+    * Description: This release adds modifications to opensearch response and interface to enable integration with L2 Granule Search Service.
+
+  * Version: {{{./index-3.2.2.html}3.2.2}}
+
+    * Date: 2011-11-23
+
+    * Description: This release adds modifications to opensearch response, changes how dataset temporal query is evaluated, and caps number of results.
+
+  * Version: {{{./index-3.2.1.html}3.2.1}}
+
+    * Date: 2011-09-30
+
+    * Description: This release adds modifications to opensearch response for bounding box search, FGDC response to conform to DTD and granules sort order in FGDC and ISO response.
+
+  * Version: {{{./index-3.2.0.html}3.2.0}}
+
+    * Date: 2011-08-19
+
+    * Description: This release adds FGDC creation support for exporting granules, support for persistent ID, and case-insensitive search on format, status, and processingLevel parameter.
+
+  * Version: {{{./index-3.1.1.html}3.1.1}}
+
+    * Date: 2011-06-02
+
+    * Description: This release adds ISO support for granule, GCMD DIF support for dataset, and new dataset search parameters.
+    
+  * Version: {{{./index-3.1.0.html}3.1.0}}
+
+    * Date: 2011-04-05
+
+    * Description: This release adds ISO and spatial search support.
+
+  * Version: {{{./index-3.0.0.html}3.0.0}}
+
+    * Date: 2011-01-27
+
+    * Description: This release adds open search support for granules.
+
+  * Version: {{{./index-2.2.1.html}2.2.1}}
+
+    * Date: 2010-11-15
+
+    * Description: This release of the initial release of the OCSI Program Set. This release is NOT intended as an operational release.
+
