@@ -1,0 +1,30 @@
+{
+{% if last %}"last": "{{ last }}",{% endif %}
+{% if prev %}"prev": "{{ prev }}",{% endif %}
+{% if next %}"next": "{{ next }}",{% endif %}
+{% if first %}"first": "{{ first }}",{% endif %}
+"results":[
+{% for doc in docs %}
+{
+"time": "{{ doc['time'] }}",
+"point": "{{ doc['loc'] }}",
+"sea_water_temperature": {{ doc['SST'] | jsonify }},
+"sea_water_temperature_depth": {{ doc['SST_depth'] | jsonify }},
+"wind_speed": {{ doc['wind_speed'] | jsonify }},
+"eastward_wind": {{ doc['wind_u'] | jsonify }},
+"northward_wind": {{ doc['wind_v'] | jsonify }},
+"wind_depth": {{ doc['wind_depth'] | jsonify }},
+"sea_water_salinity": {{ doc['SSS'] | jsonify }},
+"sea_water_salinity_depth": {{ doc['SSS_depth'] | jsonify }},
+"platform": {{ doc['platform'] | jsonify }},
+"mission": {{ doc['mission'] | jsonify }},
+"metadata": "{{ doc['meta'] }}"
+}
+{% if not loop.last %}
+,
+{% endif %}
+{% endfor %}
+]
+,"totalResults":{{ numFound }}
+,"startIndex":{{ startIndex  }}
+,"itemsPerPage":{{ itemsPerPage }}}

@@ -1,0 +1,33 @@
+{
+{% if last %}"last": "{{ last }}",{% endif %}
+{% if prev %}"prev": "{{ prev }}",{% endif %}
+{% if next %}"next": "{{ next }}",{% endif %}
+{% if first %}"first": "{{ first }}",{% endif %}
+"results":[
+{% for doc in docs %}
+{
+"id": "{{ doc['id'] }}",
+"time": "{{ doc['time'] }}",
+"point": "{{ doc['point_srpt'] }}",
+"sea_water_temperature": {% if 'temperature' in doc %}{{ doc['temperature'] | jsonify }}{% elif 'temperature1' in doc %}{{ doc['temperature1'] | jsonify }}{% elif 'TEMP' in doc %}{{ doc['TEMP'] | jsonify }}{% elif 'temperature_ctd' in doc %}{{ doc['temperature_ctd'] | jsonify }}{% else %}null{% endif %},
+"sea_water_temperature_depth": {% if 'temperature' in doc or 'temperature1' in doc or 'TEMP' in doc or 'temperature_ctd' in doc %}{{ doc['depth'] | jsonify }}{% else %}null{% endif %},
+"wind_speed": {{ doc['RELWSPD'] | jsonify }},
+"sea_water_salinity": {% if 'salinity' in doc %}{{ doc['salinity'] | jsonify }}{% elif 'salinity1' in doc %}{{ doc['salinity1'] | jsonify }}{% elif 'salinity_ctd' in doc %}{{ doc['salinity_ctd'] | jsonify }}{% else %}null{% endif %},
+"sea_water_salinity_depth": {% if 'salinity' in doc or 'salinity1' in doc or 'salinity_ctd' in doc %}{{ doc['depth'] | jsonify }}{% else %}null{% endif %},
+"platform": {{ doc['platform'] | jsonify }},
+"device": {{ doc['device'] | jsonify }},
+"fileurl": {{ doc['fileurl'] | jsonify }}
+}
+{% if not loop.last %}
+,
+{% endif %}
+{% endfor %}
+]
+,"totalResults":{{ numFound }}
+,"startIndex":{{ startIndex  }}
+,"itemsPerPage":{{ itemsPerPage }}
+{% if stats %}
+,
+"stats_fields": {{ stats['stats_fields'] | jsonify }}
+{% endif %}
+}
