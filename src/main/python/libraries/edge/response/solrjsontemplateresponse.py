@@ -6,8 +6,10 @@ import urllib
 from edge.response.jsontemplateresponse import JsonTemplateResponse
 
 class SolrJsonTemplateResponse(JsonTemplateResponse):
-    def __init__(self):
+    def __init__(self, link = "", parameters = {}):
         super(SolrJsonTemplateResponse, self).__init__()
+        self.link = link
+        self.parameters = parameters
 
     def generate(self, solrResponse, pretty=False):
         self._populate(solrResponse)
@@ -25,3 +27,29 @@ class SolrJsonTemplateResponse(JsonTemplateResponse):
             self.variables['numFound'] = int(solrJson['response']['numFound'])
             self.variables['itemsPerPage'] = int(solrJson['responseHeader']['params']['rows'])
             self.variables['startIndex'] = int(solrJson['response']['start'])
+
+            if 'stats' in solrJson:
+                self.variables['stats'] = solrJson['stats']
+
+            start = int(solrJson['response']['start'])
+            rows = int(solrJson['responseHeader']['params']['rows'])
+            numFound = int(solrJson['response']['numFound'])
+
+
+        self.parameters['startIndex'] = start
+        self.variables['myself'] = self.link + '?' + urllib.urlencode(self.parameters, True)
+
+        if rows != 0:
+            self.parameters['startIndex'] = numFound - (numFound % rows)
+        self.variables['last'] = self.link + '?' + urllib.urlencode(self.parameters, True)
+
+        self.parameters['startIndex'] = 0
+        self.variables['first'] = self.link + '?' + urllib.urlencode(self.parameters, True)
+        if start > 0:
+            if (start - rows > 0):
+                self.parameters['startIndex'] = start - rows
+            self.variables['prev'] = self.link + '?' + urllib.urlencode(self.parameters, True)
+
+        if start + rows < numFound:
+            self.parameters['startIndex'] = start + rows
+            self.variables['next'] = self.link + '?' + urllib.urlencode(self.parameters, True)

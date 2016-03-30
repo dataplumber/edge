@@ -27,7 +27,7 @@ class JsonTemplateResponse(Response):
             return self.template.render(self.variables)
 
     def jsonify(self, value):
-        if value:
+        if value or value == 0:
             return json.dumps(value)
         else:
             return "null"

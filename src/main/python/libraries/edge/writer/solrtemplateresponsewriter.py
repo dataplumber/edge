@@ -76,6 +76,7 @@ class SolrTemplateResponseWriter(TemplateResponseWriter):
         return urllib.quote('"'+value+'"')
 
     def _onSolrResponse(self, response):
+        logging.debug(response)
         if response.error:
             self._handleException(str(response.error))
         else:
