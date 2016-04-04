@@ -51,6 +51,9 @@ if __name__ == "__main__":
     settings = dict(static_path=os.path.join(os.path.dirname(__file__), "static"), static_url_prefix="/static/", template_path=os.path.join(os.path.dirname(__file__), "templates"))
     application = tornado.web.Application([
         #(r"/dataset/.*", DatasetHandler),
+        (r"/ws/search/samos", GenericHandler, dict(pluginName='samos', format=['json'])),
+        (r"/ws/search/icoads", GenericHandler, dict(pluginName='icoads', format=['json'])),
+        (r"/ws/search/spurs", GenericHandler, dict(pluginName='spurs', format=['json'])),
         (r"/nexus/climatology", GenericHandler, dict(pluginName='nexus', format=['climatology'])),
         (r"/nexus/solr", GenericHandler, dict(pluginName='nexus', format=['solr'])),
         (r"/nexus/subsetter", GenericHandler, dict(pluginName='nexus', format=['subsetter'])),
