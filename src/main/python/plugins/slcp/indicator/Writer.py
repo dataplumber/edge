@@ -17,10 +17,10 @@ class Writer(ProxyWriter):
         try:
             parameters['fq'] = 'id:"' + requestHandler.get_argument('id') + '"'
         except:
-            parameters['fl'] = 'id,name,rate,uncertainties,unit,shortenUnit,abbrUnit'
+            parameters['fl'] = 'id,name,rate,uncertainties,unit,shortenUnit,abbrUnit,updated_at'
         try:
             if requestHandler.get_argument('latest').lower() == 'true':
-                parameters['fl'] = 'xLatest,yLatest,unit,abbrUnit'
+                parameters['fl'] = 'xLatest,yLatest,unit,abbrUnit,updated_at'
         except:
             pass
         url += '/select?' + urllib.urlencode(parameters)

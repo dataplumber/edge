@@ -29,15 +29,17 @@ class Writer(SolrTemplateResponseWriter):
         filterQueries = []
         sort = None
         sortDir = 'asc'
+        start = '*'
+        end = '*'
 
         for key, value in parameters.iteritems():
             if value != "":
                 if key == 'keyword':
                     queries.append(urllib.quote(value))
                 elif key == 'startTime':
-                    queries.append('EndingDateTime-Internal:['+value+'%20TO%20*]')
+                    start = value
                 elif key == 'endTime':
-                    queries.append('BeginningDateTime:[*%20TO%20'+value+']')
+                    end = value
                 elif key == 'bbox':
                     coordinates = value.split(",")
                     filterQueries.append('Spatial-Geometry:[' + coordinates[1] + ',' + coordinates[0] + '%20TO%20' + coordinates[3] + ',' + coordinates[2] + ']')
@@ -48,6 +50,7 @@ class Writer(SolrTemplateResponseWriter):
                         sort = sortKeys[value]
                 elif key == 'sortDir':
                     sortDir = value
+        queries.append('BeginningEndingDateTime:['+start+'%20TO%20' + end + ']')
 
         for key, value in facets.iteritems():
             if type(value) is list:

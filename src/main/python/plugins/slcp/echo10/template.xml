@@ -15,10 +15,21 @@
 {% endfor %}
 </SpatialKeywords>
 <Temporal>
+{% for dt in docs[0]['BeginningEndingDateTime']  %}
 <RangeDateTime>
-<BeginningDateTime>{{ docs[0]['BeginningDateTime'] }}</BeginningDateTime>
-<EndingDateTime>{{ docs[0]['EndingDateTime'] }}</EndingDateTime>
+{% if ' ' not in dt %}
+<BeginningDateTime>{{ dt }}</BeginningDateTime>
+<EndingDateTime>{{ dt }}</EndingDateTime>
+{% else %}
+<BeginningDateTime>{{ dt[1:dt.index(' ')] }}</BeginningDateTime>
+{% if '*' not in dt %}
+<EndingDateTime>{{ dt[dt.rindex(' ')+1:-1] }}</EndingDateTime>
+{% else %}
+<EndingDateTime></EndingDateTime>
+{% endif %}
+{% endif %}
 </RangeDateTime>
+{% endfor %}
 </Temporal>
 {% if docs[0]['CategoryKeyword'] %}
 <ScienceKeywords>

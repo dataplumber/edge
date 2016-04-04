@@ -126,7 +126,13 @@
 <link href="https://api.echo.nasa.gov:443/opensearch/granules/descriptor_document.xml?clientId=&amp;shortName=doi:10.3334/ORNLDAAC/1&amp;versionId=1&amp;dataCenter=ORNL_DAAC" hreflang="en-US" rel="search" title="Custom ECHO Granule Open Search Descriptor Document" type="application/opensearchdescription+xml" />
 {% endif %}
 <link href="{{ serviceUrl }}/ws/metadata/dataset?slcpShortName={{ doc['SlcpShortName'] }}" hreflang="en-US" rel="alternate" title="Product metadata" type="application/xml" />
-<dc:date>{{ doc['BeginningDateTime'] }}/{{ doc['EndingDateTime'] }}</dc:date>
+{% for dt in doc['BeginningEndingDateTime']  %}
+{% if ' ' not in dt %}
+<dc:date>{{ dt }}/{{ dt }}</dc:date>
+{% else %}
+<dc:date>{{ dt[1:dt.index(' ')] }}/{% if '*' not in dt %}{{ dt[dt.rindex(' ')+1:-1] }}{% endif %}</dc:date>
+{% endif %}
+{% endfor %}
 </entry>
 {% endfor %}
 </feed>
