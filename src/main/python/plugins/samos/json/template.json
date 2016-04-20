@@ -8,14 +8,20 @@
 {
 "time": "{{ doc['time'] }}",
 "point": "{{ doc['loc'] }}",
+{% if 'variable' not in parameters or ('variable' in parameters and parameters['variable'].lower() == 'sst') %}
 "sea_water_temperature": {{ doc['SST'] | jsonify }},
 "sea_water_temperature_depth": {{ doc['SST_depth'] | jsonify }},
+{% endif %}
+{% if 'variable' not in parameters or ('variable' in parameters and parameters['variable'].lower() == 'wind') %}
 "wind_speed": {{ doc['wind_speed'] | jsonify }},
 "eastward_wind": {{ doc['wind_u'] | jsonify }},
 "northward_wind": {{ doc['wind_v'] | jsonify }},
 "wind_depth": {{ doc['wind_depth'] | jsonify }},
+{% endif %}
+{% if 'variable' not in parameters or ('variable' in parameters and parameters['variable'].lower() == 'sss') %}
 "sea_water_salinity": {{ doc['SSS'] | jsonify }},
 "sea_water_salinity_depth": {{ doc['SSS_depth'] | jsonify }},
+{% endif %}
 "platform": {{ doc['platform'] | jsonify }},
 "mission": {{ doc['mission'] | jsonify }},
 "metadata": "{{ doc['meta'] }}"
