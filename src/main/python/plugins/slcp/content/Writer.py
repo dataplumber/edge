@@ -47,6 +47,8 @@ class Writer(SolrTemplateResponseWriter):
                     filterQueries.append('{!frange%20l=' + range[0] + '%20u=' + range[1] + 'z}' + 'title_lc')
                 elif key == 'sort':
                     sort = urllib.quote(value)
+                elif key == 'topic_id':
+                    filterQueries.append('categories_id:' + value)
                 else:
                     if type(value) is list:
                         if 'table' in parameters and parameters['table'] == 'news_items':
