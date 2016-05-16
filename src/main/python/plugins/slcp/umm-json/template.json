@@ -1,0 +1,153 @@
+{
+"Projects": [
+{% for i in range(docs[0]['Campaign-ShortName']|count)  %}
+{
+"ShortName" : "{{ docs[0]['Campaign-ShortName'][i] }}",
+"LongName" : "{{ docs[0]['Campaign-LongName'][i] }}"
+}
+{% if not loop.last %}
+,
+{% endif %}
+{% endfor %}
+],
+{% if docs[0]['Spatial-Geometry'] %}
+"SpatialExtent" : {
+"SpatialCoverageType" : "HORIZONTAL",
+"HorizontalSpatialDomain" : {
+"Geometry" : {
+"CoordinateSystem" : "{{ docs[0]['CoordinateSystem'] }}",
+"BoundingRectangles" : [
+{% for box in docs[0]['Spatial-Box']  %}
+{
+"WestBoundingCoordinate" : {{ box.split()[1] }},
+"NorthBoundingCoordinate" : {{ box.split()[2] }},
+"EastBoundingCoordinate" : {{ box.split()[3] }},
+"SouthBoundingCoordinate" : {{ box.split()[0] }}
+}
+{% if not loop.last %}
+,
+{% endif %}
+{% endfor %}
+]
+}
+},
+"GranuleSpatialRepresentation" : "{{ docs[0]['CoordinateSystem'] }}"
+},
+{% endif %}
+"Distributions" : [ {
+"DistributionFormat" : "{{ docs[0]['DataFormat'] }}"
+} ],
+{% if docs[0]['CategoryKeyword'] %}
+"ScienceKeywords" : [
+{% for i in range(docs[0]['CategoryKeyword']|count)  %}
+{
+"Category" : "{{ docs[0]['CategoryKeyword'][i] }}",
+"Topic" : "{{ docs[0]['TopicKeyword'][i] }}",
+"Term" : "{{ docs[0]['TermKeyword'][i] }}",
+"VariableLevel1" : "{{ docs[0]['VariableLevel1Keyword'][i] }}"
+{% if docs[0]['DetailedVariableKeyword'] %}
+,"DetailedVariable" : "{{ docs[0]['DetailedVariableKeyword'][i] }}"
+{% endif %}
+}
+{% endfor %}
+],
+{% endif %}
+"TemporalExtents" : [ {
+ "RangeDateTimes" : [
+{% for dt in docs[0]['BeginningEndingDateTime']  %}
+{
+{% if ' ' not in dt %}
+"BeginningDateTime" : "{{ dt }}",
+"EndingDateTime" : "{{ dt }}"
+{% else %}
+"BeginningDateTime" : "{{ dt[1:dt.index(' ')] }}"
+{% if '*' not in dt %}
+,
+"EndingDateTime" : "{{ dt[dt.rindex(' ')+1:-1] }}"
+{% endif %}
+{% endif %}
+}
+{% endfor %}
+]
+} ],
+"ProcessingLevel" : {
+"Id" : "{{ docs[0]['ProcessingLevelId'] }}"
+},
+"ShortName" : "{{ docs[0]['ShortName'] }}",
+"EntryTitle" : "{{ docs[0]['LongName'] }}",
+"RelatedUrls" : [
+{% for i in range(docs[0]['OnlineAccessURL-URL']|count)  %}
+{
+"Description" : "{{ docs[0]['OnlineAccessURL-URLDescription'][i] }}",
+"Relation" : [ "GET DATA" ],
+"URLs" : [ "{{ docs[0]['OnlineAccessURL-URL'][i] }}" ]
+}
+,
+{% endfor %}
+{% for i in range(docs[0]['OnlineResource-URL']|count)  %}
+{
+{% if docs[0]['OnlineResource-Description'][i] != '' %}
+"Description" : "{{ docs[0]['OnlineResource-Description'][i] }}",
+{% endif %}
+"URLs" : [ "{{ docs[0]['OnlineResource-URL'][i] }}" ]
+}
+{% if not loop.last %}
+,
+{% endif %}
+{% endfor %}
+],
+"DataDates" : [ {
+"Date" : "{{ docs[0]['LastUpdate'] }}",
+"Type" : "UPDATE"
+} ],
+"Abstract" : "{{ docs[0]['Description'] }}",
+"Version" : "{{ docs[0]['VersionId'] }}",
+"SpatialKeywords" : [
+{% for keyword in docs[0]['SpatialKeywords-Keyword']  %}
+"{{ keyword }}"
+{% if not loop.last %}
+,
+{% endif %}
+{% endfor %}
+],
+"Platforms" : [
+{% for i in range(docs[0]['Platform-ShortName']|count)  %}
+{
+"Type" : "SPACECRAFT",
+"ShortName" : "{{ docs[0]['Platform-ShortName'][i] }}",
+"LongName" : "{{ docs[0]['Platform-LongName'][i] }}"
+{% if docs[0]['Instrument-ShortName_' + i|string] %}
+,
+"Instruments" : [
+{% for j in range(docs[0]['Instrument-ShortName_' + i|string]|count)  %}
+{
+"ShortName" : "{{ docs[0]['Instrument-ShortName_' + i|string][j] }}",
+"LongName" : "{{ docs[0]['Instrument-LongName_' + i|string][j] }}"
+{% if docs[0]['Sensor-ShortName_' + i|string + '_' + j|string] %}
+,
+"Sensors" : [
+{% for k in range(docs[0]['Sensor-ShortName_' + i|string + '_' + j|string]|count)  %}
+{
+"ShortName" : "{{ docs[0]['Sensor-ShortName_' + i|string + '_' + j|string][k] }}",
+"LongName" : "{{ docs[0]['Sensor-LongName_' + i|string + '_' + j|string][k] }}"
+}
+{% if not loop.last %}
+,
+{% endif %}
+{% endfor %}
+]
+{% endif %}
+}
+{% if not loop.last %}
+,
+{% endif %}
+{% endfor %}
+]
+{% endif %}
+}
+{% if not loop.last %}
+,
+{% endif %}
+{% endfor %}
+]
+}

@@ -61,7 +61,7 @@ if __name__ == "__main__":
         (r"/ws/search/granule", GenericHandler, dict(pluginName='slcp', format=['granule'])),
         (r"/ws/facet/dataset", GenericHandler, dict(pluginName='slcp', format=['facet'])),
         (r"/ws/suggest/dataset", GenericHandler, dict(pluginName='slcp', format=['suggest'])),
-        (r"/ws/metadata/dataset", GenericHandler, dict(pluginName='slcp', format=['echo10'])),
+        (r"/ws/metadata/dataset", GenericHandler, dict(pluginName='slcp', format=['echo10', 'umm-json'])),
         (r"/ws/indicator/dataset", GenericHandler, dict(pluginName='slcp', format=['indicator'])),
         (r"/ws/search/content", GenericHandler, dict(pluginName='slcp', format=['content'])),
         (r"/tie/collection", GenericHandler, dict(pluginName='tie', format=['collection'])),
