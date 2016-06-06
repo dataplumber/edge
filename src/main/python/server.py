@@ -54,6 +54,7 @@ if __name__ == "__main__":
         (r"/ws/search/samos", GenericHandler, dict(pluginName='samos', format=['json'])),
         (r"/ws/search/icoads", GenericHandler, dict(pluginName='icoads', format=['json'])),
         (r"/ws/search/spurs", GenericHandler, dict(pluginName='spurs', format=['json'])),
+        (r"/ws/search/spurs2", GenericHandler, dict(pluginName='spurs2', format=['json'])),
         (r"/nexus/climatology", GenericHandler, dict(pluginName='nexus', format=['climatology'])),
         (r"/nexus/solr", GenericHandler, dict(pluginName='nexus', format=['solr'])),
         (r"/nexus/subsetter", GenericHandler, dict(pluginName='nexus', format=['subsetter'])),
