@@ -95,6 +95,12 @@
 <Value>{{docs[0]['AlongTrackResolution'] / 1000 }} km (Along) x {{docs[0]['AcrossTrackResolution'] / 1000 }} km (Across)</Value>
 </AdditionalAttribute>
 {% endif %}
+{% if docs[0]['DOI'] %}
+<AdditionalAttribute>
+<Name>DOI</Name>
+<Value>{{docs[0]['DOI']}}</Value>
+</AdditionalAttribute>
+{% endif %}
 </AdditionalAttributes>
 <Campaigns>
 {% for i in range(docs[0]['Campaign-ShortName']|count)  %}
