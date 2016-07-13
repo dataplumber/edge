@@ -55,3 +55,25 @@ class DateUtility(object):
             return dt.strftime(format)
         except:
             return None
+    
+    @staticmethod
+    def convertISOTimeToEpoch(isoTime, format):
+        try:
+            #parse ISO date to datetime object
+            dt = dateutil.parser.parse(isoTime)
+
+            # note that this method is OS dependent - the %s specifier is not standard in python
+            # Soo.. this should be corrected with a statement like the one below
+            # The issue with the statemet below is one is time zone aware and the other not
+            # By making both UTC the difference should succeed and comply with standard python practice
+            return int(dt.strftime('%s'))
+#            return int((dt - datetime.datetime(1970,1,1)).total_seconds())
+        except Exception:
+            return None
+
+
+if __name__ == '__main__':
+    t = "2015-05-02T00:00:00Z"
+    d = DateUtility()
+    print d.convertISOTimeToEpoch(t, "%Y-%M-%DT%h:%m:%sZ")
+

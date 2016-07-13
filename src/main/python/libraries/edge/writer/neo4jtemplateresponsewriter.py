@@ -9,7 +9,7 @@ from edge.writer.templateresponsewriter import TemplateResponseWriter
 
 class Neo4jTemplateResponseWriter(TemplateResponseWriter):
     def __init__(self, configFilePath, requiredParams = None):
-        super(SolrTemplateResponseWriter, self).__init__(configFilePath, requiredParams)
+        super(Neo4jTemplateResponseWriter, self).__init__(configFilePath, requiredParams)
         self.searchParameters = {}
         self.variables = {}
         self.facet = False
@@ -106,7 +106,7 @@ class Neo4jTemplateResponseWriter(TemplateResponseWriter):
         url = self._configuration.get('neo4j', 'datasetUrl')
 
         httpUtility = HttpUtility()
-        httpUtility.getResponse(url+'/cypher', body='{"query" : "MATCH (r) RETURN count(n);"}', self._onNeo4jResponse)
+        httpUtility.getResponse(url+'/cypher', self._onNeo4jResponse, body='{"query" : "MATCH (r) RETURN count(n);"}')
 
     def _generateOpenSearchResponse(self, neo4jResponse, searchText, searchUrl, searchParams, pretty):
         pass

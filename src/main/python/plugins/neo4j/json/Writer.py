@@ -3,10 +3,10 @@ import os
 import os.path
 import urllib
 
-from edge.writer.solrtemplateresponsewriter import SolrTemplateResponseWriter
-from edge.response.solrjsontemplateresponse import SolrJsonTemplateResponse
+from edge.writer.neo4jtemplateresponsewriter import Neo4jTemplateResponseWriter
+from edge.response.neo4jjsontemplateresponse import Neo4jJsonTemplateResponse
 
-class Writer(SolrTemplateResponseWriter):
+class Writer(Neo4jTemplateResponseWriter):
     def __init__(self, configFilePath):
         super(Writer, self).__init__(configFilePath)
         
@@ -16,16 +16,19 @@ class Writer(SolrTemplateResponseWriter):
         templatePath += self._configuration.get('service', 'template')
         self.template = self._readTemplate(templatePath)
 
-    def _generateOpenSearchResponse(self, solrResponse, searchText, searchUrl, searchParams, pretty):
-        response = SolrJsonTemplateResponse(searchUrl, searchParams)
+    def _generateOpenSearchResponse(self, Neo4jResponse, searchText, searchUrl, searchParams, pretty):
+        response = Neo4jJsonTemplateResponse(searchUrl, searchParams)
         response.setTemplate(self.template)
 
-        return response.generate(solrResponse, pretty=pretty)
+        return response.generate(Neo4jResponse, pretty=pretty)
 
-    def _constructSolrQuery(self, startIndex, entriesPerPage, parameters, facets):
+    def _constructNeo4jQuery(self, startIndex, entriesPerPage, parameters, facets):
         queries = []
         filterQueries = []
         sort = None
+        ## temporarily return static string for debugging purposes
+        ## This method will be modified to construct a cypher query for neo4j
+        return 'MATCH (r) RETURN count(r);'
 
         for key, value in parameters.iteritems():
             if value != "":
@@ -81,3 +84,4 @@ class Writer(SolrTemplateResponseWriter):
         logging.debug('solr query: '+query)
 
         return query
+
