@@ -14,7 +14,7 @@ class Neo4jTemplateResponseWriter(TemplateResponseWriter):
         self.variables = {}
         self.facet = False
         self.facetDefs = {}
-        self.contentType = 'application/json'
+        self.contentType = 'application/json; charset=UTF-8'
 
     def get(self, requestHandler):
         super(Neo4jTemplateResponseWriter, self).get(requestHandler)
