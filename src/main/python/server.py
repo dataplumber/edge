@@ -52,6 +52,7 @@ if __name__ == "__main__":
     application = tornado.web.Application([
         #(r"/dataset/.*", DatasetHandler),
         (r"/ws/search/samos", GenericHandler, dict(pluginName='samos', format=['json'])),
+        (r"/ws/search/neo4j", GenericHandler, dict(pluginName='neo4j', format=['json'])),
         (r"/ws/search/icoads", GenericHandler, dict(pluginName='icoads', format=['json'])),
         (r"/ws/search/spurs", GenericHandler, dict(pluginName='spurs', format=['json'])),
         (r"/ws/search/spurs2", GenericHandler, dict(pluginName='spurs2', format=['json'])),
