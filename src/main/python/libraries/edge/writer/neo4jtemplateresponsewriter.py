@@ -106,7 +106,7 @@ class Neo4jTemplateResponseWriter(TemplateResponseWriter):
         url = self._configuration.get('neo4j', 'datasetUrl')
 
         httpUtility = HttpUtility()
-        httpUtility.getResponse(url+'/cypher', self._onNeo4jResponse, body=query, json=True)
+        httpUtility.getResponse(url+'/cypher', self._onNeo4jResponse, body=query, json_body=True)
 
     def _generateOpenSearchResponse(self, neo4jResponse, searchText, searchUrl, searchParams, pretty):
         pass
