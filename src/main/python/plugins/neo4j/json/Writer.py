@@ -28,7 +28,8 @@ class Writer(Neo4jTemplateResponseWriter):
         sort = None
         ## temporarily return static string for debugging purposes
         ## This method will be modified to construct a cypher query for neo4j
-        return 'MATCH (r) RETURN count(r);'
+        q = { 'query' : 'MATCH (r) RETURN count(r);' }
+        return q
 
         for key, value in parameters.iteritems():
             if value != "":

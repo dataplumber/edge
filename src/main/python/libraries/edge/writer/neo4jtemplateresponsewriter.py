@@ -106,12 +106,14 @@ class Neo4jTemplateResponseWriter(TemplateResponseWriter):
         url = self._configuration.get('neo4j', 'datasetUrl')
 
         httpUtility = HttpUtility()
-        httpUtility.getResponse(url+'/cypher', self._onNeo4jResponse, body=query, json_body=True)
+        httpUtility.getResponse(url+'/cypher', self._onNeo4jResponse, body=json.dumps(query), json_body=True)
 
     def _generateOpenSearchResponse(self, neo4jResponse, searchText, searchUrl, searchParams, pretty):
         pass
 
-    def _constructNeo4jQuery(self, startIndex, entriesPerPagie, parameters, facets):
-        return json.dumps({"query" : "MATCH (r) RETURN count(r);"})
-        pass
+    def _constructNeo4jQuery(self, startIndex, entriesPerPage, parameters, facets):
+        '''interface to query constructor for neo4j. Overloaded in plugins/neo4j/writer.py'''
+        return q
+
+    
 

@@ -20,8 +20,11 @@ class Neo4jJsonTemplateResponse(JsonTemplateResponse):
         rows = 0
         numFound = 0
         
-        if neo4jResponse is not None:
-            solrJson = json.loads(neo4jResponse, strict = False)
+        print 'GOT RESPONSE:', neo4jResponse, '\n\n'
+                
+        ### temporariliy short circuiting this if block (1 == 0) for debugging
+        if neo4jResponse is not None and (1 == 0):
+            neo4jJson = json.loads(neo4jResponse, strict = False)
 
             self.variables['docs'] = neo4jJson['response']['docs']
             self.variables['numFound'] = int(neo4jJson['response']['numFound'])
@@ -35,7 +38,18 @@ class Neo4jJsonTemplateResponse(JsonTemplateResponse):
             start = int(neo4jJson['response']['start'])
             rows = int(neo4jJson['responseHeader']['params']['rows'])
             numFound = int(neo4jJson['response']['numFound'])
-
+        
+        if neo4jResponse is not None:
+            neo4jJson = json.loads(neo4jResponse, strict = False)
+            self.variables['docs'] = 'Hardcoded docs'
+            self.variables['numFound'] = int(neo4jJson['data'][0][0])
+            self.variables['itemsPerPage'] = 0
+            self.variables['startIndex'] = 0
+            self.variables['parameters'] = 'Hardcoded None'
+            
+            start = 0
+            rows = 0
+            numFound = int(neo4jJson['data'][0][0])
 
         self.parameters['startIndex'] = start
         self.variables['myself'] = self.link + '?' + urllib.urlencode(self.parameters, True)

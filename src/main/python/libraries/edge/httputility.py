@@ -6,7 +6,6 @@ class HttpUtility(object):
         if json_body:
             req_headers['Content-Type'] = 'application/json; charset=UTF-8'
         if body is not None:
-            print req_headers
             request = tornado.httpclient.HTTPRequest(url, method='POST', headers=req_headers, request_timeout=30, body=body)
         else:
             request = tornado.httpclient.HTTPRequest(url, method='GET', headers=req_headers, request_timeout=30)
