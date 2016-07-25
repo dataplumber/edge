@@ -82,8 +82,13 @@
 "Relation" : [ "GET DATA" ],
 "URLs" : [ "{{ docs[0]['OnlineAccessURL-URL'][i] }}" ]
 }
+{% if not loop.last %}
 ,
+{% endif %}
 {% endfor %}
+{% if docs[0]['OnlineResource-URL'] %}
+,
+{% endif %}
 {% for i in range(docs[0]['OnlineResource-URL']|count)  %}
 {
 {% if docs[0]['OnlineResource-Description'][i] != '' %}
@@ -100,7 +105,7 @@
 "Date" : "{{ docs[0]['LastUpdate'] }}",
 "Type" : "UPDATE"
 } ],
-"Abstract" : "{{ docs[0]['Description'] }}",
+"Abstract" : {{ docs[0]['Description'] | jsonify }},
 "Version" : "{{ docs[0]['VersionId'] }}",
 "SpatialKeywords" : [
 {% for keyword in docs[0]['SpatialKeywords-Keyword']  %}
@@ -145,6 +150,19 @@
 ]
 {% endif %}
 }
+{% if not loop.last %}
+,
+{% endif %}
+{% endfor %}
+]
+{% if docs[0]['DOI'] %}
+,
+"CollectionCitations" : [{"DOI" : "{{ docs[0]['DOI'] }}"}]
+{% endif %}
+,
+"AncillaryKeywords" : [
+{% for keyword in docs[0]['Keyword']  %}
+"{{ keyword }}"
 {% if not loop.last %}
 ,
 {% endif %}
