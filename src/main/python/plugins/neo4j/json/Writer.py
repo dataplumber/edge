@@ -3,6 +3,12 @@ import os
 import os.path
 import urllib
 
+try:
+    from edge import dateutility
+except Exception:
+    print 'import dateutilit failure'
+    pass
+
 from edge.writer.neo4jtemplateresponsewriter import Neo4jTemplateResponseWriter
 from edge.response.neo4jjsontemplateresponse import Neo4jJsonTemplateResponse
 
@@ -30,13 +36,21 @@ class Writer(Neo4jTemplateResponseWriter):
         ## This method will be modified to construct a cypher query for neo4j
         q = { 'query' : 'MATCH (r) RETURN count(r);' }
         return q
-
+        
+        #DEBUGGING
         for key, value in parameters.iteritems():
             if value != "":
                 if key == 'keyword':
-                    queries.append(urllib.quote(value))
+                    queries.append(urllib.quote(value)) # NO IDEA WHAT THIS ONE DOES
                 elif key == 'startTime':
-                    filterQueries.append('time:['+value+'%20TO%20*]')
+                    try:
+                        print 'Attempting to convert:', value
+                        print 'Result', DateUtility.convertISOTimeToEpoch(value)
+                    except Exception:
+                        print 'Converter didnt work'
+                        pass
+                    filterQueries.append('time > ' + value) # NEED TO CONVERT TIME STRING HERE
+                    
                 elif key == 'endTime':
                     filterQueries.append('time:[*%20TO%20'+value+']')
                 elif key == 'bbox':

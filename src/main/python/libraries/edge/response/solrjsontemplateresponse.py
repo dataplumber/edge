@@ -22,6 +22,7 @@ class SolrJsonTemplateResponse(JsonTemplateResponse):
         
         if solrResponse is not None:
             solrJson = json.loads(solrResponse, strict = False)
+            print 'GOT SOLR RESPONSE:', solrJson
 
             self.variables['docs'] = solrJson['response']['docs']
             self.variables['numFound'] = int(solrJson['response']['numFound'])

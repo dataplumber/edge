@@ -26,6 +26,8 @@ class Neo4jTemplateResponseWriter(TemplateResponseWriter):
             pass
 
         entriesPerPage = self._configuration.getint('neo4j', 'entriesPerPage')
+        #DEBUGGING
+        entriesPerPage = 0
         try:
             entriesPerPage = requestHandler.get_argument('itemsPerPage')
             maxEntriesPerPage = self._configuration.getint('neo4j', 'maxEntriesPerPage')
@@ -33,6 +35,8 @@ class Neo4jTemplateResponseWriter(TemplateResponseWriter):
                 entriesPerPage = maxEntriesPerPage
             self.searchParameters['itemsPerPage'] = entriesPerPage
         except:
+            #DEBUGGING
+            entriesPerPage = 0
             pass
 
         try:

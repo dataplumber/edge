@@ -39,17 +39,18 @@ class Neo4jJsonTemplateResponse(JsonTemplateResponse):
             rows = int(neo4jJson['responseHeader']['params']['rows'])
             numFound = int(neo4jJson['response']['numFound'])
         
+        #DEBUGGING
         if neo4jResponse is not None:
             neo4jJson = json.loads(neo4jResponse, strict = False)
-            self.variables['docs'] = 'Hardcoded docs'
-            self.variables['numFound'] = int(neo4jJson['data'][0][0])
+            self.variables['docs'] = []
+            self.variables['numFound'] = 0
             self.variables['itemsPerPage'] = 0
             self.variables['startIndex'] = 0
-            self.variables['parameters'] = 'Hardcoded None'
+            self.variables['parameters'] = self.parameters
             
             start = 0
             rows = 0
-            numFound = int(neo4jJson['data'][0][0])
+            numFound = 0
 
         self.parameters['startIndex'] = start
         self.variables['myself'] = self.link + '?' + urllib.urlencode(self.parameters, True)
