@@ -38,4 +38,33 @@
 ]
 ,"totalResults":{{ numFound }}
 ,"startIndex":{{ startIndex  }}
-,"itemsPerPage":{{ itemsPerPage }}}
+,"itemsPerPage":{{ itemsPerPage }}
+{% if stats %}
+,
+"stats_fields": {{ stats['stats_fields'] | jsonify }}
+{% endif %}
+{% if facets %}
+,
+"facets":[
+{% for key, facet in facets['facet_fields'].iteritems() %}
+{
+"field": "{{ key }}",
+"values":[
+{% for i in range(0, facet|count, 2) %}
+{
+"count":{{facet[i+1] }},
+"value": "{{ facet[i] }}"
+}
+{% if not loop.last %}
+,
+{% endif %}
+{% endfor %}
+]
+}
+{% if not loop.last %}
+,
+{% endif %}
+{% endfor %}
+]
+{% endif %}
+}

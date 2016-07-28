@@ -32,6 +32,9 @@ class SolrJsonTemplateResponse(JsonTemplateResponse):
             if 'stats' in solrJson:
                 self.variables['stats'] = solrJson['stats']
 
+            if 'facet_counts' in solrJson:
+                self.variables['facets'] = solrJson['facet_counts']
+
             start = int(solrJson['response']['start'])
             rows = int(solrJson['responseHeader']['params']['rows'])
             numFound = int(solrJson['response']['numFound'])

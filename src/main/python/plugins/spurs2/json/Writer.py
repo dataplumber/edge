@@ -66,7 +66,10 @@ class Writer(SolrTemplateResponseWriter):
             query += '&sort=' + sort
 
         if 'stats' in parameters and parameters['stats'].lower() == 'true':
-            query += '&stats=true&stats.field={!min=true%20max=true}lat&stats.field={!min=true%20max=true}lon'
+            query += '&stats=true&stats.field={!min=true%20max=true}depth'
+
+        if 'facet' in parameters and parameters['facet'].lower() == 'true':
+            query += '&facet=true&facet.field=platform&facet.field=device&facet.limit=-1&facet.mincount=1'
 
         logging.debug('solr query: '+query)
 
