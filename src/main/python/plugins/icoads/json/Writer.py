@@ -48,19 +48,19 @@ class Writer(SolrTemplateResponseWriter):
                 elif key == "minDepth":
                     if 'variable' in parameters:
                         if parameters['variable'].lower() == 'sss':
-                            filterQueries.append('sss_depth:['+value+'%20TO%20*]')
+                            filterQueries.append('(sss_depth:['+value+'%20TO%20*]+OR+(*:*%20NOT%20sss_depth:*))')
                         elif parameters['variable'].lower() == 'sst':
-                            filterQueries.append('sst_depth:['+value+'%20TO%20*]')
+                            filterQueries.append('(sst_depth:['+value+'%20TO%20*]+OR+(*:*%20NOT%20sst_depth:*))')
                         elif parameters['variable'].lower() == 'wind':
-                            filterQueries.append('wind_depth:['+value+'%20TO%20*]')
+                            filterQueries.append('(wind_depth:['+value+'%20TO%20*]+OR+(*:*%20NOT%20wind_depth:*))')
                 elif key == "maxDepth":
                     if 'variable' in parameters:
                         if parameters['variable'].lower() == 'sss':
-                            filterQueries.append('sss_depth:[*%20TO%20'+value+']')
+                            filterQueries.append('(sss_depth:[*%20TO%20'+value+']+OR+(*:*%20NOT%20sss_depth:*))')
                         elif parameters['variable'].lower() == 'sst':
-                            filterQueries.append('sst_depth:[*%20TO%20'+value+']')
+                            filterQueries.append('(sst_depth:[*%20TO%20'+value+']+OR+(*:*%20NOT%20sst_depth:*))')
                         elif parameters['variable'].lower() == 'wind':
-                            filterQueries.append('wind_depth:[*%20TO%20'+value+']')
+                            filterQueries.append('(wind_depth:[*%20TO%20'+value+']+OR+(*:*%20NOT%20wind_depth:*))')
                 elif key == 'platform':
                     if type(value) is list:
                         filterQueries.append('platform:(' + '+OR+'.join(value) + ')')
