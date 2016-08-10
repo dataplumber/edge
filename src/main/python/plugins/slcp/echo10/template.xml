@@ -161,4 +161,14 @@
 </HorizontalSpatialDomain>
 </Spatial>
 {% endif %}
+<CollectionAssociations>
+{% for i in range(docs[0]['CollectionAssociation-ShortName']|count)  %}
+<CollectionAssociation>
+<ShortName>{{ docs[0]['CollectionAssociation-ShortName'][i] }}</ShortName>
+<VersionId>{{ docs[0]['CollectionAssociation-VersionId'][i] }}</VersionId>
+<CollectionType>{{ docs[0]['CollectionAssociation-CollectionType'][i] }}</CollectionType>
+<CollectionUse>{{ docs[0]['CollectionAssociation-CollectionUse'][i] }}</CollectionUse>
+</CollectionAssociation>
+{% endfor %}
+</CollectionAssociations>
 </Collection>
