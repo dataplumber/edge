@@ -49,6 +49,9 @@
 ,"DetailedVariable" : "{{ docs[0]['DetailedVariableKeyword'][i] }}"
 {% endif %}
 }
+{% if not loop.last %}
+,
+{% endif %}
 {% endfor %}
 ],
 {% endif %}
