@@ -170,5 +170,13 @@
 ,
 {% endif %}
 {% endfor %}
+],
+"AdditionalAttributes" : [
+{% if docs[0]['NexusDataBeginningDateTime'] %}
+{"Name": "NexusDataBeginningDateTime", "Description": "Beginning date of data available in Nexus", "DataType": "DATETIME", "Value": "{{ docs[0]['NexusDataBeginningDateTime'] }}"}
+{% endif %}
+{% if docs[0]['NexusDataEndingDateTime'] %}
+,{"Name": "NexusDataEndingDateTime", "Description": "Ending date of data available in Nexus", "DataType": "DATETIME", "Value": "{{ docs[0]['NexusDataEndingDateTime'] }}"}
+{% endif %}
 ]
 }
