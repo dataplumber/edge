@@ -168,6 +168,9 @@
 <VersionId>{{ docs[0]['CollectionAssociation-VersionId'][i] }}</VersionId>
 <CollectionType>{{ docs[0]['CollectionAssociation-CollectionType'][i] }}</CollectionType>
 <CollectionUse>{{ docs[0]['CollectionAssociation-CollectionUse'][i] }}</CollectionUse>
+{% if 'CollectionAssociation-URL' in docs[0] %}
+<URL>{{ docs[0]['CollectionAssociation-URL'][i] }}</URL>
+{% endif %}
 </CollectionAssociation>
 {% endfor %}
 </CollectionAssociations>
