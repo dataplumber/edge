@@ -7,7 +7,7 @@
 {% for doc in docs %}
 {
 "time": "{{ doc['time'] }}",
-"point": "{{ doc['loc'] }}",
+"point": "Point({{ doc['loc'].split(',')[1] }} {{ doc['loc'].split(',')[0] }})",
 {% if 'variable' not in parameters or ('variable' in parameters and parameters['variable'].lower() == 'sst') %}
 "sea_water_temperature": {{ doc['SST'] | jsonify }},
 "sea_water_temperature_depth": {{ doc['SST_depth'] | jsonify }},
