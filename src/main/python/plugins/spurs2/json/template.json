@@ -17,6 +17,7 @@
 "wind_speed": {{ doc['RELWSPD'] | jsonify }},
 "eastward_wind": {{ doc['wind_u'] | jsonify }},
 "northward_wind": {{ doc['wind_v'] | jsonify }},
+"wind_depth": {% if 'RELWSPD' in doc %}{{ doc['depth'] | jsonify }}{% else %}null{% endif %},
 {% endif %}
 {% if 'variable' not in parameters or ('variable' in parameters and parameters['variable'].lower() == 'sss') %}
 "sea_water_salinity": {% if 'salinity' in doc %}{{ doc['salinity'] | jsonify }}{% elif 'salinity1' in doc %}{{ doc['salinity1'] | jsonify }}{% elif 'salinity_ctd' in doc %}{{ doc['salinity_ctd'] | jsonify }}{% elif 'S_41' in doc %}{{ doc['S_41'] | jsonify }}{% else %}null{% endif %},
