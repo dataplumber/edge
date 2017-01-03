@@ -6,7 +6,7 @@
 "results":[
 {% for doc in docs %}
 {
-"id": {{ doc['id'] }},
+"id": "{{ doc['id'] }}",
 "time": "{{ doc['time'] }}",
 "point": "{{ doc['loc'] }}",
 {% if 'variable' not in parameters or ('variable' in parameters and parameters['variable'].lower() == 'sst') %}
