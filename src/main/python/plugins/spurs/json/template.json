@@ -12,16 +12,19 @@
 {% if 'variable' not in parameters or ('variable' in parameters and parameters['variable'].lower() == 'sst') %}
 "sea_water_temperature": {% if 'temperature' in doc %}{{ doc['temperature'] | jsonify }}{% elif 'temperature1' in doc %}{{ doc['temperature1'] | jsonify }}{% elif 'TEMP' in doc %}{{ doc['TEMP'] | jsonify }}{% elif 'temperature_ctd' in doc %}{{ doc['temperature_ctd'] | jsonify }}{% else %}null{% endif %},
 "sea_water_temperature_depth": {% if 'temperature' in doc or 'temperature1' in doc or 'TEMP' in doc or 'temperature_ctd' in doc %}{{ doc['depth'] | jsonify }}{% else %}null{% endif %},
+"sea_water_temperature_quality": {% if 'temperature' in doc or 'temperature1' in doc or 'TEMP' in doc or 'temperature_ctd' in doc %}0{% else %}null{% endif %},
 {% endif %}
 {% if 'variable' not in parameters or ('variable' in parameters and parameters['variable'].lower() == 'wind') %}
 "wind_speed": {{ doc['RELWSPD'] | jsonify }},
 "eastward_wind": {% if 'eastward_wind' in doc %}{{ doc['eastward_wind'][0] | jsonify }}{% else %}null{% endif %},
 "northward_wind": {% if 'northward_wind' in doc %}{{ doc['northward_wind'][0] | jsonify }}{% else %}null{% endif %},
 "wind_depth": {% if 'RELWSPD' in doc %}{{ doc['depth'] | jsonify }}{% else %}null{% endif %},
+"wind_quality": {% if 'RELWSPD' in doc %}0{% else %}null{% endif %},
 {% endif %}
 {% if 'variable' not in parameters or ('variable' in parameters and parameters['variable'].lower() == 'sss') %}
 "sea_water_salinity": {% if 'salinity' in doc %}{{ doc['salinity'] | jsonify }}{% elif 'salinity1' in doc %}{{ doc['salinity1'] | jsonify }}{% elif 'salinity_ctd' in doc %}{{ doc['salinity_ctd'] | jsonify }}{% else %}null{% endif %},
 "sea_water_salinity_depth": {% if 'salinity' in doc or 'salinity1' in doc or 'salinity_ctd' in doc %}{{ doc['depth'] | jsonify }}{% else %}null{% endif %},
+"sea_water_salinity_quality": {% if 'salinity' in doc or 'salinity1' in doc or 'salinity_ctd' in doc %}0{% else %}null{% endif %},
 {% endif %}
 "platform": {{ doc['platform'] | jsonify }},
 "device": {{ doc['device'] | jsonify }},
