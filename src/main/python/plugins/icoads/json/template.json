@@ -12,19 +12,19 @@
 {% if 'variable' not in parameters or ('variable' in parameters and parameters['variable'].lower() == 'sst') %}
 "sea_water_temperature": {{ doc['sst'] | jsonify }},
 "sea_water_temperature_depth": {{ doc['sst_depth'] | jsonify }},
-"sea_water_temperature_quality": {% if doc['sst_qc_flag'] == "false" %}0{% elif doc['sst_qc_flag'] == "true" %}1{% else %}null{% endif %},
+"sea_water_temperature_quality": {{ doc['sst_qc_flag'] | jsonify }},
 {% endif %}
 {% if 'variable' not in parameters or ('variable' in parameters and parameters['variable'].lower() == 'wind') %}
 "wind_speed": {{ doc['wind_speed'] | jsonify }},
 "eastward_wind": {{ doc['wind_u'] | jsonify }},
 "northward_wind": {{ doc['wind_v'] | jsonify }},
 "wind_depth": {{ doc['wind_depth'] | jsonify }},
-"wind_quality": {% if doc['wind_qc_flag'] == "false" %}0{% elif doc['wind_qc_flag'] == "true" %}1{% else %}null{% endif %},
+"wind_quality": {{ doc['wind_qc_flag'] | jsonify }},
 {% endif %}
 {% if 'variable' not in parameters or ('variable' in parameters and parameters['variable'].lower() == 'sss') %}
 "sea_water_salinity": {{ doc['sss'] | jsonify }},
 "sea_water_salinity_depth": {{ doc['sss_depth'] | jsonify }},
-"sea_water_salinity_quality": {% if doc['sss_qc_flag'] == "false" %}0{% elif doc['sss_qc_flag'] == "true" %}1{% else %}null{% endif %},
+"sea_water_salinity_quality": {{ doc['sss_qc_flag'] | jsonify }},
 {% endif %}
 "mission": {{ doc['mission'] | jsonify }},
 "platform": {{ doc['platform'] | jsonify }},
