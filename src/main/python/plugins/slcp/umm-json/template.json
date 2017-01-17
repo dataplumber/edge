@@ -178,5 +178,8 @@
 {% if docs[0]['NexusDataEndingDateTime'] %}
 ,{"Name": "NexusDataEndingDateTime", "Description": "Ending date of data available in Nexus", "DataType": "DATETIME", "Value": "{{ docs[0]['NexusDataEndingDateTime'] }}"}
 {% endif %}
+{% if docs[0]['NexusShortName'] %}
+,{"Name": "NexusShortName", "Description": "Name of dataset in Nexus", "DataType": "STRING", "Value": "{{ docs[0]['NexusShortName'][0] }}"}
+{% endif %}
 ]
 }
