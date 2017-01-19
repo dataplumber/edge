@@ -21,6 +21,7 @@ class Writer(requestresponder.RequestResponder):
 
     def onResponse(self, response):
         self.requestHandler.set_header("Content-Type", "application/json")
+        self.requestHandler.set_header('Access-Control-Allow-Origin', '*')
         if response.error:
             self.requestHandler.write(json.dumps({"online": False}))
             self.requestHandler.finish()
