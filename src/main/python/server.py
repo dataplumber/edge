@@ -19,6 +19,10 @@ class GenericHandler(tornado.web.RequestHandler):
     def get(self):
         self._handleRequest('get')
 
+    @tornado.web.asynchronous
+    def post(self):
+        self._handleRequest('post')
+
     def _handleRequest(self, httpMethod):
         try:
             #logging.debug("_handleRequest")
@@ -65,7 +69,11 @@ if __name__ == "__main__":
         (r"/ws/suggest/dataset", GenericHandler, dict(pluginName='slcp', format=['suggest'])),
         (r"/ws/metadata/dataset", GenericHandler, dict(pluginName='slcp', format=['echo10', 'umm-json'])),
         (r"/ws/indicator/dataset", GenericHandler, dict(pluginName='slcp', format=['indicator'])),
+        (r"/ws/dat/dataset", GenericHandler, dict(pluginName='slcp', format=['dat'])),
         (r"/ws/search/content", GenericHandler, dict(pluginName='slcp', format=['content'])),
+        (r"/ws/search/basin", GenericHandler, dict(pluginName='slcp', format=['basin'])),
+        (r"/ws/search/anomaly", GenericHandler, dict(pluginName='oceanxtremes', format=['datacasting'])),
+        (r"/ws/submit/anomaly", GenericHandler, dict(pluginName='oceanxtremes', format=['post'])),
         (r"/tie/collection", GenericHandler, dict(pluginName='tie', format=['collection'])),
         #(r"/ws/metadata/dataset", DatasetHandler, dict(format=['iso', 'gcmd'])),
         #(r"/granule/.*", GranuleHandler),

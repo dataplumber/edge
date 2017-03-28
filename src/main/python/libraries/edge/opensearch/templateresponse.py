@@ -3,6 +3,7 @@ import logging
 from xml.dom.minidom import *
 from jinja2 import Environment, Template
 
+from edge.dateutility import DateUtility
 from edge.opensearch.response import Response
 
 class TemplateResponse(Response):
@@ -12,6 +13,7 @@ class TemplateResponse(Response):
         self.env.trim_blocks = True
         self.env.autoescape = True
         self.variables = {}
+        self.env.filters['convertISOTime'] = DateUtility.convertISOTime
 
     def setTemplate(self, template):
         self.template = self.env.from_string(template)
