@@ -1,6 +1,9 @@
 import logging
 import urllib2
 import urlparse
+import uuid
+import json
+from datetime import datetime
 
 import requestresponder
 from edge.httputility import HttpUtility
@@ -11,11 +14,14 @@ class Writer(requestresponder.RequestResponder):
 
     def post(self, requestHandler):
         super(Writer, self).get(requestHandler)
-        print requestHandler.request.body
-        print 'hello world'
+        data = json.loads(requestHandler.request.body)
+
+        data["id"] = str(uuid.uuid4())
+        data["submit_date"] = datetime.utcnow().isoformat() + "Z"
+
         httpUtility = HttpUtility()
         solrUrl = self._configuration.get('solr', 'url') + "/update/json/docs?commit=true"
-        result = httpUtility.getResponse(solrUrl, self.onResponse, body=requestHandler.request.body, headers={'Content-Type': 'application/json'})
+        result = httpUtility.getResponse(solrUrl, self.onResponse, body=json.dumps(data), headers={'Content-Type': 'application/json'})
 
     def onResponse(self, response):
         if response.error:
