@@ -24,14 +24,11 @@ class Writer(requestresponder.RequestResponder):
         result = httpUtility.getResponse(solrUrl, self.onResponse, body=json.dumps(data), headers={'Content-Type': 'application/json'})
 
     def onResponse(self, response):
+        self.requestHandler.set_header('Access-Control-Allow-Origin', '*')
         if response.error:
             self.requestHandler.set_status(404)
             self.requestHandler.write(str(response.error))
             self.requestHandler.finish()
         else:
-            for name, value in response.headers.iteritems():
-                logging.debug('header: '+name+':'+value)
-                self.requestHandler.set_header(name, value)
-            self.requestHandler.set_header('Access-Control-Allow-Origin', '*')
             self.requestHandler.write(response.body)
             self.requestHandler.finish()
