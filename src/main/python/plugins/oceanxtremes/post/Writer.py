@@ -12,8 +12,15 @@ class Writer(requestresponder.RequestResponder):
     def __init__(self, configFilePath):
         super(Writer, self).__init__(configFilePath)
 
+    def options(self, requestHandler):
+        super(Writer, self).options(requestHandler)
+        self.requestHandler.set_header('Access-Control-Allow-Origin', '*')
+        self.requestHandler.set_header('Allow', 'OPTIONS, GET, HEAD, POST')
+        self.requestHandler.set_status(200)
+        self.requestHandler.finish()
+
     def post(self, requestHandler):
-        super(Writer, self).get(requestHandler)
+        super(Writer, self).post(requestHandler)
         data = json.loads(requestHandler.request.body)
 
         data["id"] = str(uuid.uuid4())

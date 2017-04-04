@@ -23,6 +23,10 @@ class GenericHandler(tornado.web.RequestHandler):
     def post(self):
         self._handleRequest('post')
 
+    @tornado.web.asynchronous
+    def options(self):
+        self._handleRequest('options')
+
     def _handleRequest(self, httpMethod):
         try:
             #logging.debug("_handleRequest")

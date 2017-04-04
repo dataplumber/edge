@@ -19,3 +19,6 @@ class RequestResponder(object):
 
     def delete(self, requestHandler):
         self.requestHandler = requestHandler
+
+    def options(self, requestHandler):
+        self.requestHandler = requestHandler
