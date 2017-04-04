@@ -16,6 +16,7 @@ class Writer(requestresponder.RequestResponder):
         super(Writer, self).options(requestHandler)
         self.requestHandler.set_header('Access-Control-Allow-Origin', '*')
         self.requestHandler.set_header('Allow', 'OPTIONS, GET, HEAD, POST')
+        self.requestHandler.set_header('Access-Control-Allow-Headers', 'X-Requested-With')
         self.requestHandler.set_status(200)
         self.requestHandler.finish()
 
