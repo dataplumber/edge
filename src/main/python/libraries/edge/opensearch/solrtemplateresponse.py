@@ -18,6 +18,7 @@ class SolrTemplateResponse(TemplateResponse):
 
     def _populate(self, solrResponse):
         self.variables['link'] = self.link
+        self.variables['parameters'] = self.parameters
 
         start = 0
         rows = 0
