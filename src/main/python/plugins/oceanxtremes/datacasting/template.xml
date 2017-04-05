@@ -2,17 +2,17 @@
 <rss xmlns:datacasting="http://datacasting.jpl.nasa.gov/datacasting"
     xmlns:georss="http://www.georss.org/georss" xmlns:gml="http://www.opengis.net/gml" version="2.0">
     <channel>
-       <title>The Blob</title>
-       <link>http://podaac.jpl.nasa.gov/hurricanes</link>
-       <description>SST 4 degrees C above normal</description>
-       <datacasting:channelUID>unique id</datacasting:channelUID>
-       <datacasting:dataSource>MUR SST</datacasting:dataSource>
+       <title>{{ parameters['shortName'] }}</title>
+       <link>{{ link }}{{ parameters['shortName'] }}</link>
+       <description>Anomalies flagged using dataset {{ parameters['shortName'] }}</description>
+       <datacasting:channelUID>{{ parameters['shortName'] }}</datacasting:channelUID>
+       <datacasting:dataSource>{{ parameters['shortName'] }}</datacasting:dataSource>
        <datacasting:customEltDef displayName="Keyword" type="string" name="keyword"/>
-       <pubDate>Wed, 17 Jun 2016 17:46:51 GMT</pubDate>
+       <pubDate>{{ updated | convertISOTime('%a, %d %b %Y %H:%M:%S GMT') }}</pubDate>
 {% for doc in docs %}
        <item>
-           <title></title>
-           <link>http://podaac.jpl.nasa.gov/cgi-bin/hurr/storm.pl?id=24S&amp;date=20160325&amp;inst=QS</link>
+           <title>{{ doc['anomaly_url'] }}</title>
+           <link>{{ doc['anomaly_url'] }}</link>
            <datacasting:acquisitionStartDate>{{ doc['anomaly_begin_date'] | convertISOTime('%a, %d %b %Y %H:%M:%S GMT') }}</datacasting:acquisitionStartDate>
            <datacasting:acquisitionEndDate>{{ doc['anomaly_end_date'] | convertISOTime('%a, %d %b %Y %H:%M:%S GMT') }}</datacasting:acquisitionEndDate>
            <georss:where>
@@ -22,12 +22,12 @@
                    <gml:upperCorner>{{ bbox[2] }} {{ bbox[1] }}</gml:upperCorner>
                </gml:Envelope>
            </georss:where>
-           <enclosure url="http://linkforusertodownloaddata.gz" length="4034049" type="application/x-gzip"/>
-           <datacasting:customElement name="keyword" value="200"/>
-           <datacasting:preview>http://someimagepreview.png</datacasting:preview>
-           <guid isPermaLink="true">/hurricanes/dataQS/HUR_NOAMB_HI/2016/P1B20160841309q.IZILDA_090325_24S_WRave3.gz</guid>
+           <enclosure url="{{ doc['anomaly_url'] }}" length="0" type="application/x-gzip"/>
+           <datacasting:customElement name="keyword" value="{{ ','.join(doc['keyword']) }}"/>
+           <datacasting:preview>{{ doc['anomaly_url'] }}</datacasting:preview>
+           <guid isPermaLink="false">{{ doc['id'] }}</guid>
            <pubDate>{{ doc['submit_date'] | convertISOTime('%a, %d %b %Y %H:%M:%S GMT') }}</pubDate>
-           <source url="http://podaac.jpl.nasa.gov/hurricanes">PO.DAAC Hurricanes</source>
+           <source url="{{ doc['algorithm_url'] }}">{{ doc['primary_dataset_short_name'] }}</source>
        </item>
 {% endfor %}
     </channel>

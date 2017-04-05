@@ -36,6 +36,8 @@ class Writer(SolrTemplateResponseWriter):
             if value != "":
                 if key == 'keyword':
                     queries.append(urllib.quote(value))
+                elif key == 'shortName':
+                    queries.append("primary_dataset_short_name:" + urllib.quote(value))
 
         if len(queries) == 0:
             queries.append('*:*')
