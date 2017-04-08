@@ -3,15 +3,18 @@
     xmlns:georss="http://www.georss.org/georss" xmlns:gml="http://www.opengis.net/gml" version="2.0">
     <channel>
        <title>{{ parameters['shortName'] }}</title>
-       <link>{{ link }}{{ parameters['shortName'] }}</link>
+       <link>{{ serviceUrl }}/anomaly?shortName={{ parameters['shortName'] }}</link>
        <description>Anomalies flagged using dataset {{ parameters['shortName'] }}</description>
        <datacasting:channelUID>{{ parameters['shortName'] }}</datacasting:channelUID>
        <datacasting:dataSource>{{ parameters['shortName'] }}</datacasting:dataSource>
        <datacasting:customEltDef displayName="Keyword" type="string" name="keyword"/>
+       <datacasting:customEltDef displayName="Lower Threshold" type="float" name="lowerThreshold"/>
+       <datacasting:customEltDef displayName="Upper Threshold" type="float" name="upperThreshold"/>
        <pubDate>{{ updated | convertISOTime('%a, %d %b %Y %H:%M:%S GMT') }}</pubDate>
 {% for doc in docs %}
        <item>
            <title>{{ doc['anomaly_url'] }}</title>
+           <description>{{ doc['description'] }}</description>
            <link>{{ doc['anomaly_url'] }}</link>
            <datacasting:acquisitionStartDate>{{ doc['anomaly_begin_date'] | convertISOTime('%a, %d %b %Y %H:%M:%S GMT') }}</datacasting:acquisitionStartDate>
            <datacasting:acquisitionEndDate>{{ doc['anomaly_end_date'] | convertISOTime('%a, %d %b %Y %H:%M:%S GMT') }}</datacasting:acquisitionEndDate>
@@ -24,6 +27,8 @@
            </georss:where>
            <enclosure url="{{ doc['anomaly_url'] }}" length="0" type="application/x-gzip"/>
            <datacasting:customElement name="keyword" value="{{ ','.join(doc['keyword']) }}"/>
+           <datacasting:customElement name="lowerThreshold" value="{{ doc['below_threshold'] }}"/>
+           <datacasting:customElement name="upperThreshold" value="{{ doc['above_threshold'] }}"/>
            <datacasting:preview>{{ doc['anomaly_url'] }}</datacasting:preview>
            <guid isPermaLink="false">{{ doc['id'] }}</guid>
            <pubDate>{{ doc['submit_date'] | convertISOTime('%a, %d %b %Y %H:%M:%S GMT') }}</pubDate>
