@@ -86,6 +86,16 @@
 </echo:platform>
 {% endfor %}
 </echo:platforms>
+<echo:additionalAttributes>
+{% for key in ['GlobalAttrTitle', 'GlobalAttrDescription', 'GlobalAttrSource', 'GlobalAttrContact', 'GlobalAttrUnits'] %}
+{% if doc[key] %}
+<echo:additionalAttribute>
+<echo:name>{{ key }}</echo:name>
+<echo:value>{{ doc[key] }}</echo:value>
+</echo:additionalAttribute>
+{% endif %}
+{% endfor %}
+</echo:additionalAttributes>
 {% for i in range(doc['OnlineAccessURL-URL']|count)  %}
 {% if doc['OnlineAccessURL-URLDescription'][i].endswith('PO.DAAC') %}
 {% elif doc['OnlineAccessURL-URLDescription'][i].endswith('NODC') %}

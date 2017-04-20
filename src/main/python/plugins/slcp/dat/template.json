@@ -1,0 +1,24 @@
+{
+"Datasets": [
+{% for doc in docs %}
+
+{% for i in range(doc['GlobalAttrTitle']|count)  %}
+{
+"GlobalAttrShortName": "{{ doc['ShortName'] }}",
+"GlobalAttrNexusShortName": "{{ doc['GlobalAttrNexusShortName'][i] }}",
+"GlobalAttrTitle": "{{ doc['GlobalAttrTitle'][i] }}",
+"GlobalAttrDescription": "{{ doc['GlobalAttrDescription'][i] }}",
+"GlobalAttrSource": "{{ doc['GlobalAttrSource'][i] }}",
+"GlobalAttrContact": "{{ doc['GlobalAttrContact'][i] }}",
+"GlobalAttrUnits": "{{ doc['GlobalAttrUnits'][i] }}"
+}
+{% if not loop.last %}
+,
+{% endif %}
+{% endfor %}
+{% if not loop.last %}
+,
+{% endif %}
+{% endfor %}
+]
+}

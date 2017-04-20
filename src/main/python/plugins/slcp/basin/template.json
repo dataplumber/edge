@@ -1,0 +1,68 @@
+[
+{% for doc in docs %}
+{
+"name": {{ doc['name'] | jsonify }},
+{% set bbox = doc['bbox'][9:-1].split(',') %}
+"bbox": {
+"maxx": {{ bbox[1] }},
+"maxy": {{ bbox[2] }},
+"minx": {{ bbox[0] }},
+"miny": {{ bbox[3] }}
+},
+"polygon": [
+{% if doc['polygon'].startswith('POLYGON') %}
+[
+{% set points = doc['polygon'][9:-2].split(',') %}
+{% for pt in points %}
+[
+{{ pt.replace(' ', ',') }}
+]
+{% if not loop.last %}
+,
+{% endif %}
+{% endfor %}
+]
+{% else %}
+{% set polygons = doc['polygon'][16:-3].split(')), ((') %}
+{% for polygon in polygons %}
+[
+{% set points = polygon.split(', ') %}
+{% for pt in points %}
+[
+{{ pt.replace(' ', ',') }}
+]
+{% if not loop.last %}
+,
+{% endif %}
+{% endfor %}
+]
+{% if not loop.last %}
+,
+{% endif %}
+{% endfor %}
+{% endif %}
+],
+"esri": {{ doc['esri'] | jsonify }},
+"articCode": {{ doc['articCode'] }},
+"subContinentName": {{ doc['subContinentName'] | jsonify }},
+"color": {{ doc['color'] }},
+"seaName": {{ doc['seaName'] | jsonify }},
+"seaBasinCode": {{ doc['seaBasinCode'] }},
+"basinArea": {{ doc['basinArea'] }},
+"basinOrder": {{ doc['basinOrder'] }},
+"oceanCode": {{ doc['oceanCode'] }},
+"symbolFLD": {{ doc['symbolFLD'] | jsonify }},
+"basinLength": {{ doc['basinLength'] }},
+"seaCode": {{ doc['seaCode'] }},
+"oceanName": {{ doc['oceanName'] | jsonify }},
+"up6": {{ doc['up6'] | jsonify }},
+"subContinentCode": {{ doc['subContinentCode'] }},
+"hydro": {{ doc['hydro'] | jsonify }},
+"seaBasinName": {{ doc['seaBasinName'] | jsonify }},
+"id": {{ doc['id'] }}
+}
+{% if not loop.last %}
+,
+{% endif %}
+{% endfor %}
+]

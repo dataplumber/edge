@@ -21,7 +21,11 @@
 <BeginningDateTime>{{ dt }}</BeginningDateTime>
 <EndingDateTime>{{ dt }}</EndingDateTime>
 {% else %}
+{% if '*' not in dt[1:dt.index(' ')] %}
 <BeginningDateTime>{{ dt[1:dt.index(' ')] }}</BeginningDateTime>
+{% else %}
+<BeginningDateTime></BeginningDateTime>
+{% endif %}
 {% if '*' not in dt %}
 <EndingDateTime>{{ dt[dt.rindex(' ')+1:-1] }}</EndingDateTime>
 {% else %}
@@ -101,6 +105,14 @@
 <Value>{{docs[0]['DOI']}}</Value>
 </AdditionalAttribute>
 {% endif %}
+{% for key in ['GlobalAttrTitle', 'GlobalAttrDescription', 'GlobalAttrSource', 'GlobalAttrContact', 'GlobalAttrUnits'] %}
+{% if docs[0][key] %}
+<AdditionalAttribute>
+<Name>{{ key }}</Name>
+<Value>{{ docs[0][key] }}</Value>
+</AdditionalAttribute>
+{% endif %}
+{% endfor %}
 </AdditionalAttributes>
 <Campaigns>
 {% for i in range(docs[0]['Campaign-ShortName']|count)  %}
@@ -165,6 +177,7 @@
 {% for i in range(docs[0]['CollectionAssociation-ShortName']|count)  %}
 <CollectionAssociation>
 <ShortName>{{ docs[0]['CollectionAssociation-ShortName'][i] }}</ShortName>
+<LongName>{{ docs[0]['CollectionAssociation-LongName'][i] }}</LongName>
 <VersionId>{{ docs[0]['CollectionAssociation-VersionId'][i] }}</VersionId>
 <CollectionType>{{ docs[0]['CollectionAssociation-CollectionType'][i] }}</CollectionType>
 <CollectionUse>{{ docs[0]['CollectionAssociation-CollectionUse'][i] }}</CollectionUse>

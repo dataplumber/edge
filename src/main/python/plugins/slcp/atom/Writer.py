@@ -50,7 +50,9 @@ class Writer(SolrTemplateResponseWriter):
                         sort = sortKeys[value]
                 elif key == 'sortDir':
                     sortDir = value
-        queries.append('BeginningEndingDateTime:['+start+'%20TO%20' + end + ']')
+                elif key == 'inDAT':
+                    filterQueries.append('InDAT:%s' % value)
+        queries.append('(BeginningEndingDateTime:['+start+'%20TO%20' + end + ']+OR+(*:*%20NOT%20BeginningEndingDateTime:*))')
 
         for key, value in facets.iteritems():
             if type(value) is list:
@@ -75,7 +77,9 @@ class Writer(SolrTemplateResponseWriter):
         else:
             query += '&start='+str(startIndex)+'&rows='+str(entriesPerPage)
             if sort is not None:
-                query += '&sort=' + urllib.quote(sort + ' ' + sortDir)
+                query += '&sort=' + urllib.quote(sort + ' ' + sortDir + ",InternalVersion desc")
+            else:
+                query += '&sort=' + urllib.quote("score desc,InternalVersion desc")
 
         logging.debug('solr query: '+query)
 
