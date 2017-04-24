@@ -11,6 +11,15 @@
 "GlobalAttrSource": "{{ doc['GlobalAttrSource'][i] }}",
 "GlobalAttrContact": "{{ doc['GlobalAttrContact'][i] }}",
 "GlobalAttrUnits": "{{ doc['GlobalAttrUnits'][i] }}"
+{% if 'SupportsBasin' in doc %}
+,"SupportsBasin": {{ doc['SupportsBasin'] | jsonify }}
+{% endif %}
+{% if 'Climatology' in doc %}
+,"Climatology": {{ doc['Climatology'] | jsonify }}
+{% endif %}
+{% if 'IsClimatology' in doc %}
+,"IsClimatology": {{ doc['IsClimatology'] | jsonify }}
+{% endif %}
 }
 {% if not loop.last %}
 ,
