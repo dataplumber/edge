@@ -10,6 +10,8 @@
        <datacasting:customEltDef displayName="Keyword" type="string" name="keyword"/>
        <datacasting:customEltDef displayName="Lower Threshold" type="float" name="lowerThreshold"/>
        <datacasting:customEltDef displayName="Upper Threshold" type="float" name="upperThreshold"/>
+       <datacasting:customEltDef displayName="Dataset Short Name" type="float" name="datasetShortName"/>
+       <datacasting:customEltDef displayName="Climatology Short Name" type="float" name="climatologyShortName"/>
        <pubDate>{{ updated | convertISOTime('%a, %d %b %Y %H:%M:%S GMT') }}</pubDate>
 {% for doc in docs %}
        <item>
@@ -27,6 +29,8 @@
            </georss:where>
            <enclosure url="{{ doc['anomaly_url'] }}" length="0" type="application/x-gzip"/>
            <datacasting:customElement name="keyword" value="{{ ','.join(doc['keyword']) }}"/>
+           <datacasting:customElement name="datasetShortName" value="{{ doc['primary_dataset_short_name'] }}"/>
+           <datacasting:customElement name="climatologyShortName" value="{{ doc['climatology_dataset_short_name'] }}"/>
            <datacasting:customElement name="lowerThreshold" value="{{ doc['below_threshold'] }}"/>
            <datacasting:customElement name="upperThreshold" value="{{ doc['above_threshold'] }}"/>
            <datacasting:preview>{{ doc['anomaly_url'] }}</datacasting:preview>
