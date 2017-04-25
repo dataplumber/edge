@@ -78,6 +78,7 @@ if __name__ == "__main__":
         (r"/ws/search/basin", GenericHandler, dict(pluginName='slcp', format=['basin'])),
         (r"/ws/search/anomaly", GenericHandler, dict(pluginName='oceanxtremes', format=['datacasting'])),
         (r"/ws/submit/anomaly", GenericHandler, dict(pluginName='oceanxtremes', format=['post'])),
+        (r"/ws/search/attribute", GenericHandler, dict(pluginName='oiip', format=['json', 'xml'])),
         (r"/tie/collection", GenericHandler, dict(pluginName='tie', format=['collection'])),
         #(r"/ws/metadata/dataset", DatasetHandler, dict(format=['iso', 'gcmd'])),
         #(r"/granule/.*", GranuleHandler),

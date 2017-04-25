@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='utf-8'?>
+<globalMetadataItems>
+{% for doc in docs %}
+<globalMetadataItem>
+<displayName>{{ ' '.join(doc['name'].split('_')).title() }}</displayName>
+<tagName>{{ doc['name'] }}</tagName>
+{% if doc['necessity'] == 'required' %}
+<isRequired>true</isRequired>
+{% endif %}
+<description>{{ doc['description'] }}</description>
+</globalMetadataItem>
+{% endfor %}
+</globalMetadataItems>

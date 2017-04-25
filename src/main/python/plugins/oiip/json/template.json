@@ -1,0 +1,22 @@
+[
+{% for doc in docs %}
+{
+"name": {{ doc['name'] | jsonify }},
+"category": {{ doc['category'] | jsonify }},
+"type": {{ doc['type'] | jsonify }},
+"description": {{ doc['description'] | jsonify }},
+"necessity": {{ doc['necessity'] | jsonify }},
+"source": [
+{% for source in doc["source_ss"] %}
+{{ source | jsonify }}
+{% if not loop.last %}
+,
+{% endif %}
+{% endfor %}
+]
+}
+{% if not loop.last %}
+,
+{% endif %}
+{% endfor %}
+]
