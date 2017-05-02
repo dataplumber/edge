@@ -15,7 +15,7 @@
        <pubDate>{{ updated | convertISOTime('%a, %d %b %Y %H:%M:%S GMT') }}</pubDate>
 {% for doc in docs %}
        <item>
-           <title>{{ doc['anomaly_url'] }}</title>
+           <title>{{ doc['description'] }}</title>
            <description>{{ doc['description'] }}</description>
            <link>{{ doc['anomaly_url'] }}</link>
            <datacasting:acquisitionStartDate>{{ doc['anomaly_begin_date'] | convertISOTime('%a, %d %b %Y %H:%M:%S GMT') }}</datacasting:acquisitionStartDate>
