@@ -1,0 +1,40 @@
+{
+    "stats": {},
+    "meta": [
+        {
+            "shortName": "{{ parameters['ds'] }}",
+            "basinId": {{ parameters['basinId'] | jsonify }},
+            "time": {
+                "start": {{ parameters['startTime'] }},
+                "stop": {{ parameters['endTime'] }}
+            }
+        }
+    ],
+    "data": [
+      {% for doc in docs %}
+[
+            {
+                "std": {{ doc['std'] }},
+                "cnt": {{ doc['cnt'] }},
+                "minSeasonalLowPass": {{ doc['minSeasonalLowPass'] | jsonify }},
+                "minSeasonal": {{ doc['minSeasonal'] | jsonify }},
+                "maxLowPass": {{ doc['maxLowPass'] | jsonify }},
+                "min": {{ doc['min'] }},
+                "max": {{ doc['max'] }},
+                "meanSeasonal": {{ doc['meanSeasonal'] | jsonify }},
+                "ds": 0,
+                "meanSeasonalLowPass": {{ doc['meanSeasonalLowPass'] | jsonify }},
+                "maxSeasonalLowPass": {{ doc['maxSeasonalLowPass'] | jsonify }},
+                "time": {{ doc['time'] }},
+                "maxSeasonal": {{ doc['maxSeasonal'] | jsonify }},
+                "meanLowPass": {{ doc['meanLowPass'] | jsonify }},
+                "minLowPass": {{ doc['minLowPass'] | jsonify }},
+                "mean": {{ doc['mean'] }}
+            }
+        ]
+      {% if not loop.last %}
+,
+{% endif %}
+{% endfor %}
+          ]
+}

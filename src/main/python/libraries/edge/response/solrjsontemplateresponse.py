@@ -19,7 +19,9 @@ class SolrJsonTemplateResponse(JsonTemplateResponse):
         start = 0
         rows = 0
         numFound = 0
-        
+
+        self.variables['parameters'] = self.parameters
+
         if solrResponse is not None:
             solrJson = json.loads(solrResponse, strict = False)
 
@@ -27,7 +29,6 @@ class SolrJsonTemplateResponse(JsonTemplateResponse):
             self.variables['numFound'] = int(solrJson['response']['numFound'])
             self.variables['itemsPerPage'] = int(solrJson['responseHeader']['params']['rows'])
             self.variables['startIndex'] = int(solrJson['response']['start'])
-            self.variables['parameters'] = self.parameters
 
             if 'stats' in solrJson:
                 self.variables['stats'] = solrJson['stats']
