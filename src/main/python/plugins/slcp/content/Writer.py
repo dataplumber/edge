@@ -49,6 +49,8 @@ class Writer(SolrTemplateResponseWriter):
                     sort = urllib.quote(value)
                 elif key == 'topic_id':
                     filterQueries.append('categories_id:' + value)
+                elif key == 'mission_id':
+                    filterQueries.append('mission_ids_array:' + value)
                 else:
                     if type(value) is list:
                         if 'table' in parameters and parameters['table'] == 'news_items':
