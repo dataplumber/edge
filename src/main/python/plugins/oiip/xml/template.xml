@@ -8,6 +8,7 @@
 <isRequired>true</isRequired>
 {% endif %}
 <description>{{ doc['description'] }}</description>
+<metadataType>{{ doc['category'] }}</metadataType>
 </globalMetadataItem>
 {% endfor %}
 </globalMetadataItems>

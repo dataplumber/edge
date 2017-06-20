@@ -37,6 +37,8 @@ class Writer(SolrTemplateResponseWriter):
 
         query = 'q='+'+AND+'.join(queries)+'&version=2.2&indent=on&wt=json&start='+str(startIndex)+'&rows='+str(entriesPerPage)
 
+        query += '&sort=category+asc'
+
         logging.debug('solr query: '+query)
 
         return query
