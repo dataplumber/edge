@@ -1,3 +1,5 @@
+{
+   "attributes":
 [
 {% for doc in docs %}
 {
@@ -6,17 +8,15 @@
 "type": {{ doc['type'] | jsonify }},
 "description": {{ doc['description'] | jsonify }},
 "necessity": {{ doc['necessity'] | jsonify }},
-"source": [
-{% for source in doc["source_ss"] %}
-{{ source | jsonify }}
-{% if not loop.last %}
-,
-{% endif %}
-{% endfor %}
-]
+"source":
+{
+"name": {{ doc["source_name"] | jsonify }},
+"version": {{ doc["source_version"] | jsonify }}
+}
 }
 {% if not loop.last %}
 ,
 {% endif %}
 {% endfor %}
 ]
+}
