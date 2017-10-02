@@ -25,7 +25,6 @@ class ESTemplateResponse(TemplateResponse):
 
         if response is not None:
             solrJson = json.loads(response, strict = False)
-            print self.parameters
             self.variables['docs'] = solrJson['hits']['hits']
             self.variables['numFound'] = int(solrJson['hits']['total'])
             self.variables['itemsPerPage'] = int(self.parameters['itemsPerPage']) if 'itemsPerPage' in self.parameters else self.defaultItemsPerPage
@@ -34,9 +33,6 @@ class ESTemplateResponse(TemplateResponse):
             start = self.variables['startIndex']
             rows = self.variables['itemsPerPage']
             numFound = self.variables['numFound']
-            print start
-            print rows
-            print numFound
 
 
         self.parameters['startIndex'] = start
