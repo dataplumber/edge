@@ -36,16 +36,24 @@ You will need to customize EDGE to work with your existing Apache Solr or Elasti
 
 For an ElasticSearch example plugin, see [plugins/example/elastic](src/main/python/plugins/example/elastic)
 
-Copy the plugins/example/elastic plugin into a new directory, for example, plugsin/myproject/elastic.
+1. Copy the plugins/example/elastic plugin into a new directory, for example, plugins/myproject/elastic.
 
-Update [plugin.conf](src/main/python/plugins/example/elastic/plugin.conf) datasetUrl to point to an ElasticSarch index endpoint.
+2. Update [plugin.conf](src/main/python/plugins/example/elastic/plugin.conf) datasetUrl to point to an ElasticSarch index endpoint.
 
-Update [template.xml](src/main/python/plugins/example/elastic/template.xml to match the response XML. Metadata values for each document returned are stored in the doc variable dictionary, for example, doc['ShortName'].
+3. Update [template.xml](src/main/python/plugins/example/elastic/template.xml) to modify the response XML. Metadata values for each document returned are stored in the doc variable dictionary, for example, doc['ShortName'].
 
-Update [server.py](src/main/python/server.py) to add a new endpoint that will invoke the newly created plugin, for example,
+    To handle additional search parameters, update [plugin.conf](src/main/python/plugins/example/elastic/plugin.conf) parameters to include additional parameters, for example,
+
+    ````
+    parameters=keyword,bbox,startTime,endTime
+    ````
+
+    Update [Writer.py](src/main/python/plugins/example/elastic/Writer.py) to handle these additional parameters by modifying the resulting query sent to ElasticSearch endpoint.
+
+4. Update [server.py](src/main/python/server.py) to add a new endpoint that will invoke the newly created plugin, for example,
 
     ````
     (r"/myplugin/es", GenericHandler, dict(pluginName='myplugin', format=['elastic'])),
     ````
 
-Restart EDGE and access the new endpoint at [http://localhost:8890/myplugin/es](http://localhost:8890/myplugin/es).
+5. Restart EDGE and access the new endpoint at [http://localhost:8890/myplugin/es](http://localhost:8890/myplugin/es).
