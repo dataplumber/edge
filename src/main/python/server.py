@@ -80,6 +80,7 @@ if __name__ == "__main__":
         (r"/ws/submit/anomaly", GenericHandler, dict(pluginName='oceanxtremes', format=['post'])),
         (r"/ws/search/attribute", GenericHandler, dict(pluginName='oiip', format=['json', 'xml'])),
         (r"/tie/collection", GenericHandler, dict(pluginName='tie', format=['collection'])),
+        (r"/example/es", GenericHandler, dict(pluginName='example', format=['elastic'])),
         #(r"/ws/metadata/dataset", DatasetHandler, dict(format=['iso', 'gcmd'])),
         #(r"/granule/.*", GranuleHandler),
         #(r"/ws/search/granule", GenericHandler, dict(pluginName='product', format=['atom'])),

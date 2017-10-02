@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed esipdiscovery:version="1.2" xmlns="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/terms/" xmlns:echo="http://www.echo.nasa.gov/esip" xmlns:esipdiscovery="http://commons.esipfed.org/ns/discovery/1.2/" xmlns:georss="http://www.georss.org/georss/10" xmlns:gml="http://www.opengis.net/gml" xmlns:os="http://a9.com/-/spec/opensearch/1.1/" xmlns:time="http://a9.com/-/opensearch/extensions/time/1.0/">
+<updated>{{ updated }}</updated>
+<id>https://api.echo.nasa.gov:443/opensearch/datasets.atom</id>
+<author>
+<name>ECHO</name>
+<email>support@echo.nasa.gov</email>
+</author>
+<title type="text">ECHO dataset metadata</title>
+<os:totalResults>{{ numFound }}</os:totalResults>
+<os:itemsPerPage>{{ itemsPerPage }}</os:itemsPerPage>
+<os:startIndex>{{ startIndex }}</os:startIndex>
+<os:Query role="request" xmlns:echo="http://www.echo.nasa.gov/esip" xmlns:geo="http://a9.com/-/opensearch/extensions/geo/1.0/" xmlns:time="http://a9.com/-/opensearch/extensions/time/1.0/" />
+<subtitle type="text">Search parameters: None</subtitle>
+<link href="https://api.echo.nasa.gov:443/opensearch/granules/descriptor_document.xml" hreflang="en-US" rel="search" type="application/opensearchdescription+xml" />
+<link href="{{ myself }}" hreflang="en-US" rel="self" type="application/atom+xml" />
+{% if last %}<link href="{{ last }}" hreflang="en-US" rel="last" type="application/atom+xml" />{% endif %}
+{% if prev %}<link href="{{ prev }}" hreflang="en-US" rel="previous" type="application/atom+xml" />{% endif %}
+{% if next %}<link href="{{ next }}" hreflang="en-US" rel="next" type="application/atom+xml" />{% endif %}
+{% if first %}<link href="{{ first }}" hreflang="en-US" rel="first" type="application/atom+xml" />{% endif %}
+<link href="https://wiki.earthdata.nasa.gov/display/echo/Open+Search+API+release+information" hreflang="en-US" rel="describedBy" title="Release Notes" type="text/html" />
+{% for doc in docs %}
+<entry>
+<id>{{ link }}?concept_id={{ doc['_id'] }}</id>
+<dc:identifier>{{ doc['ShortName'] }}</dc:identifier>
+<author>
+<name>ECHO</name>
+<email>support@echo.nasa.gov</email>
+</author>
+<title type="text">{{ doc['LongName'] }}</title>
+<summary type="text">{{ doc['Description'] }}</summary>
+<updated>{{ doc['LastUpdate'] }}</updated>
+</entry>
+{% endfor %}
+</feed>
