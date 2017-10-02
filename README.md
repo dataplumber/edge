@@ -28,3 +28,24 @@ The Extensible Data Gateway Environment (EDGE) is a data integration platform de
     ````
     python server.py
     ````
+# Adding Custom Plugin
+
+You will need to customize EDGE to work with your existing Apache Solr or ElasticSearch metadata endpoints.
+
+## ElasticSearch
+
+For an ElasticSearch example plugin, see [plugins/example/elastic](src/main/python/plugins/example/elastic)
+
+Copy the plugins/example/elastic plugin into a new directory, for example, plugsin/myproject/elastic.
+
+Update [plugin.conf](src/main/python/plugins/example/elastic/plugin.conf) datasetUrl to point to an ElasticSarch index endpoint.
+
+Update [template.xml](src/main/python/plugins/example/elastic/template.xml to match the response XML. Metadata values for each document returned are stored in the doc variable dictionary, for example, doc['ShortName'].
+
+Update [server.py](src/main/python/server.py) to add a new endpoint that will invoke the newly created plugin, for example,
+
+    ````
+    (r"/myplugin/es", GenericHandler, dict(pluginName='myplugin', format=['elastic'])),
+    ````
+
+Restart EDGE and access the new endpoint at [http://localhost:8890/myplugin/es](http://localhost:8890/myplugin/es).
